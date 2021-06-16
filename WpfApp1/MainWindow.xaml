@@ -5,22 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
+        xmlns:uc="clr-namespace:WpfApp1"
         
         Title="MainWindow" Height="450" Width="800">
-
-    <Window.DataContext >
+    <Window.DataContext>
         <local:TestDataContext/>
     </Window.DataContext>
+
     <Grid >
 
 
-        <ListBox Background="Aqua" IsEnabled="{Binding IsVisible}">
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Close"/>
-                    <MenuItem Header="Open"/>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
+        <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Modules}"/>
     </Grid>
 </Window>

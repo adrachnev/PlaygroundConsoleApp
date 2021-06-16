@@ -8,7 +8,10 @@ namespace WpfApp1
 {
     public class TestDataContext
     {
-        public TestDataContext() { }
+        public TestDataContext() 
+        {
+            Modules = new List<Module> { new Module { Value = "hallo" }, new Module { Value = "hallo" } };
+        }
 
 
         public bool IsVisible
@@ -18,5 +21,7 @@ namespace WpfApp1
                 return true;
             }
         }
+
+        public List<Module> Modules { get; private set; }
     }
 }
