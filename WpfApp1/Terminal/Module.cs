@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,13 +18,13 @@ namespace WpfApp1
         None = 0,
         XamlMarkup
     }
-    public class Module
+    public class Module 
     {
         public Module(string xamlMarkup) 
         {
             DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
         }
-        public string Value { get; set; }
+        public string Name { get; set; }
         public DependencyObject DeviceImage { get; }
 
         private DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
@@ -54,7 +56,6 @@ namespace WpfApp1
             }
 
             throw new Exception($"Image type: {imageType} is not supported");
-        }
-
+        }        
     }
 }

@@ -12,9 +12,10 @@
         <local:TestDataContext/>
     </Window.DataContext>
 
-    <Grid >
+    <StackPanel>
 
 
-        <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Modules}"/>
-    </Grid>
+        <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Devices}" SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"/>
+        <Button Content="Add device" Command="{Binding AddDevice}"/>
+    </StackPanel>
 </Window>

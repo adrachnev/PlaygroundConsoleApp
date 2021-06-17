@@ -7,11 +7,13 @@
              xmlns:local="clr-namespace:WpfApp1"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    
+
     <Grid>
-        <ListBox HorizontalContentAlignment="Center"   ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
-                               AncestorType={x:Type local:Terminal}}, 
+        <ListBox x:Name="listbox" 
+                 HorizontalContentAlignment="Center"
+                 PreviewKeyDown="listbox_PreviewKeyDown"                 
+                 ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
+                               AncestorType={x:Type local:Terminal}},
                                Path=Modules}">
 
             <ItemsControl.ItemsPanel>
