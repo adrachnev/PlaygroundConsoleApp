@@ -15,7 +15,7 @@
     <StackPanel>
 
 
-        <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Devices}" SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"/>
+        <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Devices}" SelectedModules="{Binding SelectedDevices, Mode=TwoWay}"/>
         <Button Content="Add device" Command="{Binding AddDevice}"/>
     </StackPanel>
 </Window>

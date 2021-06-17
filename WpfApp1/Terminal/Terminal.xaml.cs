@@ -34,26 +34,27 @@ namespace WpfApp1
             get { return (IList<Module>)GetValue(ModulesProperty); }
             set { SetValue(ModulesProperty, value); }
         }
-        public Module SelectedModule 
+        public IList<Module> SelectedModules 
         { 
-            get { return (Module)GetValue(SelectedModuleProperty); } 
-            set { SetValue(SelectedModuleProperty, value); } 
+            get { return (IList<Module>)GetValue(SelectedModulesProperty); } 
+            set { SetValue(SelectedModulesProperty, value); } 
         }
         public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty SelectedModulesProperty = DependencyProperty.Register("SelectedModules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
         
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedModule = (Module)listbox.SelectedItem;
+            SelectedModules = listbox.SelectedItems.Cast<Module>().ToList();
         }
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete) 
+            if (e.Key == Key.Delete)
             {
-                if (SelectedModule != null) 
+                if (SelectedModules != null)
                 {
-                    Modules.Remove(SelectedModule);
+                    foreach (var m in SelectedModules)
+                        Modules.Remove(m);
                 }
             }
         }

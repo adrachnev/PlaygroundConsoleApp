@@ -31,7 +31,7 @@ namespace WpfApp1
 
         public ICommand AddDevice { get; set; }
         public ObservableCollection<Module> Devices { get; private set; }
-        public Module SelectedDevice { get; set; }
+        public IList<Module>  SelectedDevices { get; set; }
 
         int counter = 0;
         public void Add() 
