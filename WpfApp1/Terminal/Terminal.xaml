@@ -7,14 +7,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="AllowDrop" Value="true"/>
+            <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
+            <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
+            <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <ListBox x:Name="listbox" 
                  HorizontalContentAlignment="Center"
-                 PreviewKeyDown="listbox_PreviewKeyDown"                 
+                 ItemContainerStyle="{StaticResource ListBoxDragDrop}"
+                 
                  ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
                                AncestorType={x:Type local:Terminal}},
                                Path=Modules}"
-                 SelectionMode="Multiple">
+                 SelectionMode="Multiple"
+                 PreviewKeyDown="listbox_PreviewKeyDown"              
+                 SelectionChanged="listbox_SelectionChanged">
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -25,15 +37,17 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Viewbox 
-										 Stretch="Uniform"
-										 VerticalAlignment="Stretch"
-										 HorizontalAlignment="Stretch"
-										 >
-                        <ContentPresenter VerticalAlignment="Center"
-																	HorizontalAlignment="Center"
-																	Content="{Binding DeviceImage}"/>
+                        
+                        Stretch="Uniform"
+						VerticalAlignment="Stretch"
+						HorizontalAlignment="Stretch">
+                        <ContentPresenter 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+							Content="{Binding DeviceImage}"/>
                     </Viewbox>
                 </DataTemplate>
+                
 
             </ListBox.ItemTemplate>
         </ListBox>

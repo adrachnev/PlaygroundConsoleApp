@@ -18,10 +18,10 @@ namespace WpfApp1
         public TestDataContext() 
         {
             var list = new List<Module> { 
-                new Module(xaml1)  { Name = "CPX-AP-I-EP-M12" }, 
-                new Module(xaml2) { Name = "CPX-AP-I-M12" },
-                new Module(xaml3)  { Name = "CPX-AP-I-M8_Compact" },
-                new Module(xaml4) { Name = "CPX-AP-I-M12" },
+                new Module(xaml1)  { Name = "(1) CPX-AP-I-EP-M12" }, 
+                new Module(xaml2) { Name = "(2) CPX-AP-I-M12" },
+                new Module(xaml3)  { Name = "(3) CPX-AP-I-M8_Compact" },
+                new Module(xaml4) { Name = "(4) CPX-AP-I-M12" },
             };
 
             Devices = new ObservableCollection<Module>(list);
@@ -30,7 +30,7 @@ namespace WpfApp1
         }
 
         public ICommand AddDevice { get; set; }
-        public ObservableCollection<Module> Devices { get; private set; }
+        public ObservableCollection<Module> Devices { get; set; }
         public IList<Module>  SelectedDevices { get; set; }
 
         int counter = 0;

@@ -21,13 +21,9 @@ namespace WpfApp1
     public partial class Terminal : UserControl
     {
         public Terminal()
-        {
-           
-            InitializeComponent();
-            listbox.SelectionChanged += listbox_SelectionChanged;
+        {           
+            InitializeComponent();            
         }
-
-        
 
         public IList<Module> Modules
         {
@@ -57,6 +53,55 @@ namespace WpfApp1
                         Modules.Remove(m);
                 }
             }
+        }
+
+        private void listboxItem_PreviewMouseMoveEvent(object sender, MouseEventArgs e)
+        {
+            if (sender is ListBoxItem && e.LeftButton == MouseButtonState.Pressed)
+            {
+                ListBoxItem draggedItem = sender as ListBoxItem;
+                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.All);
+                draggedItem.IsSelected = true;
+            }
+        }
+        private void listboxItem_Drop(object sender, DragEventArgs e)
+        {
+            if (sender is ListBoxItem)
+            {
+                Module droppedData = e.Data.GetData(typeof(Module)) as Module;
+                Module target = ((ListBoxItem)(sender)).DataContext as Module;
+
+                int removedIdx = listbox.Items.IndexOf(droppedData);
+                int targetIdx = listbox.Items.IndexOf(target);
+
+                if (removedIdx < targetIdx)
+                {
+                    Modules.Insert(targetIdx + 1, droppedData);
+                    Modules.RemoveAt(removedIdx);
+                }
+                else
+                {
+                    int remIdx = removedIdx + 1;
+                    if (Modules.Count + 1 > remIdx)
+                    {
+                        Modules.Insert(targetIdx, droppedData);
+                        Modules.RemoveAt(remIdx);
+                    }
+                }
+            }
+        }
+
+        private void listboxItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            if (e.Effects == DragDropEffects.Move)
+            {
+                e.UseDefaultCursors = false;
+                Mouse.SetCursor(Cursors.Hand);
+            }
+            else
+                e.UseDefaultCursors = true;
+
+            e.Handled = true;
         }
     }
 }
