@@ -11,11 +11,19 @@
     <Window.DataContext>
         <local:TestDataContext/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="AllowDrop" Value="true"/>
+            <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>           
+            <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
+        </Style>
+    </Window.Resources>
 
     <StackPanel>
 
 
         <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Devices, Mode=TwoWay}" SelectedModules="{Binding SelectedDevices, Mode=TwoWay}"/>
         <Button Content="Add device" Command="{Binding AddDevice}"/>
+        <ListBox ItemsSource="{Binding CatalogItems}" DisplayMemberPath="OrderCode" ItemContainerStyle="{StaticResource ListBoxDragDrop}"/>
     </StackPanel>
 </Window>

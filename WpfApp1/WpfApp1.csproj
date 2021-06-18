@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Terminal\CatalogItem.cs" />
     <Compile Include="Terminal\Module.cs" />
     <Compile Include="Terminal\Terminal.xaml.cs">
       <DependentUpon>Terminal.xaml</DependentUpon>

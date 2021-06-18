@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Models;
 
 namespace WpfApp1
 {
@@ -68,27 +69,42 @@ namespace WpfApp1
         {
             if (sender is ListBoxItem)
             {
-                Module droppedData = e.Data.GetData(typeof(Module)) as Module;
-                Module target = ((ListBoxItem)(sender)).DataContext as Module;
-
-                int removedIdx = listbox.Items.IndexOf(droppedData);
-                int targetIdx = listbox.Items.IndexOf(target);
-
-                if (removedIdx < targetIdx)
+                Module droppedModule = e.Data.GetData(typeof(Module)) as Module;
+                CatalogItem droppedCatalogItem = e.Data.GetData(typeof(CatalogItem)) as CatalogItem;
+                
+                // reorder items within terminal
+                if (droppedModule != null)
                 {
-                    Modules.Insert(targetIdx + 1, droppedData);
-                    Modules.RemoveAt(removedIdx);
-                }
-                else
-                {
-                    int remIdx = removedIdx + 1;
-                    if (Modules.Count + 1 > remIdx)
+                    Module target = ((ListBoxItem)(sender)).DataContext as Module;
+
+                    int removedIdx = listbox.Items.IndexOf(droppedModule);
+                    int targetIdx = listbox.Items.IndexOf(target);
+
+                    if (removedIdx < targetIdx)
                     {
-                        Modules.Insert(targetIdx, droppedData);
-                        Modules.RemoveAt(remIdx);
+                        Modules.Insert(targetIdx + 1, droppedModule);
+                        Modules.RemoveAt(removedIdx);
+                    }
+                    else
+                    {
+                        int remIdx = removedIdx + 1;
+                        if (Modules.Count + 1 > remIdx)
+                        {
+                            Modules.Insert(targetIdx, droppedModule);
+                            Modules.RemoveAt(remIdx);
+                        }
                     }
                 }
+                // insert new item into terminal from other UI control
+                if (droppedCatalogItem != null)
+                {
+                    var droppedDataConverted = new Module(null) { OrderCode = droppedCatalogItem.OrderCode };
+                    Module target = ((ListBoxItem)(sender)).DataContext as Module;
+                    int targetIdx = listbox.Items.IndexOf(target);
+                    Modules.Insert(targetIdx, droppedDataConverted);
+                }
             }
+            
         }
 
         private void listboxItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)

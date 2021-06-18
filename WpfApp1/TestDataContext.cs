@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WpfApp1.Models;
 
 namespace WpfApp1
 {
@@ -18,29 +19,38 @@ namespace WpfApp1
         public TestDataContext() 
         {
             var list = new List<Module> { 
-                new Module(xaml1)  { Name = "(1) CPX-AP-I-EP-M12" }, 
-                new Module(xaml2) { Name = "(2) CPX-AP-I-M12" },
-                new Module(xaml3)  { Name = "(3) CPX-AP-I-M8_Compact" },
-                new Module(xaml4) { Name = "(4) CPX-AP-I-M12" },
+                new Module(xaml1)  { OrderCode = "CPX-AP-I-EP-M12" }, 
+                new Module(xaml2) { OrderCode = "CPX-AP-I-M12" },
+                new Module(xaml3)  { OrderCode = "CPX-AP-I-M8_Compact" },
+                new Module(xaml4) { OrderCode = "CPX-AP-I-M12" },
+            };
+
+            var items = new List<CatalogItem> {
+                new CatalogItem  { OrderCode = "CPX-AP-I-EP-M12" },
+                new CatalogItem { OrderCode = "CPX-AP-I-M12" },
+                new CatalogItem  { OrderCode = "CPX-AP-I-M8_Compact" },
+                new CatalogItem { OrderCode = "CPX-AP-I-M12" },
             };
 
             Devices = new ObservableCollection<Module>(list);
-
+            CatalogItems = new ObservableCollection<CatalogItem>(items);
             AddDevice = new AddCommand(this);
         }
 
         public ICommand AddDevice { get; set; }
         public ObservableCollection<Module> Devices { get; set; }
+        public ObservableCollection<CatalogItem> CatalogItems { get; set; }
         public IList<Module>  SelectedDevices { get; set; }
 
         int counter = 0;
         public void Add() 
         {
             counter++;
-            Devices.Add(new Module(xaml1) { Name = "CPX-AP-I-EP-M12 " + counter });
+           Devices.Add(new Module(xaml1) { OrderCode = "CPX-AP-I-EP-M12 " + counter });
         }
     }
 
+    
     public class AddCommand : ICommand
     {
         
