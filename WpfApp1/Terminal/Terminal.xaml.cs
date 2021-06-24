@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,14 @@ namespace WpfApp1
     {
         public Terminal()
         {           
-            InitializeComponent();            
+            InitializeComponent();
+            
         }
 
-        public IList<Module> Modules
+        
+        public ObservableCollection<Module> Modules
         {
-            get { return (IList<Module>)GetValue(ModulesProperty); }
+            get { return (ObservableCollection<Module>)GetValue(ModulesProperty); }
             set { SetValue(ModulesProperty, value); }
         }
         public IList<Module> SelectedModules 
@@ -36,13 +39,26 @@ namespace WpfApp1
             get { return (IList<Module>)GetValue(SelectedModulesProperty); } 
             set { SetValue(SelectedModulesProperty, value); } 
         }
-        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty SelectedModulesProperty = DependencyProperty.Register("SelectedModules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
-
         
+        public bool IsSingleItemSelected { get { return listbox.SelectedItems.Count == 1; } }
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedModules = listbox.SelectedItems.Cast<Module>().ToList();
+
+            if (SelectedModules.Count == 1) 
+            { 
+                ctxMenuDelete.IsEnabled = true;
+                ctxMenuShiftLeft.IsEnabled = true;
+                ctxMenuShiftRight.IsEnabled = true;
+            }
+            else 
+            {
+                ctxMenuDelete.IsEnabled = false;
+                ctxMenuShiftLeft.IsEnabled = false;
+                ctxMenuShiftRight.IsEnabled = false;
+            }
         }
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -118,6 +134,36 @@ namespace WpfApp1
                 e.UseDefaultCursors = true;
 
             e.Handled = true;
+        }
+
+        private void deleteModule(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModules.Count == 1)
+                Modules.Remove(SelectedModules.First());
+        }
+
+        private void shiftRight(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModules.Count == 1)
+            {
+                var index = Modules.IndexOf(SelectedModules.First());
+                var newIndex = index + 1;
+                if (newIndex + 1 < Modules.Count)
+                    Modules.Move(index, newIndex);
+            }
+              
+        }
+
+        private void shiftLeft(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModules.Count == 1)
+            {
+                var index = Modules.IndexOf(SelectedModules.First());
+                var newIndex = index - 1;
+                if (newIndex >= 0)
+                    Modules.Move(index, newIndex);
+            }
+
         }
     }
 }

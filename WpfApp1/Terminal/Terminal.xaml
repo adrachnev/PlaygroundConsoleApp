@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfApp1"
              mc:Ignorable="d" 
+             x:Name="uc"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -18,6 +19,7 @@
 
     <Grid>
         <ListBox x:Name="listbox" 
+                 Background="Azure"
                  HorizontalContentAlignment="Center"
                  ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  
@@ -27,10 +29,21 @@
                  SelectionMode="Multiple"
                  PreviewKeyDown="listbox_PreviewKeyDown"              
                  SelectionChanged="listbox_SelectionChanged">
-
+            <ListBox.ContextMenu>
+                <ContextMenu >
+                    <MenuItem  x:Name="ctxMenuDelete" 
+                               Header="Delete" IsEnabled="False" Click="deleteModule"/>
+                    <MenuItem  x:Name="ctxMenuShiftRight"
+                        Header="Shift right" IsEnabled="False" Click="shiftRight"/>
+                    <MenuItem  x:Name="ctxMenuShiftLeft"
+                               Header="Shift left"  IsEnabled="False" Click="shiftLeft"/>
+                    
+                    
+                </ContextMenu>
+            </ListBox.ContextMenu>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -51,6 +64,6 @@
 
             </ListBox.ItemTemplate>
         </ListBox>
-
+        
     </Grid>
 </UserControl>

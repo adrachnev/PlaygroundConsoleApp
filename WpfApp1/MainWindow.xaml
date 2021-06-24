@@ -22,7 +22,7 @@
     <StackPanel>
 
 
-        <uc:Terminal HorizontalContentAlignment="Center" Modules="{Binding Devices, Mode=TwoWay}" SelectedModules="{Binding SelectedDevices, Mode=TwoWay}"/>
+        <uc:Terminal HorizontalContentAlignment="Stretch" Modules="{Binding Devices, Mode=TwoWay}" SelectedModules="{Binding SelectedDevices, Mode=TwoWay}"/>
         <Button Content="Add device" Command="{Binding AddDevice}"/>
         <ListBox ItemsSource="{Binding CatalogItems}" DisplayMemberPath="OrderCode" ItemContainerStyle="{StaticResource ListBoxDragDrop}"/>
     </StackPanel>
