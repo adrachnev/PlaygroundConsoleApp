@@ -19,6 +19,10 @@ namespace PlaygroundConsoleApp
     {
         static void Main(string[] args)
         {
+
+            var r = 3 % 2;
+            var r1 = 3 % 4;
+
             CheckUnderscoreRegex();
             GetCategories();
         }

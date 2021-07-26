@@ -33,8 +33,17 @@ namespace WpfApp1
             };
 
             Devices = new ObservableCollection<Module>(list);
+
+            Devices.CollectionChanged += Devices_CollectionChanged;
             CatalogItems = new ObservableCollection<CatalogItem>(items);
             AddDevice = new AddCommand(this);
+        }
+
+        private void Devices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Console.WriteLine(string.Format("e.Action: {0}", e.Action));
+            Console.WriteLine(string.Format("e.OldStartingIndex: {0}, e.NewStartingIndex: {1}", e.OldStartingIndex, e.NewStartingIndex));
+            
         }
 
         public ICommand AddDevice { get; set; }

@@ -42,7 +42,7 @@ namespace WpfApp1
         public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty SelectedModulesProperty = DependencyProperty.Register("SelectedModules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
         
-        public bool IsSingleItemSelected { get { return listbox.SelectedItems.Count == 1; } }
+        
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedModules = listbox.SelectedItems.Cast<Module>().ToList();
@@ -98,16 +98,19 @@ namespace WpfApp1
 
                     if (removedIdx < targetIdx)
                     {
-                        Modules.Insert(targetIdx + 1, droppedModule);
-                        Modules.RemoveAt(removedIdx);
+                        Modules.Move(removedIdx, targetIdx);
+                        //Modules.Insert(targetIdx + 1, droppedModule);
+                        //Modules.RemoveAt(removedIdx);
                     }
                     else
                     {
                         int remIdx = removedIdx + 1;
                         if (Modules.Count + 1 > remIdx)
                         {
-                            Modules.Insert(targetIdx, droppedModule);
-                            Modules.RemoveAt(remIdx);
+                            Modules.Move(removedIdx, targetIdx);
+
+                            //Modules.Insert(targetIdx, droppedModule);
+                            //Modules.RemoveAt(remIdx);
                         }
                     }
                 }
@@ -148,7 +151,7 @@ namespace WpfApp1
             {
                 var index = Modules.IndexOf(SelectedModules.First());
                 var newIndex = index + 1;
-                if (newIndex + 1 < Modules.Count)
+                if (newIndex  < Modules.Count)
                     Modules.Move(index, newIndex);
             }
               
