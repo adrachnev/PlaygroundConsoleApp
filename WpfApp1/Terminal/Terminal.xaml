@@ -14,6 +14,7 @@
             <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
             <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
             <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
+            <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />
         </Style>
     </UserControl.Resources>
 
@@ -27,6 +28,8 @@
                                AncestorType={x:Type local:Terminal}},
                                Path=Modules}"
                  SelectionMode="Multiple"
+                 
+                 
                  PreviewKeyDown="listbox_PreviewKeyDown"              
                  SelectionChanged="listbox_SelectionChanged">
             <ListBox.ContextMenu>
@@ -43,8 +46,9 @@
             </ListBox.ContextMenu>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>                    
                 </ItemsPanelTemplate>
+                
             </ItemsControl.ItemsPanel>
 
             <ListBox.ItemTemplate>

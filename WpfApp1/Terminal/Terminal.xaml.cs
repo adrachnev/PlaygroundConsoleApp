@@ -39,10 +39,17 @@ namespace WpfApp1
             get { return (IList<Module>)GetValue(SelectedModulesProperty); } 
             set { SetValue(SelectedModulesProperty, value); } 
         }
+
+        public int DoubleClicked
+        {
+            get { return (int)GetValue(DoubleClickedProperty); }
+            set { SetValue(DoubleClickedProperty, value); }
+        }
         public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
         public static readonly DependencyProperty SelectedModulesProperty = DependencyProperty.Register("SelectedModules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
-        
-        
+        public static readonly DependencyProperty DoubleClickedProperty = DependencyProperty.Register("DoubleClicked", typeof(int), typeof(Terminal), new FrameworkPropertyMetadata(null));
+
+
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedModules = listbox.SelectedItems.Cast<Module>().ToList();
@@ -167,6 +174,12 @@ namespace WpfApp1
                     Modules.Move(index, newIndex);
             }
 
+        }
+
+        private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var module = (sender as ListBoxItem).DataContext as Module;
+            DoubleClicked = Modules.IndexOf(module);
         }
     }
 }
