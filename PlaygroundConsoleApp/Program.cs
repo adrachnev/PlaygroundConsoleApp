@@ -20,11 +20,17 @@ namespace PlaygroundConsoleApp
         static void Main(string[] args)
         {
 
-            var r = 3 % 2;
-            var r1 = 3 % 4;
 
+            ReplaceRegex();
             CheckUnderscoreRegex();
             GetCategories();
+
+        }
+
+        private static void ReplaceRegex()
+        {
+            string str = "local:Parameterization/Module_9;Parameters";
+            var res = Regex.Replace(str, @"_[\d]", string.Format("_{0}", 20), RegexOptions.None);
         }
 
         private static void GetCategories()
