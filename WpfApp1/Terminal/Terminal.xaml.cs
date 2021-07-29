@@ -25,56 +25,81 @@ namespace WpfApp1
         public Terminal()
         {           
             InitializeComponent();
-            
+            ctxMenu.DataContext = this;
+        
         }
 
-        
+
+
+
+
+
+
+        private bool IsItemSelected
+        {
+            get { return (bool)GetValue(IsItemSelectedProperty); }
+            set { SetValue(IsItemSelectedProperty, value); }
+        }
+
+        private static readonly DependencyProperty IsItemSelectedProperty =
+            DependencyProperty.Register("IsItemSelected", typeof(bool), typeof(Terminal), new FrameworkPropertyMetadata(null));
+
+
+
         public ObservableCollection<Module> Modules
         {
             get { return (ObservableCollection<Module>)GetValue(ModulesProperty); }
             set { SetValue(ModulesProperty, value); }
         }
-        public IList<Module> SelectedModules 
+        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
+
+        public Module SelectedModule 
         { 
-            get { return (IList<Module>)GetValue(SelectedModulesProperty); } 
-            set { SetValue(SelectedModulesProperty, value); } 
+            get { return (Module)GetValue(SelectedModuleProperty); } 
+            set { SetValue(SelectedModuleProperty, value); } 
+        }
+        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null));
+
+        public ICommand DoubleClickCommand
+        {
+            get { return (ICommand)GetValue(DoubleClickCommandProperty); }
+            set { SetValue(DoubleClickCommandProperty, value); }
         }
 
-        public int DoubleClicked
+        public static readonly DependencyProperty DoubleClickCommandProperty =
+            DependencyProperty.Register("DoubleClickCommand", typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
+
+        public ICommand PasteCommand
         {
-            get { return (int)GetValue(DoubleClickedProperty); }
-            set { SetValue(DoubleClickedProperty, value); }
+            get { return (ICommand)GetValue(PasteCommandProperty); }
+            set { SetValue(PasteCommandProperty, value); }
         }
-        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty SelectedModulesProperty = DependencyProperty.Register("SelectedModules", typeof(IList<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
-        public static readonly DependencyProperty DoubleClickedProperty = DependencyProperty.Register("DoubleClicked", typeof(int), typeof(Terminal), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty PasteCommandProperty =
+            DependencyProperty.Register("PasteCommand", typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
+
 
 
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedModules = listbox.SelectedItems.Cast<Module>().ToList();
+            SelectedModule = listbox.SelectedItem as Module;
 
-            if (SelectedModules.Count == 1) 
-            { 
-                ctxMenuDelete.IsEnabled = true;
-                ctxMenuShiftLeft.IsEnabled = true;
-                ctxMenuShiftRight.IsEnabled = true;
+            if (SelectedModule!= null) 
+            {
+                IsItemSelected = true;
             }
             else 
             {
-                ctxMenuDelete.IsEnabled = false;
-                ctxMenuShiftLeft.IsEnabled = false;
-                ctxMenuShiftRight.IsEnabled = false;
+                IsItemSelected = false;
             }
         }
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
             {
-                if (SelectedModules != null)
+                if (SelectedModule != null)
                 {
-                    foreach (var m in SelectedModules)
-                        Modules.Remove(m);
+
+                    Modules.Remove(SelectedModule);
                 }
             }
         }
@@ -106,8 +131,6 @@ namespace WpfApp1
                     if (removedIdx < targetIdx)
                     {
                         Modules.Move(removedIdx, targetIdx);
-                        //Modules.Insert(targetIdx + 1, droppedModule);
-                        //Modules.RemoveAt(removedIdx);
                     }
                     else
                     {
@@ -115,9 +138,6 @@ namespace WpfApp1
                         if (Modules.Count + 1 > remIdx)
                         {
                             Modules.Move(removedIdx, targetIdx);
-
-                            //Modules.Insert(targetIdx, droppedModule);
-                            //Modules.RemoveAt(remIdx);
                         }
                     }
                 }
@@ -148,15 +168,20 @@ namespace WpfApp1
 
         private void deleteModule(object sender, RoutedEventArgs e)
         {
-            if (SelectedModules.Count == 1)
-                Modules.Remove(SelectedModules.First());
+            if (IsItemSelected)
+
+            {
+                Modules.Remove(SelectedModule);
+                //PasteCommand?.Execute(Modules.IndexOf(SelectedModule.First()));
+            }
+                
         }
 
         private void shiftRight(object sender, RoutedEventArgs e)
         {
-            if (SelectedModules.Count == 1)
+            if (IsItemSelected)
             {
-                var index = Modules.IndexOf(SelectedModules.First());
+                var index = Modules.IndexOf(SelectedModule);
                 var newIndex = index + 1;
                 if (newIndex  < Modules.Count)
                     Modules.Move(index, newIndex);
@@ -166,20 +191,22 @@ namespace WpfApp1
 
         private void shiftLeft(object sender, RoutedEventArgs e)
         {
-            if (SelectedModules.Count == 1)
+            if (IsItemSelected)
             {
-                var index = Modules.IndexOf(SelectedModules.First());
+                var index = Modules.IndexOf(SelectedModule);
                 var newIndex = index - 1;
                 if (newIndex >= 0)
                     Modules.Move(index, newIndex);
             }
+            
 
         }
 
         private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var module = (sender as ListBoxItem).DataContext as Module;
-            DoubleClicked = Modules.IndexOf(module);
+            
+            DoubleClickCommand?.Execute( Modules.IndexOf(module));
         }
     }
 }

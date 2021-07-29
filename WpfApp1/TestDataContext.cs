@@ -37,6 +37,8 @@ namespace WpfApp1
             Devices.CollectionChanged += Devices_CollectionChanged;
             CatalogItems = new ObservableCollection<CatalogItem>(items);
             AddDevice = new AddCommand(this);
+            PasteDevice = new MyCommand(this);
+            DoubleClickDevice = new MyCommand(this);
         }
 
         private void Devices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -45,11 +47,12 @@ namespace WpfApp1
             Console.WriteLine(string.Format("e.OldStartingIndex: {0}, e.NewStartingIndex: {1}", e.OldStartingIndex, e.NewStartingIndex));
             
         }
-
+        public ICommand DoubleClickDevice { get; set; }
+        public ICommand PasteDevice { get; set; }
         public ICommand AddDevice { get; set; }
         public ObservableCollection<Module> Devices { get; set; }
         public ObservableCollection<CatalogItem> CatalogItems { get; set; }
-        public IList<Module>  SelectedDevices { get; set; }
+        public Module  SelectedDevice { get; set; }
         
 
         int counter = 0;
@@ -80,4 +83,26 @@ namespace WpfApp1
 
         public event EventHandler CanExecuteChanged;
     }
+
+    public class MyCommand : ICommand
+    {
+
+        private TestDataContext vm;
+        public MyCommand(TestDataContext vm)
+        {
+            this.vm = vm;
+        }
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+        public void Execute(object parameter)
+        {
+            
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
+
+    
 }
