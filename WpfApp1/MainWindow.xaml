@@ -26,8 +26,7 @@
                      Modules="{Binding Devices, Mode=TwoWay}" 
                      SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
                      PasteCommand="{Binding PasteDevice, Mode=TwoWay}"
-                     DoubleClickCommand="{Binding DoubleClickDevice
-            , Mode=TwoWay}"/>
+                     DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
         
         <Button Content="Add device" Command="{Binding AddDevice}"/>
         <ListBox ItemsSource="{Binding CatalogItems}" DisplayMemberPath="OrderCode" ItemContainerStyle="{StaticResource ListBoxDragDrop}"/>

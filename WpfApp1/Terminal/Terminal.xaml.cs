@@ -22,28 +22,27 @@ namespace WpfApp1
     /// </summary>
     public partial class Terminal : UserControl
     {
+        int _copiedItemIndex = -1;
+        PasteMode _pasteMode = PasteMode.None;
+        
         public Terminal()
         {           
             InitializeComponent();
             ctxMenu.DataContext = this;
-        
+
+            IsItemCopied = false;
         }
 
 
 
-
-
-
-
-        private bool IsItemSelected
+        internal bool IsItemCopied
         {
-            get { return (bool)GetValue(IsItemSelectedProperty); }
-            set { SetValue(IsItemSelectedProperty, value); }
+            get { return (bool)GetValue(IsItemCopiedProperty); }
+            set { SetValue(IsItemCopiedProperty, value); }
         }
 
-        private static readonly DependencyProperty IsItemSelectedProperty =
-            DependencyProperty.Register("IsItemSelected", typeof(bool), typeof(Terminal), new FrameworkPropertyMetadata(null));
-
+        public static readonly DependencyProperty IsItemCopiedProperty =
+            DependencyProperty.Register("IsItemCopied", typeof(bool), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
 
         public ObservableCollection<Module> Modules
@@ -81,28 +80,10 @@ namespace WpfApp1
 
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            RollbackCopyAction();
             SelectedModule = listbox.SelectedItem as Module;
-
-            if (SelectedModule!= null) 
-            {
-                IsItemSelected = true;
-            }
-            else 
-            {
-                IsItemSelected = false;
-            }
         }
-        private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete)
-            {
-                if (SelectedModule != null)
-                {
-
-                    Modules.Remove(SelectedModule);
-                }
-            }
-        }
+        
 
         private void listboxItem_PreviewMouseMoveEvent(object sender, MouseEventArgs e)
         {
@@ -115,6 +96,8 @@ namespace WpfApp1
         }
         private void listboxItem_Drop(object sender, DragEventArgs e)
         {
+            RollbackCopyAction();
+
             if (sender is ListBoxItem)
             {
                 Module droppedModule = e.Data.GetData(typeof(Module)) as Module;
@@ -166,47 +149,129 @@ namespace WpfApp1
             e.Handled = true;
         }
 
-        private void deleteModule(object sender, RoutedEventArgs e)
+        private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (IsItemSelected)
+            RollbackCopyAction();
 
-            {
-                Modules.Remove(SelectedModule);
-                //PasteCommand?.Execute(Modules.IndexOf(SelectedModule.First()));
-            }
-                
+            var module = (sender as ListBoxItem).DataContext as Module;
+
+            DoubleClickCommand?.Execute(Modules.IndexOf(module));
+        }
+
+        private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete )
+                delete(null, null);
+
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X))
+                cut(null, null);
+
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C))
+                copy(null, null);
+            
+            if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V))
+                paste(null, null);
+        }
+
+        private void open(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModule == null)
+                return;
+            RollbackCopyAction();
+            DoubleClickCommand?.Execute(Modules.IndexOf(SelectedModule));
+        }
+
+        private void delete(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModule == null)
+                return;
+
+            RollbackCopyAction();         
+          
+            Modules.Remove(SelectedModule);
         }
 
         private void shiftRight(object sender, RoutedEventArgs e)
         {
-            if (IsItemSelected)
-            {
-                var index = Modules.IndexOf(SelectedModule);
-                var newIndex = index + 1;
-                if (newIndex  < Modules.Count)
-                    Modules.Move(index, newIndex);
-            }
-              
+            if (SelectedModule == null)
+                return;
+
+            RollbackCopyAction();
+
+            var index = Modules.IndexOf(SelectedModule);
+            var newIndex = index + 1;
+            if (newIndex < Modules.Count)
+                Modules.Move(index, newIndex);
+
+
         }
 
         private void shiftLeft(object sender, RoutedEventArgs e)
         {
-            if (IsItemSelected)
-            {
-                var index = Modules.IndexOf(SelectedModule);
-                var newIndex = index - 1;
-                if (newIndex >= 0)
-                    Modules.Move(index, newIndex);
-            }
-            
+            if (SelectedModule == null)
+                return;
+
+            RollbackCopyAction();
+         
+            var index = Modules.IndexOf(SelectedModule);
+            var newIndex = index - 1;
+            if (newIndex >= 0)
+                Modules.Move(index, newIndex);
+
 
         }
 
-        private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        
+
+        private void cut(object sender, RoutedEventArgs e)
         {
-            var module = (sender as ListBoxItem).DataContext as Module;
-            
-            DoubleClickCommand?.Execute( Modules.IndexOf(module));
+            if (SelectedModule == null)
+                return;
+
+            _copiedItemIndex = Modules.IndexOf(SelectedModule);
+            _pasteMode = PasteMode.Cut;
+            IsItemCopied = true;
         }
+
+        private void copy(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModule == null)
+                return;
+
+            _copiedItemIndex = Modules.IndexOf(SelectedModule);
+            _pasteMode = PasteMode.Copy;
+            IsItemCopied = true;
+        }
+
+        private void paste(object sender, RoutedEventArgs e)
+        {
+            if (!IsItemCopied)
+                return;
+
+            PasteCommand?.Execute(new PasteCommandArgs { OriginItemIndex = _copiedItemIndex, Mode = _pasteMode });
+            
+            listbox.SelectedItem = null;
+            SelectedModule = null;
+
+            RollbackCopyAction();
+        }
+
+        private void RollbackCopyAction()
+        {
+            _pasteMode = PasteMode.None;
+            _copiedItemIndex = -1;
+            IsItemCopied = false;
+        }
+    }
+    public class PasteCommandArgs 
+    {
+        public PasteMode Mode { get; set; }
+        public int OriginItemIndex { get; set; }
+    }
+    public enum PasteMode 
+    {
+        None,
+        Cut,
+        Copy
     }
 }

@@ -17,6 +17,7 @@
             <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
             <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />
         </Style>
+        <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
     </UserControl.Resources>
 
     <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
@@ -38,9 +39,14 @@
             
             <ListBox.ContextMenu>
                 <ContextMenu Name="ctxMenu">
-                    <MenuItem Header="Delete" IsEnabled="{Binding IsItemSelected }" Click="deleteModule"/>
-                    <MenuItem Header="Shift right" IsEnabled="{Binding IsItemSelected }" Click="shiftRight"/>
-                    <MenuItem Header="Shift left"  IsEnabled="{Binding IsItemSelected }" Click="shiftLeft"/>
+                    <MenuItem Header="Open"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="open"/>
+                    <MenuItem Header="Cut"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="cut"/>
+                    <MenuItem Header="Copy"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="copy"/>
+                    <MenuItem Header="Paste"  IsEnabled="{Binding IsItemCopied }" Click="paste"/>
+
+                    <MenuItem Header="Delete" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="delete"/>
+                    <MenuItem Header="Shift right" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftRight"/>
+                    <MenuItem Header="Shift left"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftLeft"/>
 
                 </ContextMenu>
             </ListBox.ContextMenu>

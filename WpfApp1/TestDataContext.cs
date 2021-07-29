@@ -47,13 +47,17 @@ namespace WpfApp1
             Console.WriteLine(string.Format("e.OldStartingIndex: {0}, e.NewStartingIndex: {1}", e.OldStartingIndex, e.NewStartingIndex));
             
         }
+
+        #region Terminal dependency properties
         public ICommand DoubleClickDevice { get; set; }
-        public ICommand PasteDevice { get; set; }
-        public ICommand AddDevice { get; set; }
-        public ObservableCollection<Module> Devices { get; set; }
-        public ObservableCollection<CatalogItem> CatalogItems { get; set; }
+        public ICommand PasteDevice { get; set; }        
+        public ObservableCollection<Module> Devices { get; set; }        
         public Module  SelectedDevice { get; set; }
-        
+        #endregion
+
+        public ObservableCollection<CatalogItem> CatalogItems { get; set; }
+
+        public ICommand AddDevice { get; set; }
 
         int counter = 0;
         public void Add() 
@@ -91,7 +95,7 @@ namespace WpfApp1
         public MyCommand(TestDataContext vm)
         {
             this.vm = vm;
-        }
+        }   
         public bool CanExecute(object parameter)
         {
             return true;
