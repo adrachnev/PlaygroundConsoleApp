@@ -22,20 +22,21 @@ namespace WpfApp1
     /// </summary>
     public partial class Terminal : UserControl
     {
-        int _copiedItemIndex = -1;
+
         PasteMode _pasteMode = PasteMode.None;
+        int _copiedItemIndex = -1;
         
         public Terminal()
         {           
             InitializeComponent();
             ctxMenu.DataContext = this;
 
-            IsItemCopied = false;
+            IsItemCopiedToClipboard = false;
         }
 
 
 
-        internal bool IsItemCopied
+        internal bool IsItemCopiedToClipboard
         {
             get { return (bool)GetValue(IsItemCopiedProperty); }
             set { SetValue(IsItemCopiedProperty, value); }
@@ -78,13 +79,6 @@ namespace WpfApp1
 
 
 
-        private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RollbackCopyAction();
-            SelectedModule = listbox.SelectedItem as Module;
-        }
-        
-
         private void listboxItem_PreviewMouseMoveEvent(object sender, MouseEventArgs e)
         {
             if (sender is ListBoxItem && e.LeftButton == MouseButtonState.Pressed)
@@ -96,7 +90,7 @@ namespace WpfApp1
         }
         private void listboxItem_Drop(object sender, DragEventArgs e)
         {
-            RollbackCopyAction();
+            ResetClipboard();
 
             if (sender is ListBoxItem)
             {
@@ -149,15 +143,11 @@ namespace WpfApp1
             e.Handled = true;
         }
 
-        private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RollbackCopyAction();
-
-            var module = (sender as ListBoxItem).DataContext as Module;
-
-            DoubleClickCommand?.Execute(Modules.IndexOf(module));
+            SelectedModule = listbox.SelectedItem as Module;
         }
-
+        
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete )
@@ -172,12 +162,20 @@ namespace WpfApp1
             if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V))
                 paste(null, null);
         }
+        private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ResetClipboard();
+
+            var module = (sender as ListBoxItem).DataContext as Module;
+
+            DoubleClickCommand?.Execute(Modules.IndexOf(module));
+        }
 
         private void open(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
-            RollbackCopyAction();
+            ResetClipboard();
             DoubleClickCommand?.Execute(Modules.IndexOf(SelectedModule));
         }
 
@@ -186,7 +184,7 @@ namespace WpfApp1
             if (SelectedModule == null)
                 return;
 
-            RollbackCopyAction();         
+            ResetClipboard();         
           
             Modules.Remove(SelectedModule);
         }
@@ -196,7 +194,7 @@ namespace WpfApp1
             if (SelectedModule == null)
                 return;
 
-            RollbackCopyAction();
+            ResetClipboard();
 
             var index = Modules.IndexOf(SelectedModule);
             var newIndex = index + 1;
@@ -211,7 +209,7 @@ namespace WpfApp1
             if (SelectedModule == null)
                 return;
 
-            RollbackCopyAction();
+            ResetClipboard();
          
             var index = Modules.IndexOf(SelectedModule);
             var newIndex = index - 1;
@@ -227,46 +225,52 @@ namespace WpfApp1
         {
             if (SelectedModule == null)
                 return;
-
+            
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Cut;
-            IsItemCopied = true;
+            IsItemCopiedToClipboard = true;
         }
 
         private void copy(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
-
+            
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Copy;
-            IsItemCopied = true;
+            IsItemCopiedToClipboard = true;
         }
 
         private void paste(object sender, RoutedEventArgs e)
         {
-            if (!IsItemCopied)
+            if (!IsItemCopiedToClipboard)
                 return;
 
-            PasteCommand?.Execute(new PasteCommandArgs { OriginItemIndex = _copiedItemIndex, Mode = _pasteMode });
+            PasteCommand?.Execute(new PasteCommandArgs
+            {
+                Mode = _pasteMode,
+                InsertToIndex = SelectedModule != null ? Modules.IndexOf(SelectedModule) : -1,
+                OriginItemIndex = _copiedItemIndex
+            }); 
             
             listbox.SelectedItem = null;
             SelectedModule = null;
 
-            RollbackCopyAction();
+            ResetClipboard();
         }
 
-        private void RollbackCopyAction()
+        private void ResetClipboard()
         {
             _pasteMode = PasteMode.None;
             _copiedItemIndex = -1;
-            IsItemCopied = false;
+            IsItemCopiedToClipboard = false;
         }
     }
     public class PasteCommandArgs 
     {
         public PasteMode Mode { get; set; }
         public int OriginItemIndex { get; set; }
+        public int InsertToIndex { get; set; }
     }
     public enum PasteMode 
     {
