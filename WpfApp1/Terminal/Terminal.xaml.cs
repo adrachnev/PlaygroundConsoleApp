@@ -246,13 +246,33 @@ namespace WpfApp1
             if (!IsItemCopiedToClipboard)
                 return;
 
-            PasteCommand?.Execute(new PasteCommandArgs
+
+
+            var args = new PasteCommandArgs
             {
                 Mode = _pasteMode,
-                InsertToIndex = SelectedModule != null ? Modules.IndexOf(SelectedModule) : -1,
+                InsertToIndex = SelectedModule != null ? Modules.IndexOf(SelectedModule) + 1 : Modules.Count,
                 OriginItemIndex = _copiedItemIndex
-            }); 
+            };
             
+
+            var copy = new Module(Modules[args.OriginItemIndex].XamlMarkup)
+            {
+                OrderCode = Modules[args.OriginItemIndex].OrderCode,
+            };
+
+            Modules.Insert(args.InsertToIndex, copy);
+
+            if (args.Mode == PasteMode.Cut)
+            {
+                Modules.RemoveAt(args.OriginItemIndex);
+                args.InsertToIndex = args.InsertToIndex - 1;
+            }
+              
+
+
+            PasteCommand?.Execute(args);
+
             listbox.SelectedItem = null;
             SelectedModule = null;
 

@@ -23,9 +23,11 @@ namespace WpfApp1
         public Module(string xamlMarkup) 
         {
             DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
+            XamlMarkup = xamlMarkup;
         }
         public string OrderCode { get; set; }
         public DependencyObject DeviceImage { get; }
+        public string XamlMarkup { get; }
 
         private DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
         {
