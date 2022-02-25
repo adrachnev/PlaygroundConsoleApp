@@ -9,5 +9,7 @@ namespace WpfApp1.Models
     public class CatalogItem
     {
         public string OrderCode { get; set; }
+
+        public string Tooltip { get { return OrderCode + Environment.NewLine + OrderCode; } }
     }
 }

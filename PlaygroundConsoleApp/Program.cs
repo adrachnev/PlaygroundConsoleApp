@@ -21,12 +21,24 @@ namespace PlaygroundConsoleApp
         {
 
 
-            ReplaceRegex();
-            CheckUnderscoreRegex();
-            GetCategories();
-
+            ReplaceUnderscoreWithinUri();
         }
 
+        private static void ReplaceUnderscoreWithinUri ()
+        {
+            string pathParams = @"help:CPX_AP.chm?Diagnosis/Module_0.htm";
+            pathParams = Regex.Replace(pathParams, @"Module_[\d]", "Module");
+            Debug.Assert(pathParams == @"help:CPX_AP.chm?Diagnosis/Module.htm");
+            pathParams = pathParams.Insert( pathParams.IndexOf(".htm"), @"/Parameters");
+            Debug.Assert(pathParams == @"help:CPX_AP.chm?Diagnosis/Module/Parameters.htm");
+
+            string pathState = @"help:CPX_AP.chm?Diagnosis/Module_0/DeviceState.htm";
+            pathState = Regex.Replace(pathState, @"Module_[\d]", "Module");
+            Debug.Assert(pathState == @"help:CPX_AP.chm?Diagnosis/Module/DeviceState.htm");
+            pathState = Regex.Replace(pathState, @"Module/", string.Empty);
+            Debug.Assert(pathState == @"help:CPX_AP.chm?Diagnosis/DeviceState.htm");
+
+        }
         private static void ReplaceRegex()
         {
             string str = "local:Parameterization/Module_9;Parameters";
