@@ -12,6 +12,36 @@
     <UserControl.Resources>
         <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">
             <Setter Property="AllowDrop" Value="true"/>
+            
+            <!--<Setter Property="Focusable" Value="False"/>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                                                      VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                                                      Content="{TemplateBinding ContentControl.Content}"
+                                                                      ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                                      ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                                      SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+
+                            <Rectangle x:Name="borderGlow"
+                                                               Fill="Transparent"
+                                                               Stroke="Transparent"
+                                                               StrokeDashArray="4 2"
+                                                               StrokeThickness="2"/>
+
+                        </Grid>
+                        <!--change the color of the item on different events-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="borderGlow" Property="Stroke" Value="{DynamicResource FestoColors.CaerulBrush}" />
+                                <Setter TargetName="borderGlow" Property="Fill" Value="#300091DC" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
             <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
             <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
@@ -23,10 +53,16 @@
     <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
                                AncestorType={x:Type local:Terminal}}}">
         <ListBox x:Name="listbox" 
-                 Background="Azure"
-                 HorizontalContentAlignment="Center"
+
                  ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  
+                 Margin="15"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         VerticalContentAlignment="Top"
+                         
+
+                         
                  
                   ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
                                AncestorType={x:Type local:Terminal}},
@@ -54,7 +90,9 @@
 
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    <VirtualizingStackPanel IsItemsHost="True" 
+                                                    Orientation="Horizontal"
+                                                    VerticalAlignment="Top"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -74,6 +112,11 @@
                 
 
             </ListBox.ItemTemplate>
+            <ListBox.Template>
+                <ControlTemplate>
+                    <ItemsPresenter VerticalAlignment="Top"/>
+                </ControlTemplate>
+            </ListBox.Template>
         </ListBox>
         
     </Grid>

@@ -153,13 +153,13 @@ namespace WpfApp1
             if (e.Key == Key.Delete )
                 delete(null, null);
 
-            if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X))
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X)
                 cut(null, null);
 
-            if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C))
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C)
                 copy(null, null);
             
-            if ((Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V))
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V)
                 paste(null, null);
         }
         private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
