@@ -91,8 +91,12 @@
     <Compile Include="NullToBoolValueConverter.cs" />
     <Compile Include="Terminal\CatalogItem.cs" />
     <Compile Include="Terminal\Module.cs" />
+    <Compile Include="Terminal\SmartAdorner.cs" />
     <Compile Include="Terminal\Terminal.xaml.cs">
       <DependentUpon>Terminal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Terminal\TerminalEntry.xaml.cs">
+      <DependentUpon>TerminalEntry.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestDataContext.cs" />
     <Page Include="MainWindow.xaml">
@@ -108,6 +112,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Terminal\Terminal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Terminal\TerminalEntry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,6 +150,17 @@
   <ItemGroup>
     <Resource Include="Terminal\Images\faultXAML.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Terminal\Images\Error.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Terminal\Images\Info.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Terminal\Images\Warning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

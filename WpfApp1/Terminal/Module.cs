@@ -58,6 +58,20 @@ namespace WpfApp1
             }
 
             throw new Exception($"Image type: {imageType} is not supported");
-        }        
+        }
+
+        public bool SignalReplaceDrop { get; set; }
+
+        public bool DisplayModuleDescription { get; set; }
+
+        public string Message => "message";
+        public bool HasWarning => false;
+
+        public bool HasError => false;
+
+        public bool DisplayDiagnosis => ShowDiagnosisOverlay && (HasWarning || HasError || HasInfo);
+
+        public bool ShowDiagnosisOverlay { get; set; }
+        public bool HasInfo => false;
     }
 }

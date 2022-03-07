@@ -50,9 +50,34 @@
         <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
     </UserControl.Resources>
 
-    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
+    <DockPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
                                AncestorType={x:Type local:Terminal}}}">
-        <ListBox x:Name="listbox" 
+        <Slider x:Name="ZoomSlider"
+                Height="100"
+                Margin="6"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                LargeChange="0.4"
+                Maximum="{Binding MaximumZoomFactor}"
+                Minimum="{Binding MinimumZoomFactor}"
+                Value="{Binding ZoomFactor}"
+                Orientation="Vertical"
+                SmallChange="0.05" 
+                />
+
+        <ScrollViewer HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      AllowDrop="True"
+                      DockPanel.Dock="Right"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
+                      IsTabStop="False"
+                      FocusVisualStyle="{x:Null}"
+                      x:Name="ScrollViewer">
+
+            <Grid >
+                <ListBox x:Name="listbox" 
 
                  ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  
@@ -72,52 +97,62 @@
                  
                  PreviewKeyDown="listbox_PreviewKeyDown"              
                  SelectionChanged="listbox_SelectionChanged">
-            
-            <ListBox.ContextMenu>
-                <ContextMenu Name="ctxMenu">
-                    <MenuItem Header="Open"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="open"/>
-                    <MenuItem Header="Cut"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="cut"/>
-                    <MenuItem Header="Copy"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="copy"/>
-                    <MenuItem Header="Paste"  IsEnabled="{Binding IsItemCopied }" Click="paste"/>
 
-                    <MenuItem Header="Delete" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="delete"/>
-                    <MenuItem Header="Shift right" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftRight"/>
-                    <MenuItem Header="Shift left"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftLeft"/>
+                    <ListBox.ContextMenu>
+                        <ContextMenu Name="ctxMenu">
+                            <MenuItem Header="Open"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="open"/>
+                            <MenuItem Header="Cut"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="cut"/>
+                            <MenuItem Header="Copy"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="copy"/>
+                            <MenuItem Header="Paste"  IsEnabled="{Binding IsItemCopied }" Click="paste"/>
 
-                </ContextMenu>
-            </ListBox.ContextMenu>
+                            <MenuItem Header="Delete" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="delete"/>
+                            <MenuItem Header="Shift right" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftRight"/>
+                            <MenuItem Header="Shift left"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftLeft"/>
+
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
 
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel IsItemsHost="True" 
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsItemsHost="True" 
                                                     Orientation="Horizontal"
                                                     VerticalAlignment="Top"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Viewbox
+                    <!--<ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Viewbox
                         
                         Stretch="Uniform"
 						VerticalAlignment="Stretch"
 						HorizontalAlignment="Stretch">
-                        <ContentPresenter 
+                                <ContentPresenter 
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
 							Content="{Binding DeviceImage}"/>
-                    </Viewbox>
-                </DataTemplate>
-                
+                            </Viewbox>
+                        </DataTemplate>
 
-            </ListBox.ItemTemplate>
-            <ListBox.Template>
-                <ControlTemplate>
-                    <ItemsPresenter VerticalAlignment="Top"/>
-                </ControlTemplate>
-            </ListBox.Template>
-        </ListBox>
-        
-    </Grid>
+
+                    </ListBox.ItemTemplate>-->
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <local:TerminalEntry
+                                 VerticalAlignment="Top"
+                                 VerticalContentAlignment="Top"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter VerticalAlignment="Top"/>
+                        </ControlTemplate>
+                    </ListBox.Template>
+                </ListBox>
+
+            </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

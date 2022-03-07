@@ -79,6 +79,43 @@ namespace WpfApp1
 
 
 
+        public double MaximumZoomFactor
+        {
+            get { return (double)GetValue(MaximumZoomFactorProperty); }
+            set { SetValue(MaximumZoomFactorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MaximumZoomFactor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaximumZoomFactorProperty =
+            DependencyProperty.Register("MaximumZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(3.0));
+
+
+
+        public double MinimumZoomFactor
+        {
+            get { return (double)GetValue(MinimumZoomFactorProperty); }
+            set { SetValue(MinimumZoomFactorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MinimumZoomFactor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MinimumZoomFactorProperty =
+            DependencyProperty.Register("MinimumZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(0.3));
+
+
+
+        public double ZoomFactor
+        {
+            get { return (double)GetValue(ZoomFactorProperty); }
+            set { SetValue(ZoomFactorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ZoomFactor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ZoomFactorProperty =
+            DependencyProperty.Register("ZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(1.5));
+
+
+
+
         private void listboxItem_PreviewMouseMoveEvent(object sender, MouseEventArgs e)
         {
             if (sender is ListBoxItem && e.LeftButton == MouseButtonState.Pressed)
