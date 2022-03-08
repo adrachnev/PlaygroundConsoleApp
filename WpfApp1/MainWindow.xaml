@@ -56,7 +56,7 @@
                             <TextBlock FontWeight="Bold"
                    Grid.Row="0"
                    Grid.Column="0"
-                   Text="CPX-AP-A-12DI4DO-M12-5P"
+                   Text="{Binding OrderCode}"
                    TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" ToolTip="{Binding Tooltip}"/>
 
                             
