@@ -9,45 +9,58 @@
              x:Name="uc"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    
     <UserControl.Resources>
-        <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">
-            <Setter Property="AllowDrop" Value="true"/>
-            
-            <!--<Setter Property="Focusable" Value="False"/>-->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Grid>
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Festo.Theme;component/CompleteTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="AllowDrop" Value="true"/>
+
+                <Setter Property="Focusable" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
                                                                       VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
                                                                       Content="{TemplateBinding ContentControl.Content}"
                                                                       ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
                                                                       ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
                                                                       SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
 
-                            <Rectangle x:Name="borderGlow"
+                                <Rectangle x:Name="borderGlow"
                                                                Fill="Transparent"
                                                                Stroke="Transparent"
                                                                StrokeDashArray="4 2"
                                                                StrokeThickness="2"/>
 
-                        </Grid>
-                        <!--change the color of the item on different events-->
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="borderGlow" Property="Stroke" Value="{DynamicResource FestoColors.CaerulBrush}" />
-                                <Setter TargetName="borderGlow" Property="Fill" Value="#300091DC" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
-            <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
-            <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
-            <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />
-        </Style>
-        <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
+                            </Grid>
+                            <!--change the color of the item on different events-->
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="borderGlow" Property="Stroke" Value="{DynamicResource FestoColors.CaerulBrush}" />
+                                    
+                                    <Setter TargetName="borderGlow" Property="Fill" Value="#300091DC" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
+                <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
+                <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
+                <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />
+            </Style>
+            <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
+        </ResourceDictionary>
+
+
     </UserControl.Resources>
 
     <DockPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
