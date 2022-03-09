@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -279,14 +280,70 @@ namespace WpfApp1
 
             if (sourceItem != null && targetItem != null)
             {
+                
+                
                 dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
                 dropInfo.Effects = DragDropEffects.Copy;
+
+
+
+                
+                StopDropAnimation();
+                StartDropAnimation(dropInfo);
+
+
+                
             }
+
+
+
+        }
+
+
+
+        private static void StartDropAnimation(IDropInfo dropInfo)
+        {
+            if (dropInfo.DropPosition.X < 0)
+                return;
+            Module targetItem = dropInfo.TargetItem as Module;
+            if (targetItem == null)
+                return;
+
+            HorizontalAlignment mouseAlignement = GetMouseAlignmentRelativeToTarget(dropInfo);
+
+            double gapSize = 45;
+
+            var moveDropElementAnimation = mouseAlignement == HorizontalAlignment.Left
+                                           ? new ThicknessAnimation(new Thickness(gapSize, 0, 0, 0), new Duration(TimeSpan.FromMilliseconds(200)))
+                                           : new ThicknessAnimation(new Thickness(0, 0, gapSize, 0), new Duration(TimeSpan.FromMilliseconds(200)));
+
+
+            (targetItem.DeviceImage as FrameworkElement).BeginAnimation(MarginProperty, moveDropElementAnimation);
+        }
+
+        private static HorizontalAlignment GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
+        {
+            var targetItemUI = (dropInfo.TargetItem as Module).DeviceImage as FrameworkElement;
+            
+            
+
+            var p1 = targetItemUI.TranslatePoint(dropInfo.DropPosition, dropInfo.VisualTargetItem);
+            var p2 = targetItemUI.TranslatePoint(new Point(), dropInfo.VisualTarget);
+            var posWithinTarget = p1.X - p2.X;
+
+
+            //Console.WriteLine(string.Format("OrderCode {0}", targetItem.OrderCode));
+            //Console.WriteLine(string.Format("ActualWidth {0}", targetItemUI.ActualWidth));
+
+            //Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
+
+            var result = posWithinTarget < targetItemUI.ActualWidth / 2 ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+            return result;
         }
 
         void IDropTarget.DragLeave(IDropInfo dropInfo)
         {
-            //throw new NotImplementedException();
+            StopDropAnimation();
         }
 
         void IDropTarget.Drop(IDropInfo dropInfo)
@@ -297,15 +354,35 @@ namespace WpfApp1
             CatalogItem sourceItem = dropInfo.Data as CatalogItem;
 
             // insert new item into terminal from other UI control
-            if (sourceItem != null)
+            if (sourceItem != null && targetItem != null)
             {
+                var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
+
                 var droppedDataConverted = new Module(null) { OrderCode = sourceItem.OrderCode };
 
-                int targetIdx = listbox.Items.IndexOf(targetItem);
-                Modules.Insert(targetIdx, droppedDataConverted);
+                int targetIndex = Modules.IndexOf(targetItem);
+                targetIndex = alignement == HorizontalAlignment.Left ? targetIndex : targetIndex + 1;
+
+                
+                Modules.Insert(targetIndex, droppedDataConverted);
+
+                StopDropAnimation();
             }
 
 
+        }
+
+        private void StopDropAnimation()
+        {
+            for (int i = 0; i < Modules.Count; i++)
+            {
+                var a = new ThicknessAnimation(new Thickness(0, 0, 0, 0), new Duration(TimeSpan.FromMilliseconds(200)));
+                var item = Modules.ElementAt(i);
+                if (item == null)
+                    continue;
+
+                (item.DeviceImage as UIElement).BeginAnimation(MarginProperty, a);
+            }
         }
 
 
