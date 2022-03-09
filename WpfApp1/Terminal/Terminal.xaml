@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:local="clr-namespace:WpfApp1"
              mc:Ignorable="d" 
              x:Name="uc"
+             
              d:DesignHeight="450" d:DesignWidth="800">
 
     
@@ -52,10 +54,10 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
+                <!--<EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
                 <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
                 <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
-                <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />
+                <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />-->
             </Style>
             <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
         </ResourceDictionary>
@@ -63,8 +65,9 @@
 
     </UserControl.Resources>
 
-    <DockPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
-                               AncestorType={x:Type local:Terminal}}}">
+    <DockPanel  DataContext="{Binding RelativeSource={RelativeSource FindAncestor, 
+                               AncestorType={x:Type local:Terminal}}}"
+                >
         <Slider x:Name="ZoomSlider"
                 Height="100"
                 Margin="6"
@@ -91,7 +94,9 @@
 
             <Grid >
                 <ListBox x:Name="listbox" 
-
+                dd:DragDrop.IsDropTarget="True"
+                dd:DragDrop.DropHandler="{Binding}"
+                         
                  ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  
                  Margin="15"
@@ -102,9 +107,7 @@
 
                          
                  
-                  ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
-                               AncestorType={x:Type local:Terminal}},
-                               Path=Modules}"
+                  ItemsSource="{Binding Modules}"
                  SelectionMode="Single"
                  
                  

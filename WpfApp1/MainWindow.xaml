@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         xmlns:uc="clr-namespace:WpfApp1"
-        
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         Title="MainWindow" Height="450" Width="800">
 
     
@@ -37,7 +37,7 @@
             ItemsSource="{Binding CatalogItems}"
             HorizontalContentAlignment="Stretch"
                           SelectionMode="Single"
-                          
+                          dd:DragDrop.IsDragSource="True"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
 

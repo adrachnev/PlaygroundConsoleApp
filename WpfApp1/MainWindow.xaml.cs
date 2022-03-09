@@ -28,28 +28,6 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-        private void listboxItem_PreviewMouseMoveEvent(object sender, MouseEventArgs e)
-        {
-            if (sender is ListBoxItem && e.LeftButton == MouseButtonState.Pressed)
-            {
-                ListBoxItem draggedItem = sender as ListBoxItem;
-                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.All);
-                draggedItem.IsSelected = true;
-            }
-        }
         
-
-        private void listboxItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)
-        {
-            if (e.Effects == DragDropEffects.Move)
-            {
-                e.UseDefaultCursors = false;
-                Mouse.SetCursor(Cursors.Hand);
-            }
-            else
-                e.UseDefaultCursors = true;
-
-            e.Handled = true;
-        }
     }
 }

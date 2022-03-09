@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GongSolutions.Wpf.DragDrop;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,21 +21,21 @@ namespace WpfApp1
     /// <summary>
     /// Interaction logic for Terminal.xaml
     /// </summary>
-    public partial class Terminal : UserControl
+    public partial class Terminal : UserControl, IDropTarget
     {
 
         PasteMode _pasteMode = PasteMode.None;
         int _copiedItemIndex = -1;
-        
+
         public Terminal()
-        {           
+        {
             InitializeComponent();
             ctxMenu.DataContext = this;
 
             IsItemCopiedToClipboard = false;
         }
 
-
+        #region Dependency Properties
 
         internal bool IsItemCopiedToClipboard
         {
@@ -53,10 +54,10 @@ namespace WpfApp1
         }
         public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
-        public Module SelectedModule 
-        { 
-            get { return (Module)GetValue(SelectedModuleProperty); } 
-            set { SetValue(SelectedModuleProperty, value); } 
+        public Module SelectedModule
+        {
+            get { return (Module)GetValue(SelectedModuleProperty); }
+            set { SetValue(SelectedModuleProperty, value); }
         }
         public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
@@ -113,81 +114,20 @@ namespace WpfApp1
         public static readonly DependencyProperty ZoomFactorProperty =
             DependencyProperty.Register("ZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(1.5));
 
+        #endregion
 
 
 
-        private void listboxItem_PreviewMouseMoveEvent(object sender, MouseEventArgs e)
-        {
-            if (sender is ListBoxItem && e.LeftButton == MouseButtonState.Pressed)
-            {
-                ListBoxItem draggedItem = sender as ListBoxItem;
-                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.All);
-                draggedItem.IsSelected = true;
-            }
-        }
-        private void listboxItem_Drop(object sender, DragEventArgs e)
-        {
-            ResetClipboard();
-
-            if (sender is ListBoxItem)
-            {
-                Module droppedModule = e.Data.GetData(typeof(Module)) as Module;
-                CatalogItem droppedCatalogItem = e.Data.GetData(typeof(CatalogItem)) as CatalogItem;
-                
-                // reorder items within terminal
-                if (droppedModule != null)
-                {
-                    Module target = ((ListBoxItem)(sender)).DataContext as Module;
-
-                    int removedIdx = listbox.Items.IndexOf(droppedModule);
-                    int targetIdx = listbox.Items.IndexOf(target);
-
-                    if (removedIdx < targetIdx)
-                    {
-                        Modules.Move(removedIdx, targetIdx);
-                    }
-                    else
-                    {
-                        int remIdx = removedIdx + 1;
-                        if (Modules.Count + 1 > remIdx)
-                        {
-                            Modules.Move(removedIdx, targetIdx);
-                        }
-                    }
-                }
-                // insert new item into terminal from other UI control
-                if (droppedCatalogItem != null)
-                {
-                    var droppedDataConverted = new Module(null) { OrderCode = droppedCatalogItem.OrderCode };
-                    Module target = ((ListBoxItem)(sender)).DataContext as Module;
-                    int targetIdx = listbox.Items.IndexOf(target);
-                    Modules.Insert(targetIdx, droppedDataConverted);
-                }
-            }
-            
-        }
-
-        private void listboxItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)
-        {
-            if (e.Effects == DragDropEffects.Move)
-            {
-                e.UseDefaultCursors = false;
-                Mouse.SetCursor(Cursors.Hand);
-            }
-            else
-                e.UseDefaultCursors = true;
-
-            e.Handled = true;
-        }
 
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedModule = listbox.SelectedItem as Module;
         }
-        
+
+        #region Context Menu
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete )
+            if (e.Key == Key.Delete)
                 delete(null, null);
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X)
@@ -195,7 +135,7 @@ namespace WpfApp1
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C)
                 copy(null, null);
-            
+
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V)
                 paste(null, null);
         }
@@ -221,8 +161,8 @@ namespace WpfApp1
             if (SelectedModule == null)
                 return;
 
-            ResetClipboard();         
-          
+            ResetClipboard();
+
             Modules.Remove(SelectedModule);
         }
 
@@ -247,7 +187,7 @@ namespace WpfApp1
                 return;
 
             ResetClipboard();
-         
+
             var index = Modules.IndexOf(SelectedModule);
             var newIndex = index - 1;
             if (newIndex >= 0)
@@ -256,13 +196,13 @@ namespace WpfApp1
 
         }
 
-        
+
 
         private void cut(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
-            
+
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Cut;
             IsItemCopiedToClipboard = true;
@@ -272,7 +212,7 @@ namespace WpfApp1
         {
             if (SelectedModule == null)
                 return;
-            
+
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Copy;
             IsItemCopiedToClipboard = true;
@@ -291,7 +231,7 @@ namespace WpfApp1
                 InsertToIndex = SelectedModule != null ? Modules.IndexOf(SelectedModule) + 1 : Modules.Count,
                 OriginItemIndex = _copiedItemIndex
             };
-            
+
 
             var copy = new Module(Modules[args.OriginItemIndex].XamlMarkup)
             {
@@ -305,7 +245,7 @@ namespace WpfApp1
                 Modules.RemoveAt(args.OriginItemIndex);
                 args.InsertToIndex = args.InsertToIndex - 1;
             }
-              
+
 
 
             PasteCommand?.Execute(args);
@@ -322,6 +262,55 @@ namespace WpfApp1
             _copiedItemIndex = -1;
             IsItemCopiedToClipboard = false;
         }
+
+        #endregion
+
+
+        #region DragDrop
+        void IDropTarget.DragEnter(IDropInfo dropInfo)
+        {
+            //throw new NotImplementedException();
+        }
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+            CatalogItem sourceItem = dropInfo.Data as CatalogItem;
+            Module targetItem = dropInfo.TargetItem as Module;
+
+            if (sourceItem != null && targetItem != null)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.Copy;
+            }
+        }
+
+        void IDropTarget.DragLeave(IDropInfo dropInfo)
+        {
+            //throw new NotImplementedException();
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            ResetClipboard();
+
+            Module targetItem = dropInfo.TargetItem as Module;
+            CatalogItem sourceItem = dropInfo.Data as CatalogItem;
+
+            // insert new item into terminal from other UI control
+            if (sourceItem != null)
+            {
+                var droppedDataConverted = new Module(null) { OrderCode = sourceItem.OrderCode };
+
+                int targetIdx = listbox.Items.IndexOf(targetItem);
+                Modules.Insert(targetIdx, droppedDataConverted);
+            }
+
+
+        }
+
+
+
+        #endregion
     }
     public class PasteCommandArgs 
     {
