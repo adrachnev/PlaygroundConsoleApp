@@ -16,9 +16,7 @@
 
         <ResourceDictionary>
 
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Festo.Theme;component/CompleteTheme.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            
 
 
             <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">

@@ -92,7 +92,7 @@
                 HorizontalAlignment="Center"
                 FontSize="16"
                 FontWeight="Bold"
-                Text="{Binding Path=Module.Type, FallbackValue='-'}">
+                Text="{Binding Path=OrderCode, FallbackValue='-'}">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed" />

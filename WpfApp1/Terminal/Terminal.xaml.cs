@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +35,9 @@ namespace WpfApp1
             ctxMenu.DataContext = this;
 
             IsItemCopiedToClipboard = false;
+
         }
+
 
         #region Dependency Properties
 
@@ -275,24 +278,42 @@ namespace WpfApp1
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
+            listbox.SelectedItem = null;
+
             CatalogItem sourceItem = dropInfo.Data as CatalogItem;
             Module targetItem = dropInfo.TargetItem as Module;
 
             if (sourceItem != null && targetItem != null)
             {
                 
-                
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
                 dropInfo.Effects = DragDropEffects.Copy;
 
+                var pos = GetMouseAlignmentRelativeToTarget(dropInfo);
 
+                if (pos == HorizontalAlignment.Center)
+                {
+                    
+                    targetItem.SignalReplaceDrop = true;
 
-                
-                StopDropAnimation();
-                StartDropAnimation(dropInfo);
+                    dropInfo.DropTargetAdorner = null;
+                }
+                  
 
+                if (pos == HorizontalAlignment.Left || pos == HorizontalAlignment.Right)
+                {
+                    foreach (var m in Modules)
+                        m.SignalReplaceDrop = false;
+                    
+                    dropInfo.DropTargetAdorner = typeof(CustmDropTargetHighlightAdorner);
+                }
+                if (pos == HorizontalAlignment.Stretch)
+                {
+                    
+                    foreach (var m in Modules)
+                        m.SignalReplaceDrop = false;
 
-                
+                    dropInfo.DropTargetAdorner = null;
+                }
             }
 
 
@@ -301,31 +322,14 @@ namespace WpfApp1
 
 
 
-        private static void StartDropAnimation(IDropInfo dropInfo)
-        {
-            if (dropInfo.DropPosition.X < 0)
-                return;
-            Module targetItem = dropInfo.TargetItem as Module;
-            if (targetItem == null)
-                return;
-
-            HorizontalAlignment mouseAlignement = GetMouseAlignmentRelativeToTarget(dropInfo);
-
-            double gapSize = 45;
-
-            var moveDropElementAnimation = mouseAlignement == HorizontalAlignment.Left
-                                           ? new ThicknessAnimation(new Thickness(gapSize, 0, 0, 0), new Duration(TimeSpan.FromMilliseconds(200)))
-                                           : new ThicknessAnimation(new Thickness(0, 0, gapSize, 0), new Duration(TimeSpan.FromMilliseconds(200)));
-
-
-            (targetItem.DeviceImage as FrameworkElement).BeginAnimation(MarginProperty, moveDropElementAnimation);
-        }
+        
+        
 
         private static HorizontalAlignment GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
         {
             var targetItemUI = (dropInfo.TargetItem as Module).DeviceImage as FrameworkElement;
-            
-            
+
+            var width = targetItemUI.ActualWidth;
 
             var p1 = targetItemUI.TranslatePoint(dropInfo.DropPosition, dropInfo.VisualTargetItem);
             var p2 = targetItemUI.TranslatePoint(new Point(), dropInfo.VisualTarget);
@@ -336,14 +340,27 @@ namespace WpfApp1
             //Console.WriteLine(string.Format("ActualWidth {0}", targetItemUI.ActualWidth));
 
             //Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
+            HorizontalAlignment result;
 
-            var result = posWithinTarget < targetItemUI.ActualWidth / 2 ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+            if (posWithinTarget > width / 3 * 2 && posWithinTarget < width)
+                result = HorizontalAlignment.Right;
+
+            else if (posWithinTarget > width / 3 && posWithinTarget < width / 3 * 2)
+                result = HorizontalAlignment.Center;
+
+            else if (posWithinTarget > 0 && posWithinTarget < width / 3)
+                result = HorizontalAlignment.Left;
+            else
+                result = HorizontalAlignment.Stretch;
+
+            Console.WriteLine(string.Format("result {0}", result));
+
             return result;
         }
 
         void IDropTarget.DragLeave(IDropInfo dropInfo)
         {
-            StopDropAnimation();
+            
         }
 
         void IDropTarget.Drop(IDropInfo dropInfo)
@@ -361,31 +378,17 @@ namespace WpfApp1
                 var droppedDataConverted = new Module(null) { OrderCode = sourceItem.OrderCode };
 
                 int targetIndex = Modules.IndexOf(targetItem);
-                targetIndex = alignement == HorizontalAlignment.Left ? targetIndex : targetIndex + 1;
-
                 
-                Modules.Insert(targetIndex, droppedDataConverted);
+                if (alignement == HorizontalAlignment.Left)
+                    Modules.Insert(targetIndex, droppedDataConverted);
 
-                StopDropAnimation();
+                if (alignement == HorizontalAlignment.Right)
+                    Modules.Insert(targetIndex + 1, droppedDataConverted);
+
             }
 
 
         }
-
-        private void StopDropAnimation()
-        {
-            for (int i = 0; i < Modules.Count; i++)
-            {
-                var a = new ThicknessAnimation(new Thickness(0, 0, 0, 0), new Duration(TimeSpan.FromMilliseconds(200)));
-                var item = Modules.ElementAt(i);
-                if (item == null)
-                    continue;
-
-                (item.DeviceImage as UIElement).BeginAnimation(MarginProperty, a);
-            }
-        }
-
-
 
         #endregion
     }

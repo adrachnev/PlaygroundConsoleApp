@@ -18,7 +18,7 @@ namespace WpfApp1
         None = 0,
         XamlMarkup
     }
-    public class Module 
+    public class Module : ObservableBase
     {
         public Module(string xamlMarkup) 
         {
@@ -60,7 +60,20 @@ namespace WpfApp1
             throw new Exception($"Image type: {imageType} is not supported");
         }
 
-        public bool SignalReplaceDrop { get; set; }
+        private bool _signalReplaceDrop;
+        public bool SignalReplaceDrop
+        {
+            get { return _signalReplaceDrop; }
+            set
+            {
+                if (_signalReplaceDrop == value)
+                    return;
+
+                _signalReplaceDrop = value;
+
+                OnPropertyChanged();
+            }
+        }
 
         public bool DisplayModuleDescription { get; set; }
 
