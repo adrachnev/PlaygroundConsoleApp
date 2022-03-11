@@ -104,6 +104,7 @@
     <Compile Include="Terminal\TerminalEntry.xaml.cs">
       <DependentUpon>TerminalEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Terminal\XamlToPngConverter.cs" />
     <Compile Include="TestDataContext.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

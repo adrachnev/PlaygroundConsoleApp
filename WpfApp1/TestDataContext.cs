@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Markup;
 using WpfApp1.Models;
 
 namespace WpfApp1
@@ -26,10 +28,10 @@ namespace WpfApp1
             };
 
             var items = new List<CatalogItem> {
-                new CatalogItem  { OrderCode = "CPX-AP-I-EP-M12" },
-                new CatalogItem { OrderCode = "CPX-AP-I-M12" },
-                new CatalogItem  { OrderCode = "CPX-AP-I-M8_Compact" },
-                new CatalogItem { OrderCode = "CPX-AP-I-M12" },
+                new CatalogItem (xaml1)  { OrderCode = "CPX-AP-I-EP-M12" },
+                new CatalogItem (xaml2){ OrderCode = "CPX-AP-I-M12" },
+                new CatalogItem  (xaml3){ OrderCode = "CPX-AP-I-M8_Compact" },
+                new CatalogItem (xaml4){ OrderCode = "CPX-AP-I-M12" },
             };
 
             Devices = new ObservableCollection<Module>(list);
@@ -40,6 +42,8 @@ namespace WpfApp1
             PasteDevice = new MyCommand(this);
             DoubleClickDevice = new MyCommand(this);
         }
+
+        
 
         private void Devices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

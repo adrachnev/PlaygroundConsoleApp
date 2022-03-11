@@ -353,7 +353,7 @@ namespace WpfApp1
             else
                 result = HorizontalAlignment.Stretch;
 
-            Console.WriteLine(string.Format("result {0}", result));
+            // Console.WriteLine(string.Format("result {0}", result));
 
             return result;
         }

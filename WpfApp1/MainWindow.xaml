@@ -14,7 +14,15 @@
     <Window.DataContext>
         <local:TestDataContext/>
     </Window.DataContext>
-    
+    <Window.Resources>
+        
+        <DataTemplate  x:Key="CatalogItemDragAdorner">
+            <StackPanel >
+                <Image  Source="{ Binding Bitmap }" />
+                <TextBlock Text="{Binding OrderCode}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     
     <StackPanel>
 
@@ -35,10 +43,10 @@
             <ListView
                 Grid.Row="4"
             ItemsSource="{Binding CatalogItems}"
-            HorizontalContentAlignment="Stretch"
+            
                           SelectionMode="Single"
                           dd:DragDrop.IsDragSource="True"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        dd:DragDrop.DragAdornerTemplate="{DynamicResource CatalogItemDragAdorner}">
 
 
                 <ListView.ItemTemplate>
@@ -57,10 +65,11 @@
                    Grid.Row="0"
                    Grid.Column="0"
                    Text="{Binding OrderCode}"
+                                       
                    TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" ToolTip="{Binding Tooltip}"/>
 
-                            
-                            <TextBlock TextAlignment="Right"
+                        
+                        <TextBlock TextAlignment="Right"
                    HorizontalAlignment="Right"
                    Grid.Row="0"
                    Grid.Column="1"
