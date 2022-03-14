@@ -18,7 +18,7 @@ namespace WpfApp1
         None = 0,
         XamlMarkup
     }
-    public class Module : ObservableBase
+    public class Module : ObservableBase, Item
     {
         public Module(string xamlMarkup) 
         {
@@ -27,7 +27,7 @@ namespace WpfApp1
         }
         public string OrderCode { get; set; }
         public DependencyObject DeviceImage { get; }
-        public string XamlMarkup { get; }
+        
 
         private DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
         {
@@ -86,5 +86,7 @@ namespace WpfApp1
 
         public bool ShowDiagnosisOverlay { get; set; }
         public bool HasInfo => false;
+
+        public string XamlMarkup { get ; set ; }
     }
 }

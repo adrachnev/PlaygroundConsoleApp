@@ -93,8 +93,9 @@
             <Grid >
                 <ListBox x:Name="listbox" 
                 dd:DragDrop.IsDropTarget="True"
+                dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.DropHandler="{Binding}"
-                         
+                         dd:DragDrop.DragAdornerTemplate="{DynamicResource CatalogItemDragAdorner}"
                  ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  
                  Margin="15"

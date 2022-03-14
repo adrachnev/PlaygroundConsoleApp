@@ -280,9 +280,12 @@ namespace WpfApp1
         {
             listbox.SelectedItem = null;
 
-            CatalogItem sourceItem = dropInfo.Data as CatalogItem;
-            Module targetItem = dropInfo.TargetItem as Module;
+            Item sourceItem = dropInfo.Data as CatalogItem;
+            if (sourceItem == null)
+                sourceItem = dropInfo.Data as Module;
 
+            Module targetItem = dropInfo.TargetItem as Module;
+            
             if (sourceItem != null && targetItem != null)
             {
                 
@@ -315,15 +318,46 @@ namespace WpfApp1
                     dropInfo.DropTargetAdorner = null;
                 }
             }
+        }
 
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            ResetClipboard();
+
+            Module targetItem = dropInfo.TargetItem as Module;
+            Item sourceItem = dropInfo.Data as CatalogItem;
+            if (sourceItem == null)
+                sourceItem = dropInfo.Data as Module;
+
+            // insert new item into terminal from other UI control
+            if (sourceItem != null && targetItem != null)
+            {
+                var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
+
+
+                var droppedDataConverted = new Module(sourceItem.   XamlMarkup) { OrderCode = sourceItem.OrderCode };
+
+                int targetIndex = Modules.IndexOf(targetItem);
+
+                if (alignement == HorizontalAlignment.Left)                
+                    Modules.Insert(targetIndex, droppedDataConverted);
+                else if (alignement == HorizontalAlignment.Right)
+                    Modules.Insert(targetIndex + 1, droppedDataConverted);
+
+                else if (alignement == HorizontalAlignment.Center) 
+                {   
+                    Modules.Remove(targetItem);
+                    Modules.Insert(targetIndex, droppedDataConverted);
+                }
+                 
+            }
 
 
         }
 
 
 
-        
-        
+
 
         private static HorizontalAlignment GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
         {
@@ -363,32 +397,7 @@ namespace WpfApp1
             
         }
 
-        void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-            ResetClipboard();
-
-            Module targetItem = dropInfo.TargetItem as Module;
-            CatalogItem sourceItem = dropInfo.Data as CatalogItem;
-
-            // insert new item into terminal from other UI control
-            if (sourceItem != null && targetItem != null)
-            {
-                var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
-
-                var droppedDataConverted = new Module(null) { OrderCode = sourceItem.OrderCode };
-
-                int targetIndex = Modules.IndexOf(targetItem);
-                
-                if (alignement == HorizontalAlignment.Left)
-                    Modules.Insert(targetIndex, droppedDataConverted);
-
-                if (alignement == HorizontalAlignment.Right)
-                    Modules.Insert(targetIndex + 1, droppedDataConverted);
-
-            }
-
-
-        }
+      
 
         #endregion
     }

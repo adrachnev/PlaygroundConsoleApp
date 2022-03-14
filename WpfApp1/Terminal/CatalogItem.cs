@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace WpfApp1.Models
 {
-    public class CatalogItem 
+    public class CatalogItem :Item 
     {
         
         public CatalogItem(string xamlMarkup) 
