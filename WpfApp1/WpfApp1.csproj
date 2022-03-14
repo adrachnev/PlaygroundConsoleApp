@@ -95,6 +95,7 @@
     <Compile Include="NullToBoolValueConverter.cs" />
     <Compile Include="Terminal\CatalogItem.cs" />
     <Compile Include="Terminal\CustmDropTargetHighlightAdorner.cs" />
+    <Compile Include="Terminal\ImageValueConverter.cs" />
     <Compile Include="Terminal\Module.cs" />
     <Compile Include="Terminal\ObservableBase.cs" />
     <Compile Include="Terminal\SmartAdorner.cs" />

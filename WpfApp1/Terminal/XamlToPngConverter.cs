@@ -35,8 +35,6 @@
         width = Math.Round(width);
         height = Math.Round(height);
 
-        Thread pngCreationThread = new Thread((ThreadStart) delegate()
-        {
           FrameworkElement element = null;
 
           try
@@ -66,12 +64,7 @@
               // IF the operation lasted too long, the object might be disposed already
             }
           }
-        });
-
-        pngCreationThread.IsBackground = true;
-        pngCreationThread.SetApartmentState(ApartmentState.STA);
-        pngCreationThread.Start();
-        pngCreationThread.Join();
+        
       }
       catch (Exception Exp)
       {

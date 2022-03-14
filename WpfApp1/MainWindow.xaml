@@ -15,10 +15,10 @@
         <local:TestDataContext/>
     </Window.DataContext>
     <Window.Resources>
-        
+        <local:ImageValueConverter x:Key="ImageValueConverter"/>
         <DataTemplate  x:Key="CatalogItemDragAdorner">
             <StackPanel >
-                <Image  Source="{ Binding Bitmap }" />
+                <Image  Source="{ Binding Path=XamlMarkup, Converter={StaticResource ImageValueConverter}}" />
                 <TextBlock Text="{Binding OrderCode}" HorizontalAlignment="Center"/>
             </StackPanel>
         </DataTemplate>
