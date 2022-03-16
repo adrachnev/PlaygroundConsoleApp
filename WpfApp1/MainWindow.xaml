@@ -46,7 +46,7 @@
             
                           SelectionMode="Single"
                           dd:DragDrop.IsDragSource="True"
-                        dd:DragDrop.DragAdornerTemplate="{DynamicResource CatalogItemDragAdorner}">
+                        dd:DragDrop.DragAdornerTemplate="{StaticResource CatalogItemDragAdorner}">
 
 
                 <ListView.ItemTemplate>

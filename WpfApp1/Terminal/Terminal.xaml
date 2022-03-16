@@ -37,16 +37,16 @@
                                 <Rectangle x:Name="borderGlow"
                                                                Fill="Transparent"
                                                                Stroke="Transparent"
-                                                               StrokeDashArray="4 2"
+                                                               
                                                                StrokeThickness="2"/>
 
                             </Grid>
                             <!--change the color of the item on different events-->
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="borderGlow" Property="Stroke" Value="{DynamicResource FestoColors.CaerulBrush}" />
+                                    <Setter TargetName="borderGlow" Property="Stroke" Value="{DynamicResource FestoColors.HighlightBrush}" />
                                     
-                                    <Setter TargetName="borderGlow" Property="Fill" Value="#300091DC" />
+                                    
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -136,22 +136,6 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
-                    <!--<ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Viewbox
-                        
-                        Stretch="Uniform"
-						VerticalAlignment="Stretch"
-						HorizontalAlignment="Stretch">
-                                <ContentPresenter 
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-							Content="{Binding DeviceImage}"/>
-                            </Viewbox>
-                        </DataTemplate>
-
-
-                    </ListBox.ItemTemplate>-->
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
