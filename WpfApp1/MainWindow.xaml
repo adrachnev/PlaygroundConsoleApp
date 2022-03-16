@@ -17,10 +17,7 @@
     <Window.Resources>
         <local:ImageValueConverter x:Key="ImageValueConverter"/>
         <DataTemplate  x:Key="CatalogItemDragAdorner">
-            <StackPanel >
-                <Image  Source="{ Binding Path=XamlMarkup, Converter={StaticResource ImageValueConverter}}" />
-                <TextBlock Text="{Binding OrderCode}" HorizontalAlignment="Center"/>
-            </StackPanel>
+            <Image   Opacity="0.5" Source="{ Binding Path=XamlMarkup, Converter={StaticResource ImageValueConverter}}" />
         </DataTemplate>
     </Window.Resources>
     
@@ -40,16 +37,18 @@
         <!--styling module catalogue items-->
 
 
-            <ListView
+            <ListView 
                 Grid.Row="4"
             ItemsSource="{Binding CatalogItems}"
             
                           SelectionMode="Single"
-                          dd:DragDrop.IsDragSource="True"
-                        dd:DragDrop.DragAdornerTemplate="{StaticResource CatalogItemDragAdorner}">
+                            
+                dd:DragDrop.IsDragSource="True"                
+                
+                dd:DragDrop.DragAdornerTemplate="{DynamicResource CatalogItemDragAdorner}">
+                
 
-
-                <ListView.ItemTemplate>
+            <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
