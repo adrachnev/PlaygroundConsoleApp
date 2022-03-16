@@ -295,8 +295,8 @@ namespace WpfApp1
 
                 if (pos == HorizontalAlignment.Center)
                 {
-                    
-                    targetItem.SignalReplaceDrop = true;
+                    if (sourceItem is CatalogItem)
+                        targetItem.SignalReplaceDrop = true;
 
                     dropInfo.DropTargetAdorner = null;
                 }
@@ -339,15 +339,29 @@ namespace WpfApp1
 
                 int targetIndex = Modules.IndexOf(targetItem);
 
-                if (alignement == HorizontalAlignment.Left)                
-                    Modules.Insert(targetIndex, droppedDataConverted);
-                else if (alignement == HorizontalAlignment.Right)
-                    Modules.Insert(targetIndex + 1, droppedDataConverted);
+                if (sourceItem is CatalogItem)
+                {
+                    if (alignement == HorizontalAlignment.Left)
+                        Modules.Insert(targetIndex, droppedDataConverted);
+                    else if (alignement == HorizontalAlignment.Right)
+                        Modules.Insert(targetIndex + 1, droppedDataConverted);
 
-                else if (alignement == HorizontalAlignment.Center) 
-                {   
-                    Modules.Remove(targetItem);
-                    Modules.Insert(targetIndex, droppedDataConverted);
+                    else if (alignement == HorizontalAlignment.Center)
+                    {
+                        Modules.Remove(targetItem);
+                        Modules.Insert(targetIndex, droppedDataConverted);
+                    }
+                }
+                else if (sourceItem is Module) 
+                {
+                    if (alignement == HorizontalAlignment.Left)
+                        Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex);
+                    else if (alignement == HorizontalAlignment.Right)
+                    {
+                        var targetIdx = targetIndex + 1 >= Modules.Count ? Modules.Count -1 : targetIndex;
+                        Modules.Move(Modules.IndexOf(sourceItem as Module), targetIdx);
+                    }
+                        
                 }
                  
             }
