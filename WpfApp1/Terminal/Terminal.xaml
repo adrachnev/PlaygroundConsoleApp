@@ -16,7 +16,9 @@
 
         <ResourceDictionary>
 
-            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Dictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
 
             <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">

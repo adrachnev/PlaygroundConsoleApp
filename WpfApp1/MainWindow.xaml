@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        xmlns:uc="clr-namespace:WpfApp1"
+        
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         Title="MainWindow" Height="450" Width="800">
 
@@ -15,16 +15,18 @@
         <local:TestDataContext/>
     </Window.DataContext>
     <Window.Resources>
-        <local:ImageValueConverter x:Key="ImageValueConverter"/>
-        <DataTemplate  x:Key="CatalogItemDragAdorner">
-            <Image   Opacity="0.5" Source="{ Binding Path=XamlMarkup, Converter={StaticResource ImageValueConverter}}" />
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
     </Window.Resources>
     
     <StackPanel>
 
 
-        <uc:Terminal HorizontalContentAlignment="Stretch" 
+        <local:Terminal HorizontalContentAlignment="Stretch" 
                      Modules="{Binding Devices, Mode=TwoWay}" 
                      SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
                      PasteCommand="{Binding PasteDevice, Mode=TwoWay}"
