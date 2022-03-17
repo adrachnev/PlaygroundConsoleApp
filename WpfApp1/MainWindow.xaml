@@ -37,7 +37,7 @@
         <!--styling module catalogue items-->
 
 
-            <ListView 
+            <ListView x:Name="listViewCatalogItems"
                 Grid.Row="4"
             ItemsSource="{Binding CatalogItems}"
             

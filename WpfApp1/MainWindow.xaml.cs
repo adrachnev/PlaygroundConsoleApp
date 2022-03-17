@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
 namespace WpfApp1
 {
@@ -26,6 +27,12 @@ namespace WpfApp1
 
 
             InitializeComponent();
+
+            var context = listViewCatalogItems.DataContext as TestDataContext;
+            if (context != null) 
+            {   
+                DragDrop.SetDragHandler(listViewCatalogItems, new DragHandler(listViewCatalogItems));
+            }
         }
 
         

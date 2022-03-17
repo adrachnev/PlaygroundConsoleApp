@@ -61,6 +61,7 @@ namespace WpfApp1
 
         public ObservableCollection<CatalogItem> CatalogItems { get; set; }
 
+        public DragHandler DragHandler { get; set; }
         public ICommand AddDevice { get; set; }
 
         int counter = 0;

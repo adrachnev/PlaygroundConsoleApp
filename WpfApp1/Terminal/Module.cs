@@ -29,7 +29,7 @@ namespace WpfApp1
         public DependencyObject DeviceImage { get; }
         
 
-        private DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
+        public static DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
         {
             if (imageType == DeviceImageType.XamlMarkup)
             {

@@ -95,6 +95,8 @@
                 dd:DragDrop.IsDropTarget="True"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.DropHandler="{Binding}"
+                       
+                         dd:DragDrop.DragHandler="{Binding DragHandler}"
                          dd:DragDrop.DragAdornerTemplate="{DynamicResource CatalogItemDragAdorner}"
                  ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  

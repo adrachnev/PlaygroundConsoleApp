@@ -120,6 +120,7 @@ namespace WpfApp1
 
         #endregion
 
+        public DragHandler DragHandler => new DragHandler(listbox);
 
 
 
