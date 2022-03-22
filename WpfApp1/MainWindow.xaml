@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
+        
         mc:Ignorable="d"
         
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
@@ -31,7 +32,8 @@
                      SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
                      PasteCommand="{Binding PasteDevice, Mode=TwoWay}"
                      DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
-        
+
+        <local:TerminalGrid Modules="{Binding Devices, Mode=TwoWay}"/>
         <Button Content="Add device" Command="{Binding AddDevice}"/>
         
 

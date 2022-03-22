@@ -107,6 +107,9 @@
     <Compile Include="Terminal\TerminalEntry.xaml.cs">
       <DependentUpon>TerminalEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Terminal\TerminalGrid.xaml.cs">
+      <DependentUpon>TerminalGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Terminal\XamlToPngConverter.cs" />
     <Compile Include="TestDataContext.cs" />
     <Page Include="Dictionary1.xaml">
@@ -130,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Terminal\TerminalEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Terminal\TerminalGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

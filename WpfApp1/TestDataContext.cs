@@ -21,10 +21,10 @@ namespace WpfApp1
         public TestDataContext() 
         {
             var list = new List<Module> { 
-                new Module(xaml1)  { OrderCode = "CPX-AP-I-EP-M12" }, 
-                new Module(xaml2) { OrderCode = "CPX-AP-I-M12" },
-                new Module(xaml3)  { OrderCode = "CPX-AP-I-M8_Compact" },
-                new Module(xaml4) { OrderCode = "CPX-AP-I-M12" },
+                new Module(xaml1)  { OrderCode = "CPX-AP-I-EP-M12", Name="CPX-AP-I-EP-M12" }, 
+                new Module(xaml2) { OrderCode = "CPX-AP-I-M12" , Name = "CPX-AP-I-M12"},
+                new Module(xaml3)  { OrderCode = "CPX-AP-I-M8_Compact" , Name="CPX-AP-I-M8_Compact"},
+                new Module(xaml4) { OrderCode = "CPX-AP-I-M12" , Name = "CPX-AP-I-M12"},
             };
 
             var items = new List<CatalogItem> {
@@ -37,6 +37,7 @@ namespace WpfApp1
             Devices = new ObservableCollection<Module>(list);
 
             Devices.CollectionChanged += Devices_CollectionChanged;
+            
             CatalogItems = new ObservableCollection<CatalogItem>(items);
             AddDevice = new AddCommand(this);
             PasteDevice = new MyCommand(this);

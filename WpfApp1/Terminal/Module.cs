@@ -20,39 +20,55 @@ namespace WpfApp1
     }
     public class Module : ObservableBase, Item
     {
-        public Module(string xamlMarkup) 
+        public Module(string xamlMarkup)
         {
             DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
             XamlMarkup = xamlMarkup;
         }
         public string OrderCode { get; set; }
         public DependencyObject DeviceImage { get; }
-        
+
+        /// <summary>
+        /// Slot number or AP address or some oder 
+        /// </summary>
+        public int Address { get; set; }
+
+        public string Name { get => name; 
+            set 
+            { 
+                if (value != name)
+                {
+                    name = value;
+                    OnPropertyChanged();
+                }
+                    
+            } 
+        }
 
         public static DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
         {
             if (imageType == DeviceImageType.XamlMarkup)
             {
                 FrameworkElement markupElement;
-                try 
-                { 
-                    markupElement = XamlReader.Parse(xamlMarkup) as FrameworkElement; 
+                try
+                {
+                    markupElement = XamlReader.Parse(xamlMarkup) as FrameworkElement;
                 }
-                catch 
+                catch
                 {
                     Uri resourceUri = new Uri(@"\Terminal\Images\faultXAML.png", UriKind.Relative);
 
-                    Image dynamicImage = new Image() 
-                    { 
+                    Image dynamicImage = new Image()
+                    {
                         Stretch = System.Windows.Media.Stretch.UniformToFill,
                         Source = new BitmapImage(resourceUri),
                         MaxHeight = 100,
                         MaxWidth = 100
                     };
-                    
+
                     markupElement = dynamicImage;
                 }
-                
+
 
                 return markupElement;
             }
@@ -61,6 +77,8 @@ namespace WpfApp1
         }
 
         private bool _signalReplaceDrop;
+        private string name;
+
         public bool SignalReplaceDrop
         {
             get { return _signalReplaceDrop; }
@@ -87,6 +105,6 @@ namespace WpfApp1
         public bool ShowDiagnosisOverlay { get; set; }
         public bool HasInfo => false;
 
-        public string XamlMarkup { get ; set ; }
+        public string XamlMarkup { get; set; }
     }
 }
