@@ -53,6 +53,14 @@ namespace WpfApp1
             set { SetValue(SelectedModuleProperty, value); }
         }
         public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(TerminalGrid), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(SelectedModuleChangedCallback)));
+
+        public static readonly DependencyProperty DoubleClickCommandProperty =
+            DependencyProperty.Register("DoubleClickCommand", typeof(ICommand), typeof(TerminalGrid), new FrameworkPropertyMetadata(null));
+        public ICommand DoubleClickCommand
+        {
+            get { return (ICommand)GetValue(DoubleClickCommandProperty); }
+            set { SetValue(DoubleClickCommandProperty, value); }
+        }
         #endregion
 
         private static void SelectedModuleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -84,6 +92,14 @@ namespace WpfApp1
             else if (e.AddedItems.Count == 1)
                 SelectedModule = e.AddedItems[0] as Module;
 
+
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            
+
+            DoubleClickCommand?.Execute((sender as DataGrid).SelectedItem);
 
         }
     }

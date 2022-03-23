@@ -35,7 +35,8 @@
 
         <local:TerminalGrid Modules="{Binding Devices, Mode=TwoWay}" 
                             ModuleNameEditEndingCommand="{Binding ModuleNameEditEndingCommand}"
-                            SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"/>
+                            SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
+                            DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
         
         <Button Content="Add device" Command="{Binding AddDevice}"/>
         

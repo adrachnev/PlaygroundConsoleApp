@@ -24,13 +24,17 @@
               
               SelectionChanged="DataGrid_SelectionChanged"
               SelectionMode="Single"
+              MouseDoubleClick="DataGrid_MouseDoubleClick"
               
               CellEditEnding="DataGrid_CellEditEnding"
               
               uikit:FestoDataGrid.UseFestoStyle="True"
               
+              ScrollViewer.CanContentScroll="False"
+              HorizontalAlignment="Left"
               CanUserAddRows="False"
               CanUserReorderColumns="False"
+              CanUserSortColumns="False"
               AutoGenerateColumns="False">
         
         <DataGrid.Columns>
