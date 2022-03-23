@@ -24,6 +24,7 @@
               
               
               CellEditEnding="DataGrid_CellEditEnding"
+              
               uikit:FestoDataGrid.UseFestoStyle="True"
               
               CanUserAddRows="False"
@@ -36,7 +37,7 @@
             <DataGridTextColumn Header="Order code" 
                                 Binding="{Binding OrderCode}" IsReadOnly="True" MinWidth="100"/>
             
-            <DataGridTextColumn Header="Name" 
+            <DataGridTextColumn Header="Name" x:Name="columnName"
                                 Binding="{Binding Name}" MinWidth="200" >
                 
                 

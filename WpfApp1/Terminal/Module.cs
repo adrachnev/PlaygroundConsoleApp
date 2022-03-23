@@ -33,17 +33,7 @@ namespace WpfApp1
         /// </summary>
         public int Address { get; set; }
 
-        public string Name { get => name; 
-            set 
-            { 
-                if (value != name)
-                {
-                    name = value;
-                    OnPropertyChanged();
-                }
-                    
-            } 
-        }
+        public string Name { get; set; }
 
         public static DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
         {
@@ -77,7 +67,7 @@ namespace WpfApp1
         }
 
         private bool _signalReplaceDrop;
-        private string name;
+
 
         public bool SignalReplaceDrop
         {

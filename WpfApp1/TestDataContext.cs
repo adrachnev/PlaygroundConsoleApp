@@ -39,9 +39,10 @@ namespace WpfApp1
             Devices.CollectionChanged += Devices_CollectionChanged;
             
             CatalogItems = new ObservableCollection<CatalogItem>(items);
-            AddDevice = new AddCommand(this);
-            PasteDevice = new MyCommand(this);
-            DoubleClickDevice = new MyCommand(this);
+            AddDevice = new BaseCommand(this);
+            PasteDevice = new BaseCommand(this);
+            DoubleClickDevice = new BaseCommand(this);
+            ModuleNameEditEndingCommand = new BaseCommand();
         }
 
         
@@ -65,6 +66,8 @@ namespace WpfApp1
         public DragHandler DragHandler { get; set; }
         public ICommand AddDevice { get; set; }
 
+        public ICommand ModuleNameEditEndingCommand { get; set; }
+
         int counter = 0;
         public void Add() 
         {
@@ -74,34 +77,17 @@ namespace WpfApp1
     }
 
     
-    public class AddCommand : ICommand
-    {
-        
-        private TestDataContext vm;
-        public AddCommand(TestDataContext vm)
-        {
-            this.vm = vm;
-        }
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-        public void Execute(object parameter)
-        {
-            vm.Add();
-        }
+    
 
-        public event EventHandler CanExecuteChanged;
-    }
-
-    public class MyCommand : ICommand
+    public class BaseCommand : ICommand
     {
 
         private TestDataContext vm;
-        public MyCommand(TestDataContext vm)
+        public BaseCommand(TestDataContext vm)
         {
             this.vm = vm;
-        }   
+        }
+        public BaseCommand() { }
         public bool CanExecute(object parameter)
         {
             return true;

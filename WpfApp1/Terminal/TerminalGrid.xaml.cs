@@ -33,14 +33,34 @@ namespace WpfApp1
             set { SetValue(ModulesProperty, value); }
         }
 
+        public static readonly DependencyProperty ModuleNameEditEndingCommandProperty = DependencyProperty.Register("ModuleNameEditEndingCommand", typeof(ICommand), typeof(TerminalGrid), new UIPropertyMetadata(null));
+
+        public ICommand ModuleNameEditEndingCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(ModuleNameEditEndingCommandProperty);
+            }
+            set
+            {
+                SetValue(ModuleNameEditEndingCommandProperty, value);
+            }
+        }
+
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
 
-            if (e.EditAction == DataGridEditAction.Commit) 
+            if (e.EditAction == DataGridEditAction.Commit && e.Column.SortMemberPath == nameof(Module.Name))
             {
-                Console.WriteLine((e.EditingElement.DataContext as Module).Name);
+                if ((e.EditingElement.DataContext as Module).Name != e.EditingElement.GetValue(TextBox.TextProperty) as string)
+                {
+                    Console.WriteLine(e.EditingElement.GetValue(TextBox.TextProperty));
+                    
+                    ModuleNameEditEndingCommand?.Execute(new Tuple<Module, string>(
+                        e.EditingElement.DataContext as Module,
+                        e.EditingElement.GetValue(TextBox.TextProperty) as string));
+                }                
             }
-
         }
     }
 }
