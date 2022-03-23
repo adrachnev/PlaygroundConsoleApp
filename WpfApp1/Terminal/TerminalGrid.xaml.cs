@@ -52,8 +52,14 @@ namespace WpfApp1
             get { return (Module)GetValue(SelectedModuleProperty); }
             set { SetValue(SelectedModuleProperty, value); }
         }
-        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(TerminalGrid), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(TerminalGrid), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(SelectedModuleChangedCallback)));
         #endregion
+
+        private static void SelectedModuleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as TerminalGrid).SelectedModule = e.NewValue as Module;
+            (d as TerminalGrid).grid.SelectedValue = e.NewValue;
+        }
 
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {

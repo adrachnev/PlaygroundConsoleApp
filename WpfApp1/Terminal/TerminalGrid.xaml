@@ -19,7 +19,7 @@
         
         
     </UserControl.Resources>
-    <DataGrid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TerminalGrid}}}"
+    <DataGrid x:Name="grid" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TerminalGrid}}}"
               ItemsSource="{Binding Modules}"
               
               SelectionChanged="DataGrid_SelectionChanged"
