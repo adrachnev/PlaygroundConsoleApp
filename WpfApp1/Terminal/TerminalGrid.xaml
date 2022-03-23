@@ -22,6 +22,8 @@
     <DataGrid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TerminalGrid}}}"
               ItemsSource="{Binding Modules}"
               
+              SelectionChanged="DataGrid_SelectionChanged"
+              SelectionMode="Single"
               
               CellEditEnding="DataGrid_CellEditEnding"
               

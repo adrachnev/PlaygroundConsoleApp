@@ -63,7 +63,13 @@ namespace WpfApp1
             get { return (Module)GetValue(SelectedModuleProperty); }
             set { SetValue(SelectedModuleProperty, value); }
         }
-        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(SelectedModuleChangedCallback)));
+
+        private static void SelectedModuleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as Terminal).SelectedModule = e.NewValue as Module;
+            (d as Terminal).listbox.SelectedValue = e.NewValue;
+        }
 
         public ICommand DoubleClickCommand
         {

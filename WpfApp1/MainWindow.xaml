@@ -33,7 +33,10 @@
                      PasteCommand="{Binding PasteDevice, Mode=TwoWay}"
                      DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
 
-        <local:TerminalGrid Modules="{Binding Devices, Mode=TwoWay}" ModuleNameEditEndingCommand="{Binding ModuleNameEditEndingCommand}"/>
+        <local:TerminalGrid Modules="{Binding Devices, Mode=TwoWay}" 
+                            ModuleNameEditEndingCommand="{Binding ModuleNameEditEndingCommand}"
+                            SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"/>
+        
         <Button Content="Add device" Command="{Binding AddDevice}"/>
         
 

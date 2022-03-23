@@ -25,7 +25,7 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
-
+        #region Properties
         public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(TerminalGrid), new FrameworkPropertyMetadata(null));
         public ObservableCollection<Module> Modules
         {
@@ -47,6 +47,14 @@ namespace WpfApp1
             }
         }
 
+        public Module SelectedModule
+        {
+            get { return (Module)GetValue(SelectedModuleProperty); }
+            set { SetValue(SelectedModuleProperty, value); }
+        }
+        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(TerminalGrid), new FrameworkPropertyMetadata(null));
+        #endregion
+
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
 
@@ -61,6 +69,16 @@ namespace WpfApp1
                         e.EditingElement.GetValue(TextBox.TextProperty) as string));
                 }                
             }
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+                SelectedModule = null;
+            else if (e.AddedItems.Count == 1)
+                SelectedModule = e.AddedItems[0] as Module;
+
+
         }
     }
 }
