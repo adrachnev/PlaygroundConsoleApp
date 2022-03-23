@@ -27,6 +27,8 @@ namespace WpfApp1
                 new Module(xaml4) { OrderCode = "CPX-AP-I-M12" , Name = "CPX-AP-I-M12"},
             };
 
+            
+
             var items = new List<CatalogItem> {
                 new CatalogItem (xaml1)  { OrderCode = "CPX-AP-I-EP-M12" },
                 new CatalogItem (xaml2){ OrderCode = "CPX-AP-I-M12" },
@@ -35,6 +37,7 @@ namespace WpfApp1
             };
 
             Devices = new ObservableCollection<Module>(list);
+            GenerateRandomAPAddresses();
 
             Devices.CollectionChanged += Devices_CollectionChanged;
             
@@ -43,6 +46,7 @@ namespace WpfApp1
             PasteDevice = new BaseCommand(this);
             DoubleClickDevice = new BaseCommand(this);
             ModuleNameEditEndingCommand = new BaseCommand();
+            GenerateAddressesCommand = new BaseCommand(this);
         }
 
         
@@ -65,6 +69,7 @@ namespace WpfApp1
 
         public DragHandler DragHandler { get; set; }
         public ICommand AddDevice { get; set; }
+        public ICommand GenerateAddressesCommand { get; set; }
 
         public ICommand ModuleNameEditEndingCommand { get; set; }
 
@@ -73,6 +78,14 @@ namespace WpfApp1
         {
             counter++;
            Devices.Add(new Module(xaml1) { OrderCode = "CPX-AP-I-EP-M12 " + counter });
+        }
+        public void GenerateRandomAPAddresses() 
+        {
+            var r = new Random();
+            foreach (var m in Devices) 
+            {
+                m.Address = r.Next();
+            }
         }
     }
 
@@ -94,8 +107,13 @@ namespace WpfApp1
         }
         public void Execute(object parameter)
         {
-            
+            if (parameter is bool && !(bool)parameter) 
+            {
+                vm.GenerateRandomAPAddresses();
+            }
         }
+
+        
 
         public event EventHandler CanExecuteChanged;
     }

@@ -29,9 +29,15 @@ namespace WpfApp1
         public DependencyObject DeviceImage { get; }
 
         /// <summary>
-        /// Slot number or AP address or some oder 
+        /// Slot number or somthing else (e.g. AP address) 
         /// </summary>
-        public int Address { get; set; }
+        public int Address { get => address; 
+            set 
+            { 
+                address = value;
+                OnPropertyChanged();
+            } 
+        }
 
         public string Name { get; set; }
 
@@ -67,7 +73,7 @@ namespace WpfApp1
         }
 
         private bool _signalReplaceDrop;
-
+        private int address;
 
         public bool SignalReplaceDrop
         {

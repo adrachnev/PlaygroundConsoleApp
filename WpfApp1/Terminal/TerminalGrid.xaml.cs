@@ -24,8 +24,52 @@ namespace WpfApp1
         public TerminalGrid()
         {
             InitializeComponent();
+
+            Loaded += TerminalGrid_Loaded;
+        }
+
+        private void TerminalGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (IsDisplaySlotNumber) 
+            {
+                foreach (var m in Modules)
+                {
+                    m.Address = Modules.IndexOf(m);
+                }
+            }
         }
         #region Properties
+
+
+
+        public bool IsDisplaySlotNumber
+        {
+
+            get { return (bool)GetValue(IsDisplaySlotNumberProperty); }
+            set { SetValue(IsDisplaySlotNumberProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsDisplaySlotNumber.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsDisplaySlotNumberProperty =
+            DependencyProperty.Register("IsDisplaySlotNumber", typeof(bool), typeof(TerminalGrid), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(IsDisplaySlotChangedCallback)));
+
+        private static void IsDisplaySlotChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var grid = d as TerminalGrid;
+            if (grid.Modules == null)
+                return;
+
+            grid.IsDisplaySlotNumber = (bool)e.NewValue;
+            
+            if (grid.IsDisplaySlotNumber)
+            {
+                foreach (var m in grid.Modules)
+                {
+                    m.Address = grid.Modules.IndexOf(m);
+                }
+            }
+        }
+
         public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(TerminalGrid), new FrameworkPropertyMetadata(null));
         public ObservableCollection<Module> Modules
         {
