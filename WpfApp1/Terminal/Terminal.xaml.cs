@@ -281,10 +281,16 @@ namespace WpfApp1
         void IDropTarget.DragEnter(IDropInfo dropInfo)
         {
             //throw new NotImplementedException();
+
+            DragHandler.SetDragDropEffects(dropInfo);
         }
+
+        
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
+            
+
             listbox.SelectedItem = null;
 
             Item sourceItem = dropInfo.Data as CatalogItem;
@@ -295,8 +301,8 @@ namespace WpfApp1
             
             if (sourceItem != null && targetItem != null)
             {
-                
-                dropInfo.Effects = DragDropEffects.Copy;
+
+                DragHandler.SetDragDropEffects(dropInfo);
 
                 var pos = GetMouseAlignmentRelativeToTarget(dropInfo);
 
@@ -376,11 +382,14 @@ namespace WpfApp1
 
         }
 
+        void IDropTarget.DragLeave(IDropInfo dropInfo)
+        {
+            dropInfo.Effects = DragDropEffects.None;
+        }
 
+        
 
-
-
-        private static HorizontalAlignment GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
+        private HorizontalAlignment GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
         {
             var targetItemUI = (dropInfo.TargetItem as Module).DeviceImage as FrameworkElement;
 
@@ -413,10 +422,7 @@ namespace WpfApp1
             return result;
         }
 
-        void IDropTarget.DragLeave(IDropInfo dropInfo)
-        {
-            
-        }
+        
 
       
 

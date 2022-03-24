@@ -25,12 +25,13 @@ namespace WpfApp1
         /// <inheritdoc />
         public virtual void StartDrag(IDragInfo dragInfo)
         {
+            
             var items = TypeUtilities.CreateDynamicallyTypedList(dragInfo.SourceItems).Cast<object>().ToList();
             if (items.Count > 1)
             {
                 dragInfo.Data = items;
             }
-            else
+            else 
             {
                 // special case: if the single item is an enumerable then we can not drop it as single item
                 var singleItem = items.FirstOrDefault();
@@ -47,8 +48,9 @@ namespace WpfApp1
                 }
             }
 
-            dragInfo.Effects = dragInfo.Data != null ? DragDropEffects.Copy | DragDropEffects.Move : DragDropEffects.None;
-            
+            SetDragDropEffects(dragInfo);
+
+
         }
 
         private void PositionDragAdorner(IDragInfo dragInfo)
@@ -98,5 +100,29 @@ namespace WpfApp1
         {
             return false;
         }
+
+
+        public static void SetDragDropEffects(IDragInfo info)
+        {
+
+            if (info.Data is Module)
+                info.Effects = DragDropEffects.Move;
+            else if (info.Data is CatalogItem)
+                info.Effects = DragDropEffects.Copy;
+            else
+                info.Effects = DragDropEffects.None;
+        }
+        public static void SetDragDropEffects(IDropInfo info)
+        {
+
+            if (info.Data is Module)
+                info.Effects = DragDropEffects.Move;
+            else if (info.Data is CatalogItem)
+                info.Effects = DragDropEffects.Copy;
+            else
+                info.Effects = DragDropEffects.None;
+        }
+
+        
     }
 }
