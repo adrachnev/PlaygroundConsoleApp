@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfApp1
 {
-    public interface Item
+    public interface IModule
     {
         string XamlMarkup { get; set; }
         string OrderCode { get; set; }

@@ -29,11 +29,11 @@ namespace WpfApp1
 
             
 
-            var items = new List<CatalogItem> {
-                new CatalogItem (xaml1)  { OrderCode = "CPX-AP-I-EP-M12" },
-                new CatalogItem (xaml2){ OrderCode = "CPX-AP-I-M12" },
-                new CatalogItem  (xaml3){ OrderCode = "CPX-AP-I-M8_Compact" },
-                new CatalogItem (xaml4){ OrderCode = "CPX-AP-I-M12" },
+            var items = new List<CatalogModuleProductViewModel> {
+                new CatalogModuleProductViewModel (xaml1)  { OrderCode = "CPX-AP-I-EP-M12" },
+                new CatalogModuleProductViewModel (xaml2){ OrderCode = "CPX-AP-I-M12" },
+                new CatalogModuleProductViewModel  (xaml3){ OrderCode = "CPX-AP-I-M8_Compact" },
+                new CatalogModuleProductViewModel (xaml4){ OrderCode = "CPX-AP-I-M12" },
             };
 
             Devices = new ObservableCollection<Module>(list);
@@ -41,7 +41,7 @@ namespace WpfApp1
 
             Devices.CollectionChanged += Devices_CollectionChanged;
             
-            CatalogItems = new ObservableCollection<CatalogItem>(items);
+            CatalogItems = new ObservableCollection<CatalogModuleProductViewModel>(items);
             AddDevice = new BaseCommand(this);
             PasteDevice = new BaseCommand(this);
             DoubleClickDevice = new BaseCommand(this);
@@ -65,7 +65,7 @@ namespace WpfApp1
         public Module  SelectedDevice { get; set; }
         #endregion
 
-        public ObservableCollection<CatalogItem> CatalogItems { get; set; }
+        public ObservableCollection<CatalogModuleProductViewModel> CatalogItems { get; set; }
 
         public DragHandler DragHandler { get; set; }
         public ICommand AddDevice { get; set; }

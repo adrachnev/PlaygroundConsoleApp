@@ -93,11 +93,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="NullToBoolValueConverter.cs" />
-    <Compile Include="Terminal\CatalogItem.cs" />
+    <Compile Include="Terminal\CatalogModuleProductViewModel.cs" />
     <Compile Include="Terminal\CustmDropTargetHighlightAdorner.cs" />
     <Compile Include="Terminal\DragHandler.cs" />
     <Compile Include="Terminal\ImageValueConverter.cs" />
-    <Compile Include="Terminal\Item.cs" />
+    <Compile Include="Terminal\IModule.cs" />
     <Compile Include="Terminal\Module.cs" />
     <Compile Include="Terminal\ObservableBase.cs" />
     <Compile Include="Terminal\SmartAdorner.cs" />

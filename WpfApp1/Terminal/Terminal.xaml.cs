@@ -293,7 +293,7 @@ namespace WpfApp1
 
             listbox.SelectedItem = null;
 
-            Item sourceItem = dropInfo.Data as CatalogItem;
+            IModule sourceItem = dropInfo.Data as CatalogModuleProductViewModel;
             if (sourceItem == null)
                 sourceItem = dropInfo.Data as Module;
 
@@ -308,7 +308,7 @@ namespace WpfApp1
 
                 if (pos == HorizontalAlignment.Center)
                 {
-                    if (sourceItem is CatalogItem)
+                    if (sourceItem is CatalogModuleProductViewModel)
                         targetItem.SignalReplaceDrop = true;
 
                     dropInfo.DropTargetAdorner = null;
@@ -338,7 +338,7 @@ namespace WpfApp1
             ResetClipboard();
 
             Module targetItem = dropInfo.TargetItem as Module;
-            Item sourceItem = dropInfo.Data as CatalogItem;
+            IModule sourceItem = dropInfo.Data as CatalogModuleProductViewModel;
             if (sourceItem == null)
                 sourceItem = dropInfo.Data as Module;
 
@@ -352,7 +352,7 @@ namespace WpfApp1
 
                 int targetIndex = Modules.IndexOf(targetItem);
 
-                if (sourceItem is CatalogItem)
+                if (sourceItem is CatalogModuleProductViewModel)
                 {
                     if (alignement == HorizontalAlignment.Left)
                         Modules.Insert(targetIndex, droppedDataConverted);

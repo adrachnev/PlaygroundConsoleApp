@@ -61,9 +61,9 @@ namespace WpfApp1
             {
                 image = (dragInfo.Data as Module).DeviceImage;
             }
-            else if (dragInfo.Data is CatalogItem)
+            else if (dragInfo.Data is CatalogModuleProductViewModel)
             {
-                image = Module.CreateImageObject((dragInfo.Data as CatalogItem).XamlMarkup, DeviceImageType.XamlMarkup);
+                image = Module.CreateImageObject((dragInfo.Data as CatalogModuleProductViewModel).XamlMarkup, DeviceImageType.XamlMarkup);
             }
             else
                 return;
@@ -107,7 +107,7 @@ namespace WpfApp1
 
             if (info.Data is Module)
                 info.Effects = DragDropEffects.Move;
-            else if (info.Data is CatalogItem)
+            else if (info.Data is CatalogModuleProductViewModel)
                 info.Effects = DragDropEffects.Copy;
             else
                 info.Effects = DragDropEffects.None;
@@ -117,7 +117,7 @@ namespace WpfApp1
 
             if (info.Data is Module)
                 info.Effects = DragDropEffects.Move;
-            else if (info.Data is CatalogItem)
+            else if (info.Data is CatalogModuleProductViewModel)
                 info.Effects = DragDropEffects.Copy;
             else
                 info.Effects = DragDropEffects.None;

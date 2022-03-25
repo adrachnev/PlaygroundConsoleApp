@@ -18,7 +18,7 @@ namespace WpfApp1
         None = 0,
         XamlMarkup
     }
-    public class Module : ObservableBase, Item
+    public class Module : ObservableBase, IModule
     {
         public Module(string xamlMarkup)
         {

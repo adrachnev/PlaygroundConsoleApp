@@ -26,17 +26,31 @@ namespace WpfApp1
             InitializeComponent();
 
             Loaded += TerminalGrid_Loaded;
+
+            
+        }
+
+        private void Modules_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            SetSlotIndex();   
         }
 
         private void TerminalGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsDisplaySlotNumber) 
+            SetSlotIndex();
+        }
+
+        private void SetSlotIndex()
+        {
+            if (Modules == null || !IsDisplaySlotNumber)
+                return;
+
+
+            foreach (var m in Modules)
             {
-                foreach (var m in Modules)
-                {
-                    m.Address = Modules.IndexOf(m);
-                }
+                m.Address = Modules.IndexOf(m);
             }
+
         }
         #region Properties
 
@@ -56,26 +70,37 @@ namespace WpfApp1
         private static void IsDisplaySlotChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var grid = d as TerminalGrid;
-            if (grid.Modules == null)
-                return;
-
-            grid.IsDisplaySlotNumber = (bool)e.NewValue;
             
-            if (grid.IsDisplaySlotNumber)
-            {
-                foreach (var m in grid.Modules)
-                {
-                    m.Address = grid.Modules.IndexOf(m);
-                }
-            }
+            grid.SetSlotIndex();
+            
         }
 
-        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(TerminalGrid), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(TerminalGrid), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(ModulesPropertyChanged)));
+
+        private static void ModulesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var uc = d as TerminalGrid;
+            if (e.OldValue != null) 
+            {
+                (e.OldValue as ObservableCollection<Module>).CollectionChanged -= uc.Modules_CollectionChanged; 
+            }
+
+            (e.NewValue as ObservableCollection<Module>).CollectionChanged += uc.Modules_CollectionChanged;
+
+        }
+
+        
+
         public ObservableCollection<Module> Modules
         {
             get { return (ObservableCollection<Module>)GetValue(ModulesProperty); }
-            set { SetValue(ModulesProperty, value); }
+            set 
+            { 
+                SetValue(ModulesProperty, value);
+            }
         }
+
+        
 
         public static readonly DependencyProperty ModuleNameEditEndingCommandProperty = DependencyProperty.Register("ModuleNameEditEndingCommand", typeof(ICommand), typeof(TerminalGrid), new UIPropertyMetadata(null));
 
@@ -109,7 +134,7 @@ namespace WpfApp1
 
         private static void SelectedModuleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (d as TerminalGrid).SelectedModule = e.NewValue as Module;
+            
             (d as TerminalGrid).grid.SelectedValue = e.NewValue;
         }
 

@@ -13,10 +13,10 @@ using System.Xml;
 
 namespace WpfApp1.Models
 {
-    public class CatalogItem :Item 
+    public class CatalogModuleProductViewModel :IModule 
     {
         
-        public CatalogItem(string xamlMarkup) 
+        public CatalogModuleProductViewModel(string xamlMarkup) 
         {
             this.XamlMarkup = xamlMarkup;
         }
