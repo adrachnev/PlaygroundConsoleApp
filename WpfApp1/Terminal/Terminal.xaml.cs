@@ -301,16 +301,17 @@ namespace WpfApp1
             
             if (sourceItem != null && targetItem != null)
             {
-
+                // mouse cursor
                 DragHandler.SetDragDropEffects(dropInfo);
 
                 var pos = GetMouseAlignmentRelativeToTarget(dropInfo);
 
                 if (pos == HorizontalAlignment.Center)
                 {
+                    // replace adorner
                     if (sourceItem is CatalogModuleProductViewModel)
                         targetItem.SignalReplaceDrop = true;
-
+                    // insert/move adorner
                     dropInfo.DropTargetAdorner = null;
                 }
                   
@@ -367,6 +368,10 @@ namespace WpfApp1
                 }
                 else if (sourceItem is Module) 
                 {
+                    if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, alignement))
+                        return;
+
+
                     if (alignement == HorizontalAlignment.Left)
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex);
                     else if (alignement == HorizontalAlignment.Right)
@@ -380,6 +385,18 @@ namespace WpfApp1
             }
 
 
+        }
+
+        private bool IsMoveOperationPossible(int sourcePosition, int targetPosition, HorizontalAlignment alignement)
+        {
+            if (sourcePosition == targetPosition)
+                return false;
+            if (sourcePosition + 1 == targetPosition && alignement == HorizontalAlignment.Left)
+                return false;
+            if (sourcePosition -1 == targetPosition && alignement == HorizontalAlignment.Right)
+                return false;
+
+            return true;
         }
 
         void IDropTarget.DragLeave(IDropInfo dropInfo)
