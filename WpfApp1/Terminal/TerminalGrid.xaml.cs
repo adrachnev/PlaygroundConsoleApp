@@ -170,6 +170,14 @@ namespace WpfApp1
 
             DoubleClickCommand?.Execute((sender as DataGrid).SelectedItem);
 
+            if ((sender as DataGrid).CurrentCell.Column.SortMemberPath == nameof(Module.Name))
+            {
+                e.Handled = true;
+            }
+              
+
         }
+
+        
     }
 }
