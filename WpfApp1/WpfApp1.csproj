@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>WpfApp1</RootNamespace>
     <AssemblyName>WpfApp1</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,26 +36,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Festo.CustomControls, Version=2.3.0.89, Culture=neutral, PublicKeyToken=aa5a6302e5e33310, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Festo.CustomControls.dll</HintPath>
+    <Reference Include="Festo.CustomControls, Version=2.4.0.13, Culture=neutral, PublicKeyToken=aa5a6302e5e33310, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Festo.CustomControls.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.CustomWindow, Version=2.3.0.89, Culture=neutral, PublicKeyToken=a57653a3555a92ee, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Festo.CustomWindow.dll</HintPath>
+    <Reference Include="Festo.CustomWindow, Version=2.4.0.13, Culture=neutral, PublicKeyToken=a57653a3555a92ee, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Festo.CustomWindow.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.DialogService, Version=2.3.0.89, Culture=neutral, PublicKeyToken=5dd53ce29f9de8c8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Festo.DialogService.dll</HintPath>
+    <Reference Include="Festo.DialogService, Version=2.4.0.13, Culture=neutral, PublicKeyToken=5dd53ce29f9de8c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Festo.DialogService.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.Parameter.ViewModels, Version=2.3.0.89, Culture=neutral, PublicKeyToken=a6bc22e30459a1c7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Festo.Parameter.ViewModels.dll</HintPath>
+    <Reference Include="Festo.Parameter.ViewModels, Version=2.4.0.13, Culture=neutral, PublicKeyToken=a6bc22e30459a1c7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Festo.Parameter.ViewModels.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.Parameter.Views, Version=2.3.0.89, Culture=neutral, PublicKeyToken=911e48d4e387ae17, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Festo.Parameter.Views.dll</HintPath>
+    <Reference Include="Festo.Parameter.Views, Version=2.4.0.13, Culture=neutral, PublicKeyToken=911e48d4e387ae17, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Festo.Parameter.Views.dll</HintPath>
     </Reference>
     <Reference Include="Festo.Suite.Design">
       <HintPath>..\..\..\festo_tool_suite\Deployment\Festo.Suite.Design.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.Theme, Version=2.3.0.89, Culture=neutral, PublicKeyToken=4550491f59b0c724, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Festo.Theme.dll</HintPath>
+    <Reference Include="Festo.Theme, Version=2.4.0.13, Culture=neutral, PublicKeyToken=4550491f59b0c724, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Festo.Theme.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.WPF.DragDrop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.3.1.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
@@ -63,10 +64,10 @@
       <HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Suite.Theme.2.3.0.89\lib\net45\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <HintPath>..\packages\Festo.Suite.Theme.2.4.0.13\lib\net45\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -183,6 +184,9 @@
     <Resource Include="Terminal\Images\Warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Festo.Suite.Design.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
