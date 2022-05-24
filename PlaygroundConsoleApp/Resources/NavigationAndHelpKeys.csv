@@ -1,0 +1,14 @@
+﻿local:Parameterization/Terminal;Parameterization/Terminal
+local:Parameterization/Modules;Parameterization/Modules
+local:Parameterization/Module_0;Parameterization/Module/Parameters
+local:Parameterization/Module_1;Parameterization/Module/Parameters
+local:Diagnosis/Terminal;Diagnosis/Terminal
+local:Diagnosis/Modules;Diagnosis/Modules
+local:Diagnosis/Module_0/DeviceState;Diagnosis/Module/DeviceState
+local:Diagnosis/Module_0/Parameters;Diagnosis/Module/Parameters
+local:Diagnosis/Module_0;Diagnosis/Modules/Module
+local:Diagnosis/Module_1/DeviceState;Diagnosis/Module/DeviceState
+local:Diagnosis/Module_1/Parameters;Diagnosis/Module/Parameters
+local:Diagnosis/Module_1;Diagnosis/Modules/Module
+local:Diagnosis/ErrorLog;Diagnosis/ErrorLog
+local:Parameterization/Codesys;Parameterization/Codesys

@@ -1,6 +1,7 @@
 ﻿
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PlaygroundConsoleApp.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,9 +20,23 @@ namespace PlaygroundConsoleApp
     {
         static void Main(string[] args)
         {
+            ReplaceRegex();
 
 
-            ReplaceUnderscoreWithinUri();
+
+            
+        }
+
+        private static void ReadFileAsResource()
+        {
+            var keys = new Dictionary<string, string>();
+            var lines = Resources.NavigationAndHelpKeys.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                string[] columns = line.Split(';');
+                Debug.Assert(columns.Count() == 2);
+                keys.Add(columns[0], columns[1]);
+            }
         }
 
         private static void ReplaceUnderscoreWithinUri ()
@@ -41,8 +56,8 @@ namespace PlaygroundConsoleApp
         }
         private static void ReplaceRegex()
         {
-            string str = "local:Parameterization/Module_9;Parameters";
-            var res = Regex.Replace(str, @"_[\d]", string.Format("_{0}", 20), RegexOptions.None);
+            string str = "local:Parameterization/Module_9/Parameters";
+            var res = Regex.Replace(str, @"_[\d]", String.Empty, RegexOptions.None);
         }
 
         private static void GetCategories()
