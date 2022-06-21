@@ -92,13 +92,13 @@ namespace WpfApp1
         public bool DisplayModuleDescription { get; set; }
 
         public string Message => "message";
-        public bool HasWarning => false;
+        public bool HasWarning => true;
 
         public bool HasError => false;
 
-        public bool DisplayDiagnosis => ShowDiagnosisOverlay && (HasWarning || HasError || HasInfo);
+        public bool DisplayDiagnosis => HasWarning || HasError || HasInfo;
 
-        public bool ShowDiagnosisOverlay { get; set; }
+        
         public bool HasInfo => false;
 
         public string XamlMarkup { get; set; }
