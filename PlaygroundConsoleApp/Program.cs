@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,10 +22,14 @@ namespace PlaygroundConsoleApp
         static void Main(string[] args)
         {
             VariantOERegex();
+            DllVersion();
 
+        }
 
-
-            
+        private static void DllVersion()
+        {
+            var path = @"C:\Workspace\repositories\569_festo_automation_suite_git\Deployment\FestoAutomationSuite.exe";
+            var v = FileVersionInfo.GetVersionInfo(path).FileVersion;
         }
 
         private static void VariantOERegex()
