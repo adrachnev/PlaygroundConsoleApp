@@ -20,11 +20,19 @@ namespace PlaygroundConsoleApp
     {
         static void Main(string[] args)
         {
-            ReplaceRegex();
+            VariantOERegex();
 
 
 
             
+        }
+
+        private static void VariantOERegex()
+        {
+            Regex OeVariantRegex = new Regex("(^.*)OE$", RegexOptions.Compiled);
+            string variantOE = "CPX-AP-A-4IOL-M12 Variant 4 OE";
+            string variant = "CPX-AP-A-4IOL-M12 Variant 4";
+            var r = OeVariantRegex.Match(variant);
         }
 
         private static void ReadFileAsResource()
