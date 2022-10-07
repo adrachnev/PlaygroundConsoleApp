@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PlaygroundConsoleApp.Properties;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -13,6 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 [assembly:InternalsVisibleTo("Tests")]
 namespace PlaygroundConsoleApp
@@ -21,9 +24,47 @@ namespace PlaygroundConsoleApp
     {
         static void Main(string[] args)
         {
-            VariantOERegex();
-            DllVersion();
+            ZipArchive();
+        }
 
+        private static void ZipArchive()
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                {
+                    var demoFile = archive.CreateEntry("foo.txt");
+
+                    using (var entryStream = demoFile.Open())
+                    using (var streamWriter = new StreamWriter(entryStream))
+                    {
+                        streamWriter.Write("Bar!");
+                    }
+                }
+
+
+                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.FileName = "Archive"; // Default file name
+                dlg.DefaultExt = ".zip"; // Default file extension
+                dlg.Filter = "Archive files (.zip)|*.zip"; // Filter files by extension
+
+                // Show save file dialog box
+                Nullable<bool> result = dlg.ShowDialog();
+
+                // Process save file dialog box results
+                if (result == true)
+                {
+                    // Save document
+                    
+                    using (var fileStream = new FileStream(dlg.FileName, FileMode.Create))
+                    {
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        memoryStream.CopyTo(fileStream);
+                    }
+                }
+
+                
+            }
         }
 
         private static void DllVersion()
