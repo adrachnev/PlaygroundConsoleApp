@@ -48,7 +48,11 @@ namespace WpfApp1
                 FrameworkElement markupElement;
                 try
                 {
-                    markupElement = XamlReader.Parse(xamlMarkup) as FrameworkElement;
+                    using (MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xamlMarkup))) 
+                    {
+                        markupElement = XamlReader.Load(memStream) as FrameworkElement;
+                    }
+                    
                 }
                 catch
                 {
