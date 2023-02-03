@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="800">
 
     
     <Window.DataContext>
@@ -41,18 +41,19 @@
 
         <CheckBox Content="Display slot number" IsChecked="{Binding ElementName=grid, Path=IsDisplaySlotNumber, Mode=TwoWay}" Command="{Binding GenerateAddressesCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"/>
 
-        <Button Content="Add device" Command="{Binding AddDevice}"/>
+        <Button Content="Add device" Command="{Binding AddDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
         
 
         
         <!--styling module catalogue items-->
 
 
-            <ListView x:Name="listViewCatalogItems"
+            <ListView x:Name="listViewCatalogItems" Background="Azure"
                 Grid.Row="4"
             ItemsSource="{Binding CatalogItems}"
             
                           SelectionMode="Single"
+                      SelectedItem="{Binding SelectedCatalogueItem}"
                             
                 dd:DragDrop.IsDragSource="True"                
                 

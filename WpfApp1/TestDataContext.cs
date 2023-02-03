@@ -50,11 +50,20 @@ namespace WpfApp1
             Devices.CollectionChanged += Devices_CollectionChanged;
 
             CatalogItems = new ObservableCollection<CatalogModuleProductViewModel>(items);
-            AddDevice = new BaseCommand(this);
-            PasteDevice = new BaseCommand(this);
-            DoubleClickDevice = new BaseCommand(this);
+            AddDevice = new BaseCommand(this, (p) => 
+            {
+                if (SelectedCatalogueItem == null)
+                    return;
+                Devices.Add(new Module(SelectedCatalogueItem.XamlMarkup) 
+                { 
+                    OrderCode = SelectedCatalogueItem.OrderCode, 
+                    Name = SelectedCatalogueItem.OrderCode
+                });
+            });
+            PasteDevice = new BaseCommand(this, (p) => { });
+            DoubleClickDevice = new BaseCommand(this, (p) => { });
             ModuleNameEditEndingCommand = new BaseCommand();
-            GenerateAddressesCommand = new BaseCommand(this);
+            GenerateAddressesCommand = new BaseCommand(this, (p) => { GenerateRandomAPAddresses(); });
 
             ModulePlaceholderReadGuid();
             ReplacePlaceholder(list[4], list[5]);
@@ -127,7 +136,7 @@ namespace WpfApp1
         #endregion
 
         public ObservableCollection<CatalogModuleProductViewModel> CatalogItems { get; set; }
-
+        public CatalogModuleProductViewModel SelectedCatalogueItem { get; set; }
         public DragHandler DragHandler { get; set; }
         public ICommand AddDevice { get; set; }
         public ICommand GenerateAddressesCommand { get; set; }
@@ -157,9 +166,12 @@ namespace WpfApp1
     {
 
         private TestDataContext vm;
-        public BaseCommand(TestDataContext vm)
+        private readonly Action<object> execute;
+
+        public BaseCommand(TestDataContext vm, Action<object> execute)
         {
             this.vm = vm;
+            this.execute = execute;
         }
         public BaseCommand() { }
         public bool CanExecute(object parameter)
@@ -168,10 +180,9 @@ namespace WpfApp1
         }
         public void Execute(object parameter)
         {
-            if (parameter is bool && !(bool)parameter) 
-            {
-                vm.GenerateRandomAPAddresses();
-            }
+            execute?.Invoke(parameter);
+
+            
         }
 
         

@@ -56,7 +56,12 @@ namespace WpfApp1
             get { return (ObservableCollection<Module>)GetValue(ModulesProperty); }
             set { SetValue(ModulesProperty, value); }
         }
-        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(ModulesChangedCallback)));
+
+        private static void ModulesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            
+        }
 
         public Module SelectedModule
         {
