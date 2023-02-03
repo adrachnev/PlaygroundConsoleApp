@@ -26,8 +26,9 @@ namespace WpfApp1
             XamlMarkup = xamlMarkup;
         }
         public string OrderCode { get; set; }
-        public DependencyObject DeviceImage { get; }
+        public DependencyObject DeviceImage { get; set; }
 
+        public bool IsSlotIn { get; set; }
         /// <summary>
         /// Slot number or somthing else (e.g. AP address) 
         /// </summary>

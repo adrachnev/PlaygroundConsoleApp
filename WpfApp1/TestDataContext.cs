@@ -72,7 +72,7 @@ namespace WpfApp1
         private void ReplacePlaceholder(Module modulePlaceholder, Module moduleSlotIn)
         {
             var placeholder = FindChildByTag(modulePlaceholder.DeviceImage, "ModulePlaceHolder") as FrameworkElement;
-
+            
             
 
             var newElement = moduleSlotIn.DeviceImage as FrameworkElement;
@@ -86,7 +86,9 @@ namespace WpfApp1
             {
                 Debug.Fail($"SuiteProps.TranslateTransform missing for {placeholder.Name}");
             }
-            Devices.Remove(moduleSlotIn);
+
+            moduleSlotIn.IsSlotIn = true;
+            moduleSlotIn.DeviceImage = null;
         }
 
         private void ModulePlaceholderReadGuid()

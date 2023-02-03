@@ -59,6 +59,11 @@
                 <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
                 <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
                 <EventSetter Event="MouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />-->
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSlotIn}" Value="True">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
             <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
         </ResourceDictionary>
