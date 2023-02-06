@@ -66,7 +66,7 @@ namespace WpfApp1
             GenerateAddressesCommand = new BaseCommand(this, (p) => { GenerateRandomAPAddresses(); });
 
             ModulePlaceholderReadGuid();
-            ReplacePlaceholder(list[4], list[5]);
+            //ReplacePlaceholder(list[4], list[5]);
         }
 
         private void ReplacePlaceholder(Module modulePlaceholder, Module moduleSlotIn)

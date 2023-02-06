@@ -97,7 +97,7 @@ namespace WpfApp1
         public bool DisplayModuleDescription { get; set; }
 
         public string Message => "message";
-        public bool HasWarning => true;
+        public bool HasWarning => false;
 
         public bool HasError => false;
 

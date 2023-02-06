@@ -29,14 +29,16 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
                             <Grid>
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                <ContentPresenter x:Name="lbItemContent" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
                                                                       VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
                                                                       Content="{TemplateBinding ContentControl.Content}"
                                                                       ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
                                                                       ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
                                                                       SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
 
-                                <Rectangle x:Name="borderGlow"
+                                <Rectangle x:Name="borderGlow" VerticalAlignment="{Binding ElementName=lbItemContent, Path=VerticalAlignment}"
+                                           Height="{Binding ElementName=lbItemContent, Path=ActualHeight}"
+                                           Width="{Binding ElementName=lbItemContent, Path=ActualWidth}"
                                                                Fill="Transparent"
                                                                Stroke="Transparent"
                                                                
