@@ -42,6 +42,7 @@
         <CheckBox Content="Display slot number" IsChecked="{Binding ElementName=grid, Path=IsDisplaySlotNumber, Mode=TwoWay}" Command="{Binding GenerateAddressesCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"/>
 
         <Button Content="Add device" Command="{Binding AddDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
+        <Button Content="Set signal" Command="{Binding SignalDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
         
 
         

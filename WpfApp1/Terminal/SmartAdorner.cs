@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Festo.Suite.Design.AttachedProperties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace WpfApp1
 {
@@ -151,6 +153,10 @@ namespace WpfApp1
         private static void OnVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             FrameworkElement adornedElement = d as FrameworkElement;
+
+            var placeholder = TestDataContext.FindChildByTag(adornedElement, "ModulePlaceHolder") as FrameworkElement;
+            
+
             if (adornedElement == null) throw new InvalidOperationException("Adorners can only be applied to elements deriving from FrameworkElement");
             AdornerLayer layer = AdornerLayer.GetAdornerLayer(adornedElement);
             if (layer == null) throw new InvalidOperationException("Cannot show adorner since no adorner layer was found in the visual tree");
@@ -163,8 +169,26 @@ namespace WpfApp1
             {
                 adorner = new SmartAdorner(adornedElement);
 
+
+
                 SetAdorner(adornedElement, adorner);
                 layer.Add(adorner);
+                if (placeholder != null)
+                {
+
+                    adorner.Width = placeholder.Width;
+                    adorner.Height = placeholder.Height;
+                    adorner.Margin = new Thickness(SuiteProps.GetTranslateTransformX(placeholder), SuiteProps.GetTranslateTransformY(placeholder), 0, 0);
+
+
+                }
+                else
+                {
+                    adorner.Width = adornedElement.ActualWidth;
+                    adorner.Height = adornedElement.ActualHeight;
+                }
+
+
             }
             else if (!isVisible && adorner != null)
             {

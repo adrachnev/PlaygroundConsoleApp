@@ -425,7 +425,7 @@ namespace WpfApp1
             //Console.WriteLine(string.Format("OrderCode {0}", targetItem.OrderCode));
             //Console.WriteLine(string.Format("ActualWidth {0}", targetItemUI.ActualWidth));
 
-            //Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
+            Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
             HorizontalAlignment result;
 
             if (posWithinTarget > width / 3 * 2 && posWithinTarget < width)

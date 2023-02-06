@@ -151,7 +151,7 @@
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:TerminalEntry
+                            <local:TerminalEntry Signal="{Binding SignalReplaceDrop}"
                                  VerticalAlignment="Top"
                                  VerticalContentAlignment="Top"/>
                         </DataTemplate>

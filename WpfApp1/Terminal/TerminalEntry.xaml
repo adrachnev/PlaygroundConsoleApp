@@ -35,7 +35,7 @@
 
 
     <AdornerDecorator >
-        <StackPanel  local:SmartAdorner.AutoSize ="True" local:SmartAdorner.Visible="{Binding SignalReplaceDrop}">
+        <StackPanel  local:SmartAdorner.AutoSize ="False" local:SmartAdorner.Visible="{Binding SignalReplaceDrop}">
 
             <local:SmartAdorner.Template>
                 <DataTemplate>
@@ -43,7 +43,7 @@
                         <Border
                             Background="Transparent"
                             BorderBrush="{DynamicResource FestoColors.HighlightBrush}"
-                            BorderThickness="2"
+                            BorderThickness="5"
                             IsHitTestVisible="False"
                             >
                             

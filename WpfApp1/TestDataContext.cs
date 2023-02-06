@@ -50,6 +50,12 @@ namespace WpfApp1
             Devices.CollectionChanged += Devices_CollectionChanged;
 
             CatalogItems = new ObservableCollection<CatalogModuleProductViewModel>(items);
+            SignalDevice = new BaseCommand(this, (p) =>
+            {
+                if (SelectedDevice == null)
+                    return;
+                SelectedDevice.SignalReplaceDrop = !SelectedDevice.SignalReplaceDrop;
+            });
             AddDevice = new BaseCommand(this, (p) => 
             {
                 if (SelectedCatalogueItem == null)
@@ -141,6 +147,8 @@ namespace WpfApp1
         public CatalogModuleProductViewModel SelectedCatalogueItem { get; set; }
         public DragHandler DragHandler { get; set; }
         public ICommand AddDevice { get; set; }
+        public ICommand SignalDevice  { get; set; }
+        
         public ICommand GenerateAddressesCommand { get; set; }
 
         public ICommand ModuleNameEditEndingCommand { get; set; }
