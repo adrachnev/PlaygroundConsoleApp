@@ -24,20 +24,26 @@ namespace WpfApp1
         {
             DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
             XamlMarkup = xamlMarkup;
+            Placeholder = TestDataContext.FindChildByTag(DeviceImage, "ModulePlaceHolder") as FrameworkElement;
+
+
         }
         public string OrderCode { get; set; }
         public DependencyObject DeviceImage { get; set; }
 
         public bool IsSlotIn { get; set; }
+        public FrameworkElement Placeholder { get; }
         /// <summary>
         /// Slot number or somthing else (e.g. AP address) 
         /// </summary>
-        public int Address { get => address; 
-            set 
-            { 
+        public int Address
+        {
+            get => address;
+            set
+            {
                 address = value;
                 OnPropertyChanged();
-            } 
+            }
         }
 
         public string Name { get; set; }
@@ -49,11 +55,11 @@ namespace WpfApp1
                 FrameworkElement markupElement;
                 try
                 {
-                    using (MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xamlMarkup))) 
+                    using (MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xamlMarkup)))
                     {
                         markupElement = XamlReader.Load(memStream) as FrameworkElement;
                     }
-                    
+
                 }
                 catch
                 {
@@ -79,6 +85,9 @@ namespace WpfApp1
 
         private bool _signalReplaceDrop;
         private int address;
+        private double replaceDropHeight;
+        private double replaceDropWidth;
+        private Thickness replaceDropMargin;
 
         public bool SignalReplaceDrop
         {
@@ -94,6 +103,10 @@ namespace WpfApp1
             }
         }
 
+        public double ReplaceDropHeight { get => replaceDropHeight; set { replaceDropHeight = value; OnPropertyChanged(); } }
+        public double ReplaceDropWidth { get => replaceDropWidth; set { replaceDropWidth = value; OnPropertyChanged(); } }
+        public Thickness ReplaceDropMargin { get => replaceDropMargin; set { replaceDropMargin = value; OnPropertyChanged(); } }
+
         public bool DisplayModuleDescription { get; set; }
 
         public string Message => "message";
@@ -103,7 +116,7 @@ namespace WpfApp1
 
         public bool DisplayDiagnosis => HasWarning || HasError || HasInfo;
 
-        
+
         public bool HasInfo => false;
 
         public string XamlMarkup { get; set; }

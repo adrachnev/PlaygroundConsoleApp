@@ -111,6 +111,59 @@ namespace WpfApp1
         public static readonly DependencyProperty AutoSizeProperty = DependencyProperty.RegisterAttached(
             "AutoSize", typeof(bool), typeof(SmartAdorner), new PropertyMetadata(default(bool), OnAutoSizeChanged));
 
+
+        public static void SetCurrentWidth(DependencyObject obj, double value)
+        {            
+            obj.SetValue(CurrentWidthProperty, value); 
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentWidth.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentWidthProperty =
+            DependencyProperty.RegisterAttached("CurrentWidth", typeof(double), typeof(SmartAdorner), new PropertyMetadata(0d, new PropertyChangedCallback(CurrentWidthChangedCallback)));
+
+        private static void CurrentWidthChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var adorner = GetAdorner(d);
+            adorner.Width = (double)e.NewValue;
+        }
+
+        public static void SetCurrentHeight(DependencyObject obj, double value)
+        {
+            obj.SetValue(CurrentHeightProperty, value);
+        }
+        
+        // Using a DependencyProperty as the backing store for CurrentHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentHeightProperty =
+            DependencyProperty.RegisterAttached("CurrentHeight", typeof(double), typeof(SmartAdorner), new PropertyMetadata(0d, new PropertyChangedCallback(CurrentHeightChangedCallback)));
+
+        private static void CurrentHeightChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var adorner = GetAdorner(d);
+            adorner.Height = (double)e.NewValue;
+        }
+
+
+
+        public static Thickness GetCurrentMargin(DependencyObject obj)
+        {
+            return (Thickness)obj.GetValue(CurrentMarginProperty);
+        }
+
+        public static void SetCurrentMargin(DependencyObject obj, Thickness value)
+        {
+            obj.SetValue(CurrentMarginProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentMargin.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentMarginProperty =
+            DependencyProperty.RegisterAttached("CurrentMargin", typeof(Thickness), typeof(SmartAdorner), new PropertyMetadata(new Thickness( 0), new PropertyChangedCallback(CurrentMarginChangedCallback)));
+
+        private static void CurrentMarginChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var adorner = GetAdorner(d);
+            adorner.Margin = (Thickness)e.NewValue;
+        }
+
         public static void SetAutoSize(DependencyObject element, bool value)
         {
             element.SetValue(AutoSizeProperty, value);
@@ -172,23 +225,7 @@ namespace WpfApp1
 
 
                 SetAdorner(adornedElement, adorner);
-                layer.Add(adorner);
-                if (placeholder != null)
-                {
-
-                    adorner.Width = placeholder.Width;
-                    adorner.Height = placeholder.Height;
-                    adorner.Margin = new Thickness(SuiteProps.GetTranslateTransformX(placeholder), SuiteProps.GetTranslateTransformY(placeholder), 0, 0);
-
-
-                }
-                else
-                {
-                    adorner.Width = adornedElement.ActualWidth;
-                    adorner.Height = adornedElement.ActualHeight;
-                }
-
-
+                layer.Add(adorner);               
             }
             else if (!isVisible && adorner != null)
             {

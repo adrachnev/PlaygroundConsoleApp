@@ -77,20 +77,21 @@ namespace WpfApp1
 
         private void ReplacePlaceholder(Module modulePlaceholder, Module moduleSlotIn)
         {
-            var placeholder = FindChildByTag(modulePlaceholder.DeviceImage, "ModulePlaceHolder") as FrameworkElement;
             
+            if (modulePlaceholder.Placeholder == null)
+                return;
             
 
             var newElement = moduleSlotIn.DeviceImage as FrameworkElement;
-            placeholder.ReplaceWithInVisualTree(newElement);
+            modulePlaceholder.Placeholder.ReplaceWithInVisualTree(newElement);
             try
             {
-                var translateTransform = new TranslateTransform(SuiteProps.GetTranslateTransformX(placeholder), SuiteProps.GetTranslateTransformY(placeholder));
+                var translateTransform = new TranslateTransform(SuiteProps.GetTranslateTransformX(modulePlaceholder.Placeholder), SuiteProps.GetTranslateTransformY(modulePlaceholder.Placeholder));
                 newElement.RenderTransform = translateTransform;
             }
             catch (Exception)
             {
-                Debug.Fail($"SuiteProps.TranslateTransform missing for {placeholder.Name}");
+                Debug.Fail($"SuiteProps.TranslateTransform missing for {modulePlaceholder.Placeholder.Name}");
             }
 
             moduleSlotIn.IsSlotIn = true;

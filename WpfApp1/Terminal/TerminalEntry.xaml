@@ -35,7 +35,11 @@
 
 
     <AdornerDecorator >
-        <StackPanel  local:SmartAdorner.AutoSize ="False" local:SmartAdorner.Visible="{Binding SignalReplaceDrop}">
+        <StackPanel  local:SmartAdorner.AutoSize ="False" local:SmartAdorner.Visible="{Binding SignalReplaceDrop}"
+                     
+                     local:SmartAdorner.CurrentMargin="{Binding ReplaceDropMargin }"
+                     local:SmartAdorner.CurrentWidth="{Binding ReplaceDropWidth}"
+                     local:SmartAdorner.CurrentHeight="{Binding ReplaceDropHeight}">
 
             <local:SmartAdorner.Template>
                 <DataTemplate>

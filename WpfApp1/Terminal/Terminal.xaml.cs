@@ -1,4 +1,5 @@
-﻿using GongSolutions.Wpf.DragDrop;
+﻿using Festo.Suite.Design.AttachedProperties;
+using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,16 @@ using WpfApp1.Models;
 
 namespace WpfApp1
 {
+
+    public enum MousePositionWithinModule
+    {
+        Outside,
+        Left,
+        Right,
+        Center,
+        Module,
+        Placeholder
+    }
     /// <summary>
     /// Interaction logic for Terminal.xaml
     /// </summary>
@@ -311,24 +322,39 @@ namespace WpfApp1
 
                 var pos = GetMouseAlignmentRelativeToTarget(dropInfo);
 
-                if (pos == HorizontalAlignment.Center)
+                if (pos == MousePositionWithinModule.Center || pos == MousePositionWithinModule.Module || pos == MousePositionWithinModule.Placeholder)
                 {
                     // replace adorner
                     if (sourceItem is CatalogModuleProductViewModel)
+                    {
                         targetItem.SignalReplaceDrop = true;
-                    // insert/move adorner
+                        if (pos == MousePositionWithinModule.Placeholder) 
+                        {
+                            targetItem.ReplaceDropHeight = targetItem.Placeholder.ActualHeight;
+                            targetItem.ReplaceDropWidth = targetItem.Placeholder.ActualWidth;
+                            targetItem.ReplaceDropMargin = new Thickness(SuiteProps.GetTranslateTransformX(targetItem.Placeholder), SuiteProps.GetTranslateTransformY(targetItem.Placeholder), 0, 0);
+                        }
+                        else
+                        {
+                            targetItem.ReplaceDropHeight = (targetItem.DeviceImage as FrameworkElement).ActualHeight;
+                            targetItem.ReplaceDropWidth = (targetItem.DeviceImage as FrameworkElement).ActualWidth;
+                            targetItem.ReplaceDropMargin = new Thickness(0);
+                        }
+                    }
+                      
+                    // drop target adorner
                     dropInfo.DropTargetAdorner = null;
                 }
                   
 
-                if (pos == HorizontalAlignment.Left || pos == HorizontalAlignment.Right)
+                if (pos == MousePositionWithinModule.Left || pos == MousePositionWithinModule.Right)
                 {
                     foreach (var m in Modules)
                         m.SignalReplaceDrop = false;
                     
                     dropInfo.DropTargetAdorner = typeof(CustmDropTargetHighlightAdorner);
                 }
-                if (pos == HorizontalAlignment.Stretch)
+                if (pos == MousePositionWithinModule.Outside)
                 {
                     
                     foreach (var m in Modules)
@@ -360,12 +386,12 @@ namespace WpfApp1
 
                 if (sourceItem is CatalogModuleProductViewModel)
                 {
-                    if (alignement == HorizontalAlignment.Left)
+                    if (alignement ==   MousePositionWithinModule.Left)
                         Modules.Insert(targetIndex, droppedDataConverted);
-                    else if (alignement == HorizontalAlignment.Right)
+                    else if (alignement == MousePositionWithinModule.Right)
                         Modules.Insert(targetIndex + 1, droppedDataConverted);
 
-                    else if (alignement == HorizontalAlignment.Center)
+                    else if (alignement == MousePositionWithinModule.Center)
                     {
                         Modules.Remove(targetItem);
                         Modules.Insert(targetIndex, droppedDataConverted);
@@ -377,9 +403,9 @@ namespace WpfApp1
                         return;
 
 
-                    if (alignement == HorizontalAlignment.Left)
+                    if (alignement == MousePositionWithinModule.Left)
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex);
-                    else if (alignement == HorizontalAlignment.Right)
+                    else if (alignement == MousePositionWithinModule.Right)
                     {
                         var targetIdx = targetIndex + 1 >= Modules.Count ? Modules.Count -1 : targetIndex;
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIdx);
@@ -392,13 +418,13 @@ namespace WpfApp1
 
         }
 
-        private bool IsMoveOperationPossible(int sourcePosition, int targetPosition, HorizontalAlignment alignement)
+        private bool IsMoveOperationPossible(int sourcePosition, int targetPosition, MousePositionWithinModule alignement)
         {
             if (sourcePosition == targetPosition)
                 return false;
-            if (sourcePosition + 1 == targetPosition && alignement == HorizontalAlignment.Left)
+            if (sourcePosition + 1 == targetPosition && alignement == MousePositionWithinModule.Left)
                 return false;
-            if (sourcePosition -1 == targetPosition && alignement == HorizontalAlignment.Right)
+            if (sourcePosition -1 == targetPosition && alignement == MousePositionWithinModule.Right)
                 return false;
 
             return true;
@@ -411,7 +437,7 @@ namespace WpfApp1
 
         
 
-        private HorizontalAlignment GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
+        private MousePositionWithinModule GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
         {
             var targetItemUI = (dropInfo.TargetItem as Module).DeviceImage as FrameworkElement;
 
@@ -426,22 +452,22 @@ namespace WpfApp1
             //Console.WriteLine(string.Format("ActualWidth {0}", targetItemUI.ActualWidth));
 
             Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
-            HorizontalAlignment result;
+            MousePositionWithinModule result;
 
             if (posWithinTarget > width / 3 * 2 && posWithinTarget < width)
-                result = HorizontalAlignment.Right;
+                result = MousePositionWithinModule.Right;
 
             else if (posWithinTarget > width / 3 && posWithinTarget < width / 3 * 2)
-                result = HorizontalAlignment.Center;
+                result = MousePositionWithinModule.Center;
 
             else if (posWithinTarget > 0 && posWithinTarget < width / 3)
-                result = HorizontalAlignment.Left;
+                result = MousePositionWithinModule.Left;
             else
-                result = HorizontalAlignment.Stretch;
+                result = MousePositionWithinModule.Outside;
 
             // Console.WriteLine(string.Format("result {0}", result));
 
-            return result;
+            return MousePositionWithinModule.Placeholder;
         }
 
         
