@@ -43,7 +43,7 @@
                         <Border
                             Background="Transparent"
                             BorderBrush="{DynamicResource FestoColors.HighlightBrush}"
-                            BorderThickness="5"
+                            BorderThickness="2"
                             IsHitTestVisible="False"
                             >
                             

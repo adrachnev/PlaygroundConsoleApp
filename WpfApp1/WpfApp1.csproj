@@ -95,7 +95,7 @@
     </ApplicationDefinition>
     <Compile Include="NullToBoolValueConverter.cs" />
     <Compile Include="Terminal\CatalogModuleProductViewModel.cs" />
-    <Compile Include="Terminal\CustmDropTargetHighlightAdorner.cs" />
+    <Compile Include="Terminal\CustomDropTargetHighlightAdorner.cs" />
     <Compile Include="Terminal\DragHandler.cs" />
     <Compile Include="Terminal\ImageValueConverter.cs" />
     <Compile Include="Terminal\IModule.cs" />

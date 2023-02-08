@@ -322,6 +322,7 @@ namespace WpfApp1
             DragHandler.SetDragDropEffects(dropInfo);
 
             var currentDragPosition = GetMouseAlignmentRelativeToTarget(dropInfo);
+            targetItem.PositionOnDrag = currentDragPosition;
 
             switch (currentDragPosition)
             {

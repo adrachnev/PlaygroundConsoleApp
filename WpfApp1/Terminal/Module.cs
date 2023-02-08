@@ -83,24 +83,25 @@ namespace WpfApp1
             throw new Exception($"Image type: {imageType} is not supported");
         }
 
-        private bool _signalReplaceDrop;
+        private bool signalReplaceDrop;
         private int address;
         
 
         public bool SignalReplaceDrop
         {
-            get { return _signalReplaceDrop; }
+            get { return signalReplaceDrop; }
             set
             {
-                if (_signalReplaceDrop == value)
+                if (signalReplaceDrop == value)
                     return;
 
-                _signalReplaceDrop = value;
+                signalReplaceDrop = value;
 
                 OnPropertyChanged();
             }
         }
 
+        public MousePositionWithinModule PositionOnDrag { get; set; }
         public bool IsMouseOverPlaceholder { get; set; }
         public bool DisplayModuleDescription { get; set; }
 
