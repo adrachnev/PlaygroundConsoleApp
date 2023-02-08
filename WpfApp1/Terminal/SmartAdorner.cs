@@ -112,57 +112,8 @@ namespace WpfApp1
             "AutoSize", typeof(bool), typeof(SmartAdorner), new PropertyMetadata(default(bool), OnAutoSizeChanged));
 
 
-        public static void SetCurrentWidth(DependencyObject obj, double value)
-        {            
-            obj.SetValue(CurrentWidthProperty, value); 
-        }
-
-        // Using a DependencyProperty as the backing store for CurrentWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CurrentWidthProperty =
-            DependencyProperty.RegisterAttached("CurrentWidth", typeof(double), typeof(SmartAdorner), new PropertyMetadata(0d, new PropertyChangedCallback(CurrentWidthChangedCallback)));
-
-        private static void CurrentWidthChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var adorner = GetAdorner(d);
-            adorner.Width = (double)e.NewValue;
-        }
-
-        public static void SetCurrentHeight(DependencyObject obj, double value)
-        {
-            obj.SetValue(CurrentHeightProperty, value);
-        }
-        
-        // Using a DependencyProperty as the backing store for CurrentHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CurrentHeightProperty =
-            DependencyProperty.RegisterAttached("CurrentHeight", typeof(double), typeof(SmartAdorner), new PropertyMetadata(0d, new PropertyChangedCallback(CurrentHeightChangedCallback)));
-
-        private static void CurrentHeightChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var adorner = GetAdorner(d);
-            adorner.Height = (double)e.NewValue;
-        }
 
 
-
-        public static Thickness GetCurrentMargin(DependencyObject obj)
-        {
-            return (Thickness)obj.GetValue(CurrentMarginProperty);
-        }
-
-        public static void SetCurrentMargin(DependencyObject obj, Thickness value)
-        {
-            obj.SetValue(CurrentMarginProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for CurrentMargin.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CurrentMarginProperty =
-            DependencyProperty.RegisterAttached("CurrentMargin", typeof(Thickness), typeof(SmartAdorner), new PropertyMetadata(new Thickness( 0), new PropertyChangedCallback(CurrentMarginChangedCallback)));
-
-        private static void CurrentMarginChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var adorner = GetAdorner(d);
-            adorner.Margin = (Thickness)e.NewValue;
-        }
 
         public static void SetAutoSize(DependencyObject element, bool value)
         {
@@ -203,26 +154,46 @@ namespace WpfApp1
             }
         }
 
+        
+
         private static void OnVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            FrameworkElement adornedElement = d as FrameworkElement;
-
-            var placeholder = TestDataContext.FindChildByTag(adornedElement, "ModulePlaceHolder") as FrameworkElement;
             
+            FrameworkElement adornedElement = d as FrameworkElement;
+            SmartAdorner adorner = GetAdorner(adornedElement);
 
+            
+            
+            
             if (adornedElement == null) throw new InvalidOperationException("Adorners can only be applied to elements deriving from FrameworkElement");
             AdornerLayer layer = AdornerLayer.GetAdornerLayer(adornedElement);
             if (layer == null) throw new InvalidOperationException("Cannot show adorner since no adorner layer was found in the visual tree");
 
-            SmartAdorner adorner = GetAdorner(adornedElement);
-
+            
+            
             bool isVisible = (bool)e.NewValue;
 
             if (isVisible && adorner == null)
             {
+                
+
                 adorner = new SmartAdorner(adornedElement);
+                
+                var placeholder = TestDataContext.FindChildByTag(adornedElement, "ModulePlaceHolder") as FrameworkElement;
+                var markplacholder = (adornedElement.DataContext as Module).IsMouseOverPlaceholder;
+                if (placeholder != null && markplacholder)
+                {
+                    adorner.Width = placeholder.Width;
+                    adorner.Height = placeholder.Height;
+                    adorner.Margin = new Thickness(SuiteProps.GetTranslateTransformX(placeholder), SuiteProps.GetTranslateTransformY(placeholder), 0, 0);
 
+                }
+                else 
+                {
+                    adorner.Width = adornedElement.ActualWidth;
+                    adorner.Height = adornedElement.ActualHeight;
 
+                }
 
                 SetAdorner(adornedElement, adorner);
                 layer.Add(adorner);               

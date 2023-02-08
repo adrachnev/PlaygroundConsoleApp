@@ -24,12 +24,14 @@ namespace WpfApp1
 
     public enum MousePositionWithinModule
     {
+        NONE,
         Outside,
         Left,
         Right,
         Center,
         Module,
-        Placeholder
+        Placeholder,
+        
     }
     /// <summary>
     /// Interaction logic for Terminal.xaml
@@ -71,7 +73,7 @@ namespace WpfApp1
 
         private static void ModulesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            
+
         }
 
         public Module SelectedModule
@@ -301,12 +303,10 @@ namespace WpfApp1
             DragHandler.SetDragDropEffects(dropInfo);
         }
 
-        
 
+        
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
-            
-
             listbox.SelectedItem = null;
 
             IModule sourceItem = dropInfo.Data as CatalogModuleProductViewModel;
@@ -314,55 +314,55 @@ namespace WpfApp1
                 sourceItem = dropInfo.Data as Module;
 
             Module targetItem = dropInfo.TargetItem as Module;
-            
-            if (sourceItem != null && targetItem != null)
+
+            if (targetItem == null || sourceItem == null)
+                return;
+
+            // mouse cursor
+            DragHandler.SetDragDropEffects(dropInfo);
+
+            var currentDragPosition = GetMouseAlignmentRelativeToTarget(dropInfo);
+
+            switch (currentDragPosition)
             {
-                // mouse cursor
-                DragHandler.SetDragDropEffects(dropInfo);
+                // display replace adorner
+                case MousePositionWithinModule.Center:
+                case MousePositionWithinModule.Module:
+                case MousePositionWithinModule.Placeholder:
 
-                var pos = GetMouseAlignmentRelativeToTarget(dropInfo);
-
-                if (pos == MousePositionWithinModule.Center || pos == MousePositionWithinModule.Module || pos == MousePositionWithinModule.Placeholder)
-                {
-                    // replace adorner
                     if (sourceItem is CatalogModuleProductViewModel)
                     {
+                        targetItem.SignalReplaceDrop = false;
+                        targetItem.IsMouseOverPlaceholder = currentDragPosition == MousePositionWithinModule.Placeholder;
                         targetItem.SignalReplaceDrop = true;
-                        if (pos == MousePositionWithinModule.Placeholder) 
-                        {
-                            targetItem.ReplaceDropHeight = targetItem.Placeholder.ActualHeight;
-                            targetItem.ReplaceDropWidth = targetItem.Placeholder.ActualWidth;
-                            targetItem.ReplaceDropMargin = new Thickness(SuiteProps.GetTranslateTransformX(targetItem.Placeholder), SuiteProps.GetTranslateTransformY(targetItem.Placeholder), 0, 0);
-                        }
-                        else
-                        {
-                            targetItem.ReplaceDropHeight = (targetItem.DeviceImage as FrameworkElement).ActualHeight;
-                            targetItem.ReplaceDropWidth = (targetItem.DeviceImage as FrameworkElement).ActualWidth;
-                            targetItem.ReplaceDropMargin = new Thickness(0);
-                        }
                     }
-                      
-                    // drop target adorner
-                    dropInfo.DropTargetAdorner = null;
-                }
-                  
+                    break;
 
-                if (pos == MousePositionWithinModule.Left || pos == MousePositionWithinModule.Right)
-                {
-                    foreach (var m in Modules)
-                        m.SignalReplaceDrop = false;
-                    
-                    dropInfo.DropTargetAdorner = typeof(CustmDropTargetHighlightAdorner);
-                }
-                if (pos == MousePositionWithinModule.Outside)
-                {
-                    
-                    foreach (var m in Modules)
-                        m.SignalReplaceDrop = false;
+                // display insert adorner
+                case MousePositionWithinModule.Right:
+                case MousePositionWithinModule.Left:
 
+                    ResetSignalReplace();
+                    dropInfo.DropTargetAdorner = typeof(CustomDropTargetHighlightAdorner);
+
+                    break;
+
+                case MousePositionWithinModule.Outside:
+
+                    ResetSignalReplace();
                     dropInfo.DropTargetAdorner = null;
-                }
+
+                    break;
+
             }
+            
+
+        }
+
+        private void ResetSignalReplace()
+        {
+            foreach (var m in Modules)
+                m.SignalReplaceDrop = false;
         }
 
         void IDropTarget.Drop(IDropInfo dropInfo)
@@ -380,13 +380,13 @@ namespace WpfApp1
                 var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
 
 
-                var droppedDataConverted = new Module(sourceItem.   XamlMarkup) { OrderCode = sourceItem.OrderCode };
+                var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
 
                 int targetIndex = Modules.IndexOf(targetItem);
 
                 if (sourceItem is CatalogModuleProductViewModel)
                 {
-                    if (alignement ==   MousePositionWithinModule.Left)
+                    if (alignement == MousePositionWithinModule.Left)
                         Modules.Insert(targetIndex, droppedDataConverted);
                     else if (alignement == MousePositionWithinModule.Right)
                         Modules.Insert(targetIndex + 1, droppedDataConverted);
@@ -397,7 +397,7 @@ namespace WpfApp1
                         Modules.Insert(targetIndex, droppedDataConverted);
                     }
                 }
-                else if (sourceItem is Module) 
+                else if (sourceItem is Module)
                 {
                     if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, alignement))
                         return;
@@ -407,12 +407,12 @@ namespace WpfApp1
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex);
                     else if (alignement == MousePositionWithinModule.Right)
                     {
-                        var targetIdx = targetIndex + 1 >= Modules.Count ? Modules.Count -1 : targetIndex;
+                        var targetIdx = targetIndex + 1 >= Modules.Count ? Modules.Count - 1 : targetIndex;
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIdx);
                     }
-                        
+
                 }
-                 
+
             }
 
 
@@ -424,7 +424,7 @@ namespace WpfApp1
                 return false;
             if (sourcePosition + 1 == targetPosition && alignement == MousePositionWithinModule.Left)
                 return false;
-            if (sourcePosition -1 == targetPosition && alignement == MousePositionWithinModule.Right)
+            if (sourcePosition - 1 == targetPosition && alignement == MousePositionWithinModule.Right)
                 return false;
 
             return true;
@@ -435,10 +435,18 @@ namespace WpfApp1
             dropInfo.Effects = DragDropEffects.None;
         }
 
-        
 
+        /// <summary>
+        /// If PlaceholderModule - return Module/Placeholder/Outside
+        /// If normal Module - return Center/Left/Right/Outside
+        /// </summary>
+        /// <param name="dropInfo"></param>
+        /// <returns></returns>
         private MousePositionWithinModule GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
         {
+            MousePositionWithinModule result = MousePositionWithinModule.NONE;
+
+
             var targetItemUI = (dropInfo.TargetItem as Module).DeviceImage as FrameworkElement;
 
             var width = targetItemUI.ActualWidth;
@@ -446,29 +454,53 @@ namespace WpfApp1
             var p1 = targetItemUI.TranslatePoint(dropInfo.DropPosition, dropInfo.VisualTargetItem);
             var p2 = targetItemUI.TranslatePoint(new Point(), dropInfo.VisualTarget);
             var posWithinTarget = p1.X - p2.X;
+            if ((dropInfo.TargetItem as Module).Placeholder == null)
+            {
+
+                //Console.WriteLine(string.Format("OrderCode {0}", targetItem.OrderCode));
+                //Console.WriteLine(string.Format("ActualWidth {0}", targetItemUI.ActualWidth));
+
+                //Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
 
 
-            //Console.WriteLine(string.Format("OrderCode {0}", targetItem.OrderCode));
-            //Console.WriteLine(string.Format("ActualWidth {0}", targetItemUI.ActualWidth));
+                if (posWithinTarget > width / 3 * 2 && posWithinTarget < width)
+                    result = MousePositionWithinModule.Right;
 
-            Console.WriteLine(string.Format("Position within target item {0}", p1.X - p2.X));
-            MousePositionWithinModule result;
+                else if (posWithinTarget > width / 3 && posWithinTarget < width / 3 * 2)
+                    result = MousePositionWithinModule.Center;
 
-            if (posWithinTarget > width / 3 * 2 && posWithinTarget < width)
-                result = MousePositionWithinModule.Right;
+                else if (posWithinTarget > 0 && posWithinTarget < width / 3)
+                    result = MousePositionWithinModule.Left;
+                else
+                    result = MousePositionWithinModule.Outside;
 
-            else if (posWithinTarget > width / 3 && posWithinTarget < width / 3 * 2)
-                result = MousePositionWithinModule.Center;
+                // Console.WriteLine(string.Format("result {0}", result));
 
-            else if (posWithinTarget > 0 && posWithinTarget < width / 3)
-                result = MousePositionWithinModule.Left;
+
+            }
             else
-                result = MousePositionWithinModule.Outside;
+            {
+                var xLeft = SuiteProps.GetTranslateTransformX((dropInfo.TargetItem as Module).Placeholder);
+                var xRight = xLeft + (dropInfo.TargetItem as Module).Placeholder.ActualWidth;
 
-            // Console.WriteLine(string.Format("result {0}", result));
+                var yUp = SuiteProps.GetTranslateTransformY((dropInfo.TargetItem as Module).Placeholder);
+                var yDown = yUp + (dropInfo.TargetItem as Module).Placeholder.ActualHeight;
 
-            return MousePositionWithinModule.Placeholder;
+                if (posWithinTarget > xLeft && posWithinTarget < xRight)
+                    result = MousePositionWithinModule.Placeholder;
+                else
+                    result = MousePositionWithinModule.Module;
+
+
+            }
+
+             Console.WriteLine(string.Format("result {0}", result));
+            return result;
         }
+         
+
+         
+        
 
         
 

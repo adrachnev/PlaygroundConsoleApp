@@ -85,9 +85,7 @@ namespace WpfApp1
 
         private bool _signalReplaceDrop;
         private int address;
-        private double replaceDropHeight;
-        private double replaceDropWidth;
-        private Thickness replaceDropMargin;
+        
 
         public bool SignalReplaceDrop
         {
@@ -103,10 +101,7 @@ namespace WpfApp1
             }
         }
 
-        public double ReplaceDropHeight { get => replaceDropHeight; set { replaceDropHeight = value; OnPropertyChanged(); } }
-        public double ReplaceDropWidth { get => replaceDropWidth; set { replaceDropWidth = value; OnPropertyChanged(); } }
-        public Thickness ReplaceDropMargin { get => replaceDropMargin; set { replaceDropMargin = value; OnPropertyChanged(); } }
-
+        public bool IsMouseOverPlaceholder { get; set; }
         public bool DisplayModuleDescription { get; set; }
 
         public string Message => "message";
