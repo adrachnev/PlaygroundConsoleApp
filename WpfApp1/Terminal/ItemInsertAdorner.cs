@@ -9,10 +9,10 @@ using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
 namespace WpfApp1
 {
-    public class CustomDropTargetHighlightAdorner : DropTargetHighlightAdorner
+    public class ItemInsertAdorner : DropTargetHighlightAdorner
     {
 
-        public CustomDropTargetHighlightAdorner(UIElement adornedElement, DropInfo dropInfo) : base(adornedElement, dropInfo) { }
+        public ItemInsertAdorner(UIElement adornedElement, DropInfo dropInfo) : base(adornedElement, dropInfo) { }
 
         protected override void OnRender(DrawingContext drawingContext)
         {

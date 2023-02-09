@@ -35,9 +35,9 @@
 
 
     <AdornerDecorator >
-        <StackPanel  local:SmartAdorner.AutoSize ="False" local:SmartAdorner.Visible="{Binding SignalReplaceDrop}">
+        <StackPanel  local:ItemReplaceAdorner.AutoSize ="False" local:ItemReplaceAdorner.Visible="{Binding SignalReplaceDrop}">
 
-            <local:SmartAdorner.Template>
+            <local:ItemReplaceAdorner.Template>
                 <DataTemplate>
                     <Grid>
                         <Border
@@ -52,7 +52,7 @@
                         
                     </Grid>
                 </DataTemplate>
-            </local:SmartAdorner.Template>
+            </local:ItemReplaceAdorner.Template>
 
             <TextBlock
                 

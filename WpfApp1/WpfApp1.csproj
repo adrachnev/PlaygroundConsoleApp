@@ -95,13 +95,13 @@
     </ApplicationDefinition>
     <Compile Include="NullToBoolValueConverter.cs" />
     <Compile Include="Terminal\CatalogModuleProductViewModel.cs" />
-    <Compile Include="Terminal\CustomDropTargetHighlightAdorner.cs" />
+    <Compile Include="Terminal\ItemInsertAdorner.cs" />
     <Compile Include="Terminal\DragHandler.cs" />
     <Compile Include="Terminal\ImageValueConverter.cs" />
     <Compile Include="Terminal\IModule.cs" />
     <Compile Include="Terminal\Module.cs" />
     <Compile Include="Terminal\ObservableBase.cs" />
-    <Compile Include="Terminal\SmartAdorner.cs" />
+    <Compile Include="Terminal\ItemReplaceAdorner.cs" />
     <Compile Include="Terminal\Terminal.xaml.cs">
       <DependentUpon>Terminal.xaml</DependentUpon>
     </Compile>

@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace WpfApp1
 {
-    public class SmartAdorner : Adorner
+    public class ItemReplaceAdorner : Adorner
     {
         #region fields
 
@@ -22,7 +22,7 @@ namespace WpfApp1
 
         #region ctors
 
-        public SmartAdorner(FrameworkElement adornedElement)
+        public ItemReplaceAdorner(FrameworkElement adornedElement)
             : base(adornedElement)
         {
             _presenter = new ContentPresenter();
@@ -54,18 +54,18 @@ namespace WpfApp1
 
         #region attached/dependency properties
 
-        private static SmartAdorner GetAdorner(DependencyObject obj)
+        private static ItemReplaceAdorner GetAdorner(DependencyObject obj)
         {
-            return (SmartAdorner)obj.GetValue(AdornerProperty);
+            return (ItemReplaceAdorner)obj.GetValue(AdornerProperty);
         }
 
-        private static void SetAdorner(DependencyObject obj, SmartAdorner value)
+        private static void SetAdorner(DependencyObject obj, ItemReplaceAdorner value)
         {
             obj.SetValue(AdornerProperty, value);
         }
 
         private static readonly DependencyProperty AdornerProperty =
-            DependencyProperty.RegisterAttached("Adorner", typeof(SmartAdorner), typeof(SmartAdorner), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("Adorner", typeof(ItemReplaceAdorner), typeof(ItemReplaceAdorner), new PropertyMetadata(null));
 
         public static DataTemplate GetTemplate(DependencyObject obj)
         {
@@ -78,7 +78,7 @@ namespace WpfApp1
         }
 
         public static readonly DependencyProperty TemplateProperty =
-            DependencyProperty.RegisterAttached("Template", typeof(DataTemplate), typeof(SmartAdorner), new PropertyMetadata(null, OnTemplateChanged));
+            DependencyProperty.RegisterAttached("Template", typeof(DataTemplate), typeof(ItemReplaceAdorner), new PropertyMetadata(null, OnTemplateChanged));
 
         public static DataTemplateSelector GetTemplateSelector(DependencyObject obj)
         {
@@ -92,7 +92,7 @@ namespace WpfApp1
 
         // Using a DependencyProperty as the backing store for TemplateSelector.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TemplateSelectorProperty =
-            DependencyProperty.RegisterAttached("TemplateSelector", typeof(DataTemplateSelector), typeof(SmartAdorner), new PropertyMetadata(null, OnTemplateSelectorChanged));
+            DependencyProperty.RegisterAttached("TemplateSelector", typeof(DataTemplateSelector), typeof(ItemReplaceAdorner), new PropertyMetadata(null, OnTemplateSelectorChanged));
 
         public static bool GetVisible(DependencyObject obj)
         {
@@ -105,11 +105,11 @@ namespace WpfApp1
         }
 
         public static readonly DependencyProperty VisibleProperty =
-            DependencyProperty.RegisterAttached("Visible", typeof(bool), typeof(SmartAdorner), new PropertyMetadata(false, OnVisibleChanged));
+            DependencyProperty.RegisterAttached("Visible", typeof(bool), typeof(ItemReplaceAdorner), new PropertyMetadata(false, OnVisibleChanged));
 
 
         public static readonly DependencyProperty AutoSizeProperty = DependencyProperty.RegisterAttached(
-            "AutoSize", typeof(bool), typeof(SmartAdorner), new PropertyMetadata(default(bool), OnAutoSizeChanged));
+            "AutoSize", typeof(bool), typeof(ItemReplaceAdorner), new PropertyMetadata(default(bool), OnAutoSizeChanged));
 
 
 
@@ -138,7 +138,7 @@ namespace WpfApp1
 
         private static void OnTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SmartAdorner adorner = GetAdorner(d);
+            ItemReplaceAdorner adorner = GetAdorner(d);
             if (adorner != null)
             {
                 adorner.Template = (DataTemplate)e.NewValue;
@@ -147,7 +147,7 @@ namespace WpfApp1
 
         private static void OnTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SmartAdorner adorner = GetAdorner(d);
+            ItemReplaceAdorner adorner = GetAdorner(d);
             if (adorner != null)
             {
                 adorner.TemplateSelector = (DataTemplateSelector)e.NewValue;
@@ -160,7 +160,7 @@ namespace WpfApp1
         {
             
             FrameworkElement adornedElement = d as FrameworkElement;
-            SmartAdorner adorner = GetAdorner(adornedElement);
+            ItemReplaceAdorner adorner = GetAdorner(adornedElement);
 
             
             
@@ -177,7 +177,7 @@ namespace WpfApp1
             {
                 
 
-                adorner = new SmartAdorner(adornedElement);
+                adorner = new ItemReplaceAdorner(adornedElement);
                 
                 var placeholder = TestDataContext.FindChildByTag(adornedElement, "ModulePlaceHolder") as FrameworkElement;
                 var markplacholder = (adornedElement.DataContext as Module).IsMouseOverPlaceholder;

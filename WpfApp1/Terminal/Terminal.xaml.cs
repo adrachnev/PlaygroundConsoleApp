@@ -344,7 +344,7 @@ namespace WpfApp1
                 case MousePositionWithinModule.Left:
 
                     ResetSignalReplace();
-                    dropInfo.DropTargetAdorner = typeof(CustomDropTargetHighlightAdorner);
+                    dropInfo.DropTargetAdorner = typeof(ItemInsertAdorner);
 
                     break;
 
