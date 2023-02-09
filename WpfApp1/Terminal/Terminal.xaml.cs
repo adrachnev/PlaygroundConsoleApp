@@ -330,10 +330,11 @@ namespace WpfApp1
                 case MousePositionWithinModule.Center:
                 case MousePositionWithinModule.Module:
                 case MousePositionWithinModule.Placeholder:
+                    targetItem.SignalReplaceDrop = false;
 
-                    if (sourceItem is CatalogModuleProductViewModel)
-                    {
-                        targetItem.SignalReplaceDrop = false;
+                    if (sourceItem is CatalogModuleProductViewModel || 
+                        (sourceItem is Module && currentDragPosition == MousePositionWithinModule.Placeholder))
+                    {                        
                         targetItem.IsMouseOverPlaceholder = currentDragPosition == MousePositionWithinModule.Placeholder;
                         targetItem.SignalReplaceDrop = true;
                     }
@@ -378,38 +379,55 @@ namespace WpfApp1
             // insert new item into terminal from other UI control
             if (sourceItem != null && targetItem != null)
             {
-                var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
+                //var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
 
 
                 var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
 
                 int targetIndex = Modules.IndexOf(targetItem);
 
+                // drop item from catalog
                 if (sourceItem is CatalogModuleProductViewModel)
                 {
-                    if (alignement == MousePositionWithinModule.Left)
+                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
                         Modules.Insert(targetIndex, droppedDataConverted);
-                    else if (alignement == MousePositionWithinModule.Right)
+                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
                         Modules.Insert(targetIndex + 1, droppedDataConverted);
 
-                    else if (alignement == MousePositionWithinModule.Center)
+                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Center)
                     {
                         Modules.Remove(targetItem);
                         Modules.Insert(targetIndex, droppedDataConverted);
                     }
+                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
+                    {
+                        TestDataContext.ReplacePlaceholder(targetItem, droppedDataConverted);
+                        Modules.Insert(targetIndex, droppedDataConverted);
+                    }
+
                 }
+                // drop item from terminal itself
                 else if (sourceItem is Module)
                 {
-                    if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, alignement))
+                    if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
                         return;
 
 
-                    if (alignement == MousePositionWithinModule.Left)
+                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex);
-                    else if (alignement == MousePositionWithinModule.Right)
+                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
                     {
                         var targetIdx = targetIndex + 1 >= Modules.Count ? Modules.Count - 1 : targetIndex;
                         Modules.Move(Modules.IndexOf(sourceItem as Module), targetIdx);
+                    }
+                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
+                    {
+
+
+                        Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex - 1);
+                        targetItem.SignalReplaceDrop = false;
+                        TestDataContext.ReplacePlaceholder(targetItem, (Module)sourceItem );
+                        
                     }
 
                 }

@@ -31,7 +31,7 @@ namespace WpfApp1
         public string OrderCode { get; set; }
         public DependencyObject DeviceImage { get; set; }
 
-        public bool IsSlotIn { get; set; }
+        public bool IsSlotIn { get => isSlotIn; set { isSlotIn = value; OnPropertyChanged(); } }
         public FrameworkElement Placeholder { get; }
         /// <summary>
         /// Slot number or somthing else (e.g. AP address) 
@@ -85,7 +85,7 @@ namespace WpfApp1
 
         private bool signalReplaceDrop;
         private int address;
-        
+        private bool isSlotIn;
 
         public bool SignalReplaceDrop
         {

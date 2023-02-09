@@ -75,14 +75,18 @@ namespace WpfApp1
             //ReplacePlaceholder(list[4], list[5]);
         }
 
-        private void ReplacePlaceholder(Module modulePlaceholder, Module moduleSlotIn)
+        public static void ReplacePlaceholder(Module modulePlaceholder, Module moduleSlotIn)
         {
             
             if (modulePlaceholder.Placeholder == null)
                 return;
-            
 
+            moduleSlotIn.IsSlotIn = true;
+            moduleSlotIn.DeviceImage = null;
+            moduleSlotIn.DeviceImage = Module.CreateImageObject(moduleSlotIn.XamlMarkup, DeviceImageType.XamlMarkup);
+            
             var newElement = moduleSlotIn.DeviceImage as FrameworkElement;
+
             modulePlaceholder.Placeholder.ReplaceWithInVisualTree(newElement);
             try
             {
@@ -94,8 +98,8 @@ namespace WpfApp1
                 Debug.Fail($"SuiteProps.TranslateTransform missing for {modulePlaceholder.Placeholder.Name}");
             }
 
-            moduleSlotIn.IsSlotIn = true;
-            moduleSlotIn.DeviceImage = null;
+            
+            
         }
 
         private void ModulePlaceholderReadGuid()
