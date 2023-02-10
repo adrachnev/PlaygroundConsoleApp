@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -31,7 +32,32 @@ namespace WpfApp1
         public string OrderCode { get; set; }
         public DependencyObject DeviceImage { get; set; }
 
-        public bool IsSlotIn { get => isSlotIn; set { isSlotIn = value; OnPropertyChanged(); } }
+        public bool IsSlotIn
+        {
+            get => isSlotIn; set
+            {
+                isSlotIn = value;
+                if (isSlotIn)
+                {
+                    Debug.Assert(SlotIn == null);
+                    Debug.Assert(Placeholder == null);
+                }
+                OnPropertyChanged();
+            }
+        }
+        public Module SlotIn 
+        { 
+            get => slotIn; 
+            set 
+            {
+                slotIn = value; 
+                if (slotIn != null) 
+                {
+                    Debug.Assert(Placeholder != null);
+                    Debug.Assert(!IsSlotIn);
+                }
+            } 
+        }
         public FrameworkElement Placeholder { get; }
         /// <summary>
         /// Slot number or somthing else (e.g. AP address) 
@@ -86,6 +112,7 @@ namespace WpfApp1
         private bool signalReplaceDrop;
         private int address;
         private bool isSlotIn;
+        private Module slotIn;
 
         public bool SignalReplaceDrop
         {

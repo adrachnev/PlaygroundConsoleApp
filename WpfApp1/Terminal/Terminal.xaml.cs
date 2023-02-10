@@ -3,6 +3,7 @@ using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -382,13 +383,16 @@ namespace WpfApp1
                 //var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
 
 
-                var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
+                
 
                 int targetIndex = Modules.IndexOf(targetItem);
 
                 // drop item from catalog
                 if (sourceItem is CatalogModuleProductViewModel)
+
                 {
+                    var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
+
                     if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
                         Modules.Insert(targetIndex, droppedDataConverted);
                     else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
@@ -401,8 +405,18 @@ namespace WpfApp1
                     }
                     else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
                     {
-                        TestDataContext.ReplacePlaceholder(targetItem, droppedDataConverted);
-                        Modules.Insert(targetIndex, droppedDataConverted);
+                        /* 
+                         * if a placeholder is empty - insert
+                         * if slot-in module exists - replace
+                        */
+                        if (targetItem.SlotIn != null)
+                            Modules.Remove(targetItem.SlotIn);
+                     
+                        TestDataContext.FillPlaceholder(targetItem, droppedDataConverted);
+                        Modules.Insert(Modules.IndexOf(targetItem as Module), droppedDataConverted);
+
+
+                        Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
                     }
 
                 }
@@ -422,12 +436,26 @@ namespace WpfApp1
                     }
                     else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
                     {
+                        /* 
+                         * if a placeholder is empty - insert
+                         * if slot-in module exists - change positions of modules
+                        */
 
-
-                        Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex - 1);
-                        targetItem.SignalReplaceDrop = false;
-                        TestDataContext.ReplacePlaceholder(targetItem, (Module)sourceItem );
+                        if (targetItem.SlotIn != null)
+                        {
+                            Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
+                            // move old slot-in module
+                            Modules.Move(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem as Module));
+                            targetItem.SlotIn.IsSlotIn = false;
+                        }
                         
+
+                        
+                        TestDataContext.FillPlaceholder(targetItem, (Module)sourceItem );
+                        // move new slot-in module
+                        Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem) );
+
+                        Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
                     }
 
                 }
@@ -513,7 +541,7 @@ namespace WpfApp1
 
             }
 
-             Console.WriteLine(string.Format("result {0}", result));
+             Console.WriteLine(result);
             return result;
         }
          
