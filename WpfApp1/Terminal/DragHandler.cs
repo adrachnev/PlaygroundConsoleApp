@@ -16,10 +16,12 @@ namespace WpfApp1
     public class DragHandler : IDragSource
     {
         private UIElement  dragSource;
+        private readonly ListBox listbox;
 
-        public DragHandler(UIElement dragSource)
+        public DragHandler(UIElement dragSource, Module selectedItem)
         {
             this.dragSource = dragSource;
+            this.listbox = dragSource as ListBox;
         }
 
         /// <inheritdoc />
@@ -43,7 +45,7 @@ namespace WpfApp1
                 {
                     dragInfo.Data = singleItem;
 
-                    PositionDragAdorner(dragInfo);
+                    //PositionDragAdorner(dragInfo);
 
                 }
             }
@@ -59,7 +61,17 @@ namespace WpfApp1
             DependencyObject image = null;
             if (dragInfo.Data is Module)
             {
-                image = (dragInfo.Data as Module).DeviceImage;
+                if ((dragInfo.Data as Module).SlotIn != null) 
+                {
+                    if ((dragInfo.Data as Module).IsMouseOverPlaceholder)
+                    {
+                        image = Module.CreateImageObject((dragInfo.Data as Module).SlotIn.XamlMarkup, DeviceImageType.XamlMarkup);
+                    }
+                    else
+                        image = (dragInfo.Data as Module).DeviceImage;
+                }
+                else
+                    image = (dragInfo.Data as Module).DeviceImage;
             }
             else if (dragInfo.Data is CatalogModuleProductViewModel)
             {

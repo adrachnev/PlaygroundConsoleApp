@@ -145,14 +145,76 @@ namespace WpfApp1
 
         #endregion
 
-        public DragHandler DragHandler => new DragHandler(listbox);
+        public DragHandler DragHandler => new DragHandler(listbox, SelectedModule);
 
 
 
         private void listbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedModule = listbox.SelectedItem as Module;
+            if (SelectedModule == null)
+                return;
+            if (SelectedModule.IsSlotIn)
+            {
+                DisplaySlotInSelection(Modules.First(x => x.SlotIn == SelectedModule), true);
+                
+            }
+            else
+                ResetSignalReplace();
         }
+
+        /// <summary>
+        /// Handle slot-in selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {   
+            var m = (sender as ListBoxItem).DataContext as Module;
+            
+            if (m.SlotIn == null)
+                return;
+
+           
+            var pos = e.GetPosition(m.Placeholder);
+
+            var selectSlotIn = (pos.X > 0 && pos.Y > 0 &&
+                pos.X < m.Placeholder.ActualWidth && pos.Y < m.Placeholder.ActualHeight);
+            
+            DisplaySlotInSelection(m, selectSlotIn);
+            if (selectSlotIn)
+                e.Handled = true;
+
+        }
+
+        private void DisplaySlotInSelection(Module placeholder, bool isSelected) 
+        {
+            Debug.Assert(placeholder.Placeholder != null);
+            Debug.Assert(placeholder.SlotIn != null);
+            Debug.Assert(placeholder.SlotIn.IsSlotIn == true);
+            if (isSelected)
+            {
+                // select slot-in
+
+                listbox.SelectionChanged -= listbox_SelectionChanged;
+                listbox.SelectedItem = null;                
+                SelectedModule = placeholder.SlotIn;
+                listbox.SelectionChanged += listbox_SelectionChanged;
+                placeholder.SlotIn.IsMouseOverPlaceholder = true;
+                
+                
+
+                placeholder.SignalReplaceDrop = true;
+
+            }
+            else
+            {
+                placeholder.SlotIn.IsMouseOverPlaceholder = false;
+                placeholder.SignalReplaceDrop = false;
+            }
+        }
+
+        
 
         #region Context Menu
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -308,7 +370,7 @@ namespace WpfApp1
         
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
-            listbox.SelectedItem = null;
+            //listbox.SelectedItem = null;
 
             IModule sourceItem = dropInfo.Data as CatalogModuleProductViewModel;
             if (sourceItem == null)
@@ -460,6 +522,7 @@ namespace WpfApp1
 
                 }
 
+                ResetSignalReplace();
             }
 
 
@@ -544,16 +607,18 @@ namespace WpfApp1
              Console.WriteLine(result);
             return result;
         }
-         
 
-         
-        
 
-        
 
-      
+
+
+
+
+
 
         #endregion
+
+        
     }
     public class PasteCommandArgs 
     {

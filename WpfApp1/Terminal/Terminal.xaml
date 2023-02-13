@@ -57,6 +57,8 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="listBoxItem_MouseLeftButtonDown" />
+                
                 <!--<EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
                 <EventSetter Event="Drop" Handler="listboxItem_Drop"/>
                 <EventSetter Event="GiveFeedback" Handler="listboxItem_GiveFeedback"/>
