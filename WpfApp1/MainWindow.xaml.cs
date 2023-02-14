@@ -31,7 +31,7 @@ namespace WpfApp1
             var context = listViewCatalogItems.DataContext as TestDataContext;
             if (context != null) 
             {   
-                DragDrop.SetDragHandler(listViewCatalogItems, new DragHandler(listViewCatalogItems, null));
+                DragDrop.SetDragHandler(listViewCatalogItems, new DragHandler(listViewCatalogItems));
             }
         }
 

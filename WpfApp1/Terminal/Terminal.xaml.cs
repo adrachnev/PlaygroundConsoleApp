@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Models;
+using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
 namespace WpfApp1
 {
@@ -145,7 +146,7 @@ namespace WpfApp1
 
         #endregion
 
-        public DragHandler DragHandler => new DragHandler(listbox, SelectedModule);
+        public DragHandler DragHandler => new DragHandler(listbox);
 
 
 
@@ -200,7 +201,7 @@ namespace WpfApp1
                 listbox.SelectedItem = null;                
                 SelectedModule = placeholder.SlotIn;
                 listbox.SelectionChanged += listbox_SelectionChanged;
-                placeholder.SlotIn.IsMouseOverPlaceholder = true;
+                placeholder.IsMouseOverPlaceholder = true;
                 
                 
 
@@ -209,7 +210,7 @@ namespace WpfApp1
             }
             else
             {
-                placeholder.SlotIn.IsMouseOverPlaceholder = false;
+                placeholder.IsMouseOverPlaceholder = false;
                 placeholder.SignalReplaceDrop = false;
             }
         }
@@ -362,6 +363,15 @@ namespace WpfApp1
         void IDropTarget.DragEnter(IDropInfo dropInfo)
         {
             //throw new NotImplementedException();
+
+            var source = dropInfo.Data as Module;
+            if (source != null) 
+            {
+                if (source.SlotIn != null && source.IsMouseOverPlaceholder)
+                    DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("PlaceholderDragAdorner"));
+                else
+                    DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("CatalogItemDragAdorner"));
+            }
 
             DragHandler.SetDragDropEffects(dropInfo);
         }

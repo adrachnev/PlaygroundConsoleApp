@@ -45,18 +45,18 @@ namespace WpfApp1
                 OnPropertyChanged();
             }
         }
-        public Module SlotIn 
-        { 
-            get => slotIn; 
-            set 
+        public Module SlotIn
+        {
+            get => slotIn;
+            set
             {
-                slotIn = value; 
-                if (slotIn != null) 
+                slotIn = value;
+                if (slotIn != null)
                 {
                     Debug.Assert(Placeholder != null);
                     Debug.Assert(!IsSlotIn);
                 }
-            } 
+            }
         }
         public FrameworkElement Placeholder { get; }
         /// <summary>
@@ -113,6 +113,7 @@ namespace WpfApp1
         private int address;
         private bool isSlotIn;
         private Module slotIn;
+        private bool isMouseOverPlaceholder;
 
         public bool SignalReplaceDrop
         {
@@ -129,7 +130,16 @@ namespace WpfApp1
         }
 
         public MousePositionWithinModule PositionOnDrag { get; set; }
-        public bool IsMouseOverPlaceholder { get; set; }
+        public bool IsMouseOverPlaceholder 
+        { 
+            get => isMouseOverPlaceholder; 
+            set 
+            {
+                if (isSlotIn)
+                    throw new InvalidOperationException("This field is to be set only for placeholder modules");
+                isMouseOverPlaceholder = value; 
+            }
+        }
         public bool DisplayModuleDescription { get; set; }
 
         public string Message => "message";
