@@ -7,4 +7,7 @@
     <DataTemplate  x:Key="CatalogItemDragAdorner">
         <Image   Opacity="0.5" Source="{ Binding Path=XamlMarkup, Converter={StaticResource ImageValueConverter}}" />
     </DataTemplate>
+    <DataTemplate  x:Key="PlaceholderDragAdorner">
+        <Image   Opacity="0.5" Source="{ Binding Path=SlotIn.XamlMarkup, Converter={StaticResource ImageValueConverter}}" />
+    </DataTemplate>
 </ResourceDictionary>
