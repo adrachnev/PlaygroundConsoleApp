@@ -504,17 +504,30 @@ namespace WpfApp1
                 // drop item from terminal itself
                 else if (sourceItem is Module)
                 {
-                    if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
-                        return;
+                    //if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
+                    //    return;
 
 
-                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
-                        Modules.Move(Modules.IndexOf(sourceItem as Module), targetIndex);
-                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
+                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
                     {
-                        var targetIdx = targetIndex + 1 >= Modules.Count ? Modules.Count - 1 : targetIndex;
-                        Modules.Move(Modules.IndexOf(sourceItem as Module), targetIdx);
+                        int oldIndex = Modules.IndexOf(sourceItem as Module);
+                        int newIndex = Modules.IndexOf(targetItem as Module);
+
+                        Modules.Move(oldIndex, newIndex);
+                        
+                        if ((sourceItem as Module).SlotIn != null)
+                            Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn), Modules.IndexOf((sourceItem as Module).SlotIn) > newIndex ? newIndex : newIndex-1);
+
                     }
+
+                    //else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
+                    //{
+                    //    Modules.Move(Modules.IndexOf(sourceItem as Module), Modules.IndexOf(targetItem as Module));
+                    //    if ((sourceItem as Module).SlotIn != null)
+                    //        Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn),
+                    //            Modules.IndexOf(targetItem as Module) == 0 ? 0 : Modules.IndexOf(targetItem as Module) - 1);
+
+                    //}
                     else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
                     {
                         /* 
@@ -548,12 +561,12 @@ namespace WpfApp1
                             else
                                 Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem));
                         }
-                           
 
-                        
+
+
 
                         Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
-                        
+
                     }
 
                 }
