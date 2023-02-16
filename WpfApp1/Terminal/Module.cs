@@ -23,14 +23,21 @@ namespace WpfApp1
     {
         public Module(string xamlMarkup)
         {
-            DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
             XamlMarkup = xamlMarkup;
-            Placeholder = TestDataContext.FindChildByTag(DeviceImage, "ModulePlaceHolder") as FrameworkElement;
-
+            DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
 
         }
         public string OrderCode { get; set; }
-        public DependencyObject DeviceImage { get; set; }
+        public DependencyObject DeviceImage
+        {
+            get => deviceImage;
+            set
+            {
+                
+                deviceImage = value;
+                placeholder = TestDataContext.FindChildByTag(deviceImage, "ModulePlaceHolder") as FrameworkElement;
+            }
+        }
 
         public bool IsSlotIn
         {
@@ -58,7 +65,8 @@ namespace WpfApp1
                 }
             }
         }
-        public FrameworkElement Placeholder { get; }
+        public FrameworkElement Placeholder => placeholder;          
+        
         /// <summary>
         /// Slot number or somthing else (e.g. AP address) 
         /// </summary>
@@ -114,6 +122,8 @@ namespace WpfApp1
         private bool isSlotIn;
         private Module slotIn;
         private bool isMouseOverPlaceholder;
+        private DependencyObject deviceImage;
+        private FrameworkElement placeholder;
 
         public bool SignalReplaceDrop
         {
@@ -130,14 +140,14 @@ namespace WpfApp1
         }
 
         public MousePositionWithinModule PositionOnDrag { get; set; }
-        public bool IsMouseOverPlaceholder 
-        { 
-            get => isMouseOverPlaceholder; 
-            set 
+        public bool IsMouseOverPlaceholder
+        {
+            get => isMouseOverPlaceholder;
+            set
             {
                 if (isSlotIn)
                     throw new InvalidOperationException("This field is to be set only for placeholder modules");
-                isMouseOverPlaceholder = value; 
+                isMouseOverPlaceholder = value;
             }
         }
         public bool DisplayModuleDescription { get; set; }

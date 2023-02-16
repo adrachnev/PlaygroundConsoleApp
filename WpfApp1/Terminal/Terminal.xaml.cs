@@ -256,6 +256,15 @@ namespace WpfApp1
 
             ResetClipboard();
 
+            if (SelectedModule.IsSlotIn) 
+            {
+                var placeholder = Modules.Single(x=>x.SlotIn == SelectedModule);
+                placeholder.SlotIn = null;
+                TestDataContext.FillPlaceholder(placeholder, null);
+            }
+            if (SelectedModule.SlotIn != null)
+                Modules.Remove(SelectedModule.SlotIn);
+
             Modules.Remove(SelectedModule);
         }
 
@@ -365,7 +374,7 @@ namespace WpfApp1
             //throw new NotImplementedException();
 
             var source = dropInfo.Data as Module;
-            if (source != null) 
+            if (source != null)
             {
                 if (source.SlotIn != null && source.IsMouseOverPlaceholder)
                     DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("PlaceholderDragAdorner"));
@@ -520,14 +529,31 @@ namespace WpfApp1
                             Modules.Move(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem as Module));
                             targetItem.SlotIn.IsSlotIn = false;
                         }
-                        
+
+
+
+                        TestDataContext.FillPlaceholder(targetItem, (Module)sourceItem);
+
+
+
+                        if (Modules.IndexOf((Module)sourceItem) + 1 == Modules.IndexOf(targetItem))
+                        {
+                            // right positioning already - do nothing
+                        }
+                        else
+                        // move new slot-in module
+                        {
+                            if (Modules.Last() == targetItem)
+                                Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem) - 1);
+                            else
+                                Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem));
+                        }
+                           
 
                         
-                        TestDataContext.FillPlaceholder(targetItem, (Module)sourceItem );
-                        // move new slot-in module
-                        Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem) );
 
                         Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
+                        
                     }
 
                 }
