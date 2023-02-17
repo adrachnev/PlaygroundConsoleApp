@@ -376,10 +376,15 @@ namespace WpfApp1
             var source = dropInfo.Data as Module;
             if (source != null)
             {
-                if (source.SlotIn != null && source.IsMouseOverPlaceholder)
-                    DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("PlaceholderDragAdorner"));
+                if (source.SlotIn != null)
+                {
+                    if (source.IsMouseOverPlaceholder)
+                        DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("SlotInDragAdorner"));
+                    else
+                        DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("PlaceholderDragAdorner"));
+                }
                 else
-                    DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("CatalogItemDragAdorner"));
+                    DragDrop.SetDragAdornerTemplate(listbox, (DataTemplate)FindResource("ItemDragAdorner"));
             }
 
             DragHandler.SetDragDropEffects(dropInfo);
@@ -504,11 +509,12 @@ namespace WpfApp1
                 // drop item from terminal itself
                 else if (sourceItem is Module)
                 {
-                    //if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
-                    //    return;
+                    if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
+                        return;
 
 
-                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
+                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left 
+                        || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
                     {
                         int oldIndex = Modules.IndexOf(sourceItem as Module);
                         int newIndex = Modules.IndexOf(targetItem as Module);
@@ -520,14 +526,6 @@ namespace WpfApp1
 
                     }
 
-                    //else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
-                    //{
-                    //    Modules.Move(Modules.IndexOf(sourceItem as Module), Modules.IndexOf(targetItem as Module));
-                    //    if ((sourceItem as Module).SlotIn != null)
-                    //        Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn),
-                    //            Modules.IndexOf(targetItem as Module) == 0 ? 0 : Modules.IndexOf(targetItem as Module) - 1);
-
-                    //}
                     else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
                     {
                         /* 

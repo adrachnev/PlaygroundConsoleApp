@@ -58,7 +58,7 @@
                             
                 dd:DragDrop.IsDragSource="True"                
                 
-                dd:DragDrop.DragAdornerTemplate="{DynamicResource CatalogItemDragAdorner}">
+                dd:DragDrop.DragAdornerTemplate="{DynamicResource ItemDragAdorner}">
                 
 
             <ListView.ItemTemplate>
