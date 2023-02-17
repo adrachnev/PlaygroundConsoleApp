@@ -489,6 +489,13 @@ namespace WpfApp1
                         Modules.Remove(targetItem);
                         Modules.Insert(targetIndex, droppedDataConverted);
                     }
+                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Module) 
+                    {
+                        if (targetItem.SlotIn != null)
+                            Modules.Remove(targetItem.SlotIn);
+                        Modules.Remove(targetItem);
+                        Modules.Insert(targetIndex, droppedDataConverted);
+                    }
                     else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
                     {
                         /* 
@@ -497,7 +504,7 @@ namespace WpfApp1
                         */
                         if (targetItem.SlotIn != null)
                             Modules.Remove(targetItem.SlotIn);
-                     
+
                         TestDataContext.FillPlaceholder(targetItem, droppedDataConverted);
                         Modules.Insert(Modules.IndexOf(targetItem as Module), droppedDataConverted);
 
