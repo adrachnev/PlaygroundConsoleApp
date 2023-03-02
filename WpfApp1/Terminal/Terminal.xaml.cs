@@ -154,7 +154,11 @@ namespace WpfApp1
         {
             SelectedModule = listbox.SelectedItem as Module;
             if (SelectedModule == null)
+            {
+                ResetSignalReplace();
                 return;
+            }
+               
             if (SelectedModule.IsSlotIn)
             {
                 DisplaySlotInSelection(Modules.First(x => x.SlotIn == SelectedModule), true);
@@ -576,7 +580,7 @@ namespace WpfApp1
 
                 }
 
-                ResetSignalReplace();
+                //ResetSignalReplace();
             }
 
 
