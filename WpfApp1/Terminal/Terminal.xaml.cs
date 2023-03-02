@@ -412,10 +412,10 @@ namespace WpfApp1
             // mouse cursor
             DragHandler.SetDragDropEffects(dropInfo);
 
-            var currentDragPosition = GetMouseAlignmentRelativeToTarget(dropInfo);
-            targetItem.PositionOnDrag = currentDragPosition;
+            var currentDropPosition = GetMouseAlignmentRelativeToTarget(dropInfo);
+            targetItem.PositionOnDrag = currentDropPosition;
 
-            switch (currentDragPosition)
+            switch (currentDropPosition)
             {
                 // display replace adorner
                 case MousePositionWithinModule.Center:
@@ -423,12 +423,20 @@ namespace WpfApp1
                 case MousePositionWithinModule.Placeholder:
                     targetItem.SignalReplaceDrop = false;
 
-                    if (sourceItem is CatalogModuleProductViewModel || 
-                        (sourceItem is Module && currentDragPosition == MousePositionWithinModule.Placeholder))
-                    {                        
-                        targetItem.IsMouseOverPlaceholder = currentDragPosition == MousePositionWithinModule.Placeholder;
+                    if (sourceItem is CatalogModuleProductViewModel)
+                    {
+                        targetItem.IsMouseOverPlaceholder = currentDropPosition == MousePositionWithinModule.Placeholder;
                         targetItem.SignalReplaceDrop = true;
                     }
+                    else if
+                        (sourceItem is Module && ((Module)sourceItem).Placeholder == null 
+                        && currentDropPosition == MousePositionWithinModule.Placeholder)
+                    {
+                       
+                        targetItem.IsMouseOverPlaceholder = currentDropPosition == MousePositionWithinModule.Placeholder;
+                        targetItem.SignalReplaceDrop = true;
+                    }
+
                     break;
 
                 // display insert adorner
@@ -466,124 +474,125 @@ namespace WpfApp1
             IModule sourceItem = dropInfo.Data as CatalogModuleProductViewModel;
             if (sourceItem == null)
                 sourceItem = dropInfo.Data as Module;
+            if (sourceItem == null || targetItem == null)
+                return;
 
-            // insert new item into terminal from other UI control
-            if (sourceItem != null && targetItem != null)
+
+            //var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
+            int targetIndex = Modules.IndexOf(targetItem);
+
+            // drop item from catalog
+            if (sourceItem is CatalogModuleProductViewModel)
             {
-                //var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
-
-
-                
-
-                int targetIndex = Modules.IndexOf(targetItem);
-
-                // drop item from catalog
-                if (sourceItem is CatalogModuleProductViewModel)
-
-                {
-                    var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
-
-                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
-                        Modules.Insert(targetIndex, droppedDataConverted);
-                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
-                        Modules.Insert(targetIndex + 1, droppedDataConverted);
-
-                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Center)
-                    {
-                        Modules.Remove(targetItem);
-                        Modules.Insert(targetIndex, droppedDataConverted);
-                    }
-                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Module) 
-                    {
-                        if (targetItem.SlotIn != null)
-                            Modules.Remove(targetItem.SlotIn);
-                        Modules.Remove(targetItem);
-                        Modules.Insert(targetIndex, droppedDataConverted);
-                    }
-                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
-                    {
-                        /* 
-                         * if a placeholder is empty - insert
-                         * if slot-in module exists - replace
-                        */
-                        if (targetItem.SlotIn != null)
-                            Modules.Remove(targetItem.SlotIn);
-
-                        TestDataContext.FillPlaceholder(targetItem, droppedDataConverted);
-                        Modules.Insert(Modules.IndexOf(targetItem as Module), droppedDataConverted);
-
-
-                        Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
-                    }
-
-                }
-                // drop item from terminal itself
-                else if (sourceItem is Module)
-                {
-                    if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
-                        return;
-
-
-                    if (targetItem.PositionOnDrag == MousePositionWithinModule.Left 
-                        || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
-                    {
-                        int oldIndex = Modules.IndexOf(sourceItem as Module);
-                        int newIndex = Modules.IndexOf(targetItem as Module);
-
-                        Modules.Move(oldIndex, newIndex);
-                        
-                        if ((sourceItem as Module).SlotIn != null)
-                            Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn), Modules.IndexOf((sourceItem as Module).SlotIn) > newIndex ? newIndex : newIndex-1);
-
-                    }
-
-                    else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
-                    {
-                        /* 
-                         * if a placeholder is empty - insert
-                         * if slot-in module exists - change positions of modules
-                        */
-
-                        if (targetItem.SlotIn != null)
-                        {
-                            Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
-                            // move old slot-in module
-                            Modules.Move(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem as Module));
-                            targetItem.SlotIn.IsSlotIn = false;
-                        }
-
-
-
-                        TestDataContext.FillPlaceholder(targetItem, (Module)sourceItem);
-
-
-
-                        if (Modules.IndexOf((Module)sourceItem) + 1 == Modules.IndexOf(targetItem))
-                        {
-                            // right positioning already - do nothing
-                        }
-                        else
-                        // move new slot-in module
-                        {
-                            if (Modules.Last() == targetItem)
-                                Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem) - 1);
-                            else
-                                Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem));
-                        }
-
-
-
-
-                        Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
-
-                    }
-
-                }
-
-                //ResetSignalReplace();
+                DropCatalogItem(targetItem, sourceItem, targetIndex);
+            }
+            // drop item from terminal itself
+            else if (sourceItem is Module)
+            {
+                DropTerminalItem(targetItem, sourceItem, targetIndex);
             }
 
+            //ResetSignalReplace();
 
+        }
+
+        private void DropTerminalItem(Module targetItem, IModule sourceItem, int targetIndex)
+        {
+            if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
+                return;
+
+            if (targetItem.PositionOnDrag == MousePositionWithinModule.Left
+                || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
+            {
+                int oldIndex = Modules.IndexOf(sourceItem as Module);
+                int newIndex = Modules.IndexOf(targetItem as Module);
+
+                Modules.Move(oldIndex, newIndex);
+
+                if ((sourceItem as Module).SlotIn != null)
+                    Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn), Modules.IndexOf((sourceItem as Module).SlotIn) > newIndex ? newIndex : newIndex - 1);
+
+            }
+
+            else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
+            {
+                /* 
+                 * if a placeholder is empty - insert
+                 * if slot-in module exists - change positions of modules
+                */
+
+                if (targetItem.SlotIn != null)
+                {
+                    Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
+                    // move old slot-in module
+                    Modules.Move(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem as Module));
+                    targetItem.SlotIn.IsSlotIn = false;
+                }
+
+
+
+                TestDataContext.FillPlaceholder(targetItem, (Module)sourceItem);
+
+
+
+                if (Modules.IndexOf((Module)sourceItem) + 1 == Modules.IndexOf(targetItem))
+                {
+                    // right positioning already - do nothing
+                }
+                else
+                // move new slot-in module
+                {
+                    if (Modules.Last() == targetItem)
+                        Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem) - 1);
+                    else
+                        Modules.Move(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem));
+                }
+
+
+
+
+                Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
+
+            }
+        }
+
+        private void DropCatalogItem(Module targetItem, IModule sourceItem, int targetIndex)
+        {
+            var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
+
+            if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
+                Modules.Insert(targetIndex, droppedDataConverted);
+            else if (targetItem.PositionOnDrag == MousePositionWithinModule.Right)
+                Modules.Insert(targetIndex + 1, droppedDataConverted);
+
+            else if (targetItem.PositionOnDrag == MousePositionWithinModule.Center)
+            {
+                Modules.Remove(targetItem);
+                Modules.Insert(targetIndex, droppedDataConverted);
+            }
+            else if (targetItem.PositionOnDrag == MousePositionWithinModule.Module)
+            {
+                if (targetItem.SlotIn != null)
+                    Modules.Remove(targetItem.SlotIn);
+                var index = Modules.IndexOf(targetItem);
+                Modules.Remove(targetItem);
+                Modules.Insert(index == 0 ? 0 : index--, droppedDataConverted);
+            }
+            else if (targetItem.PositionOnDrag == MousePositionWithinModule.Placeholder)
+            {
+                /* 
+                 * if a placeholder is empty - insert
+                 * if slot-in module exists - replace
+                */
+                if (targetItem.SlotIn != null)
+                    Modules.Remove(targetItem.SlotIn);
+
+                TestDataContext.FillPlaceholder(targetItem, droppedDataConverted);
+                Modules.Insert(Modules.IndexOf(targetItem as Module), droppedDataConverted);
+
+
+                Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
+            }
         }
 
         private bool IsMoveOperationPossible(int sourcePosition, int targetPosition, MousePositionWithinModule alignement)
