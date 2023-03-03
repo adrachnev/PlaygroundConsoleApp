@@ -27,7 +27,6 @@ namespace WpfApp1
     public enum MousePositionWithinModule
     {
         NONE,
-        Outside,
         Left,
         Right,
         Center,
@@ -448,12 +447,6 @@ namespace WpfApp1
 
                     break;
 
-                case MousePositionWithinModule.Outside:
-
-                    ResetSignalReplace();
-                    dropInfo.DropTargetAdorner = null;
-
-                    break;
 
             }
             
@@ -498,9 +491,6 @@ namespace WpfApp1
 
         private void DropTerminalItem(Module targetItem, IModule sourceItem, int targetIndex)
         {
-            if (!IsMoveOperationPossible(Modules.IndexOf(sourceItem as Module), targetIndex, targetItem.PositionOnDrag))
-                return;
-
             AssertPlaceholderSlotinIndex(sourceItem as Module);
 
             if (targetItem.PositionOnDrag == MousePositionWithinModule.Left
@@ -569,9 +559,10 @@ namespace WpfApp1
                 // move operation for slot-in
                 if ((sourceItem as Module).IsMouseOverPlaceholder)
                 {
-                    Debug.Fail("");
-                    var i = oldIndex == 0 ? 0 : oldIndex - 1;
-                    Modules.Move(i, AdaptNewIndex(i, newIndex, targetItem.PositionOnDrag));
+                    
+                    Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn), 
+                        AdaptNewIndex(Modules.IndexOf((sourceItem as Module).SlotIn), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
+
                     (sourceItem as Module).SlotIn.DeviceImage = Module.CreateImageObject((sourceItem as Module).SlotIn.XamlMarkup, DeviceImageType.XamlMarkup);
                     (sourceItem as Module).SlotIn.IsSlotIn = false;
                     TestDataContext.FillPlaceholder((sourceItem as Module), null);
@@ -670,18 +661,6 @@ namespace WpfApp1
 
                 Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
             }
-        }
-
-        private bool IsMoveOperationPossible(int sourcePosition, int targetPosition, MousePositionWithinModule alignement)
-        {
-            if (sourcePosition == targetPosition)
-                return false;
-            if (sourcePosition + 1 == targetPosition && alignement == MousePositionWithinModule.Left)
-                return false;
-            if (sourcePosition - 1 == targetPosition && alignement == MousePositionWithinModule.Right)
-                return false;
-
-            return true;
         }
 
         void IDropTarget.DragLeave(IDropInfo dropInfo)
