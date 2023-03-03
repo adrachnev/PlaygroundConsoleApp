@@ -537,8 +537,6 @@ namespace WpfApp1
             int oldIndex = Modules.IndexOf(sourceItem);
             int newIndex = Modules.IndexOf(targetItem);
 
-            
-
             // move operation for module or placeholder without slot-in module
             if (sourceItem.SlotIn == null)
             {
