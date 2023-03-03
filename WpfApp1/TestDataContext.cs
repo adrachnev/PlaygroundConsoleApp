@@ -131,7 +131,7 @@ namespace WpfApp1
             placeholder.SlotIn = slotIn;
             slotIn.IsSlotIn = true;
         }
-        public static void AddWithInVisualTree(FrameworkElement referencedElement, FrameworkElement newControl)
+        private static void AddWithInVisualTree(FrameworkElement referencedElement, FrameworkElement newControl)
         {
             FrameworkElement frameworkElement = referencedElement.Parent as FrameworkElement;
             FrameworkElement frameworkElement2 = frameworkElement;
