@@ -496,18 +496,18 @@ namespace WpfApp1
             if (targetItem.PositionOnDrag == MousePositionWithinModule.Left
                 || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
             {
-                MoveTerminalItem(targetItem, sourceItem);
+                MoveTerminalItem(targetItem, sourceItem as Module);
             }
 
             else if (targetItem.PositionOnDrag == MousePositionWithinModule.SlotIn)
             {
-                InsertOrReplaceSlotIn(targetItem, sourceItem);
+                InsertOrReplaceSlotIn(targetItem, sourceItem as Module);
             }
 
             AssertPlaceholderSlotinIndex(sourceItem as Module);
         }
 
-        private void InsertOrReplaceSlotIn(Module targetItem, IModule sourceItem)
+        private void InsertOrReplaceSlotIn(Module targetItem, Module sourceItem)
         {
             /* 
              * if a placeholder is empty - insert
@@ -518,38 +518,28 @@ namespace WpfApp1
             {
                 
                 // move old slot-in module to position of placeholder
-                Modules.Move(Modules.IndexOf(targetItem.SlotIn), AdaptNewIndex(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem as Module), targetItem.PositionOnDrag));
+                Modules.Move(Modules.IndexOf(targetItem.SlotIn), AdaptNewIndex(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem), targetItem.PositionOnDrag));
                 targetItem.SlotIn.IsSlotIn = false;
             }
             
-            TestDataContext.FillPlaceholder(targetItem, (Module)sourceItem);
+            TestDataContext.FillPlaceholder(targetItem, sourceItem);
 
-            if (Modules.IndexOf((Module)sourceItem) + 1 == Modules.IndexOf(targetItem))
+            if (Modules.IndexOf(sourceItem) + 1 != Modules.IndexOf(targetItem))
             {
-                // right positioning already - do nothing
+                Modules.Move(Modules.IndexOf(sourceItem),
+                    AdaptNewIndex(Modules.IndexOf(sourceItem), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
             }
-            else
-            // move new slot-in module
-            {
-                Modules.Move(Modules.IndexOf((Module)sourceItem),
-                    AdaptNewIndex(Modules.IndexOf((Module)sourceItem), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
-            }
-
-
-
-
-           
         }
 
-        private void MoveTerminalItem(Module targetItem, IModule sourceItem)
+        private void MoveTerminalItem(Module targetItem, Module sourceItem)
         {
-            int oldIndex = Modules.IndexOf(sourceItem as Module);
-            int newIndex = Modules.IndexOf(targetItem as Module);
+            int oldIndex = Modules.IndexOf(sourceItem);
+            int newIndex = Modules.IndexOf(targetItem);
 
             
 
             // move operation for module or placeholder without slot-in module
-            if ((sourceItem as Module).SlotIn == null)
+            if (sourceItem.SlotIn == null)
             {
                 Modules.Move(oldIndex, AdaptNewIndex(oldIndex, newIndex, targetItem.PositionOnDrag));
             }
@@ -557,15 +547,15 @@ namespace WpfApp1
             else
             {
                 // move operation for slot-in
-                if ((sourceItem as Module).IsMouseOverPlaceholder)
+                if (sourceItem.IsMouseOverPlaceholder)
                 {
                     
-                    Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn), 
-                        AdaptNewIndex(Modules.IndexOf((sourceItem as Module).SlotIn), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
+                    Modules.Move(Modules.IndexOf(sourceItem.SlotIn), 
+                        AdaptNewIndex(Modules.IndexOf(sourceItem.SlotIn), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
 
-                    (sourceItem as Module).SlotIn.DeviceImage = Module.CreateImageObject((sourceItem as Module).SlotIn.XamlMarkup, DeviceImageType.XamlMarkup);
-                    (sourceItem as Module).SlotIn.IsSlotIn = false;
-                    TestDataContext.FillPlaceholder((sourceItem as Module), null);
+                    sourceItem.SlotIn.DeviceImage = Module.CreateImageObject(sourceItem.SlotIn.XamlMarkup, DeviceImageType.XamlMarkup);
+                    sourceItem.SlotIn.IsSlotIn = false;
+                    TestDataContext.FillPlaceholder(sourceItem, null);
 
                 }
                 // move operation for placeholder with slot-in
@@ -576,27 +566,14 @@ namespace WpfApp1
 
 
                     // second slot-in if needed (don't adapt new index for slot-in)
-                    if (IsNeedToMoveSlotin(sourceItem as Module))
+                    if (Modules.IndexOf(sourceItem.SlotIn) + 1 != Modules.IndexOf(sourceItem))
                     {
-                        newIndex = Modules.IndexOf((sourceItem as Module));
-                        Modules.Move(Modules.IndexOf((sourceItem as Module).SlotIn), Modules.IndexOf((sourceItem as Module).SlotIn) > newIndex ? newIndex : newIndex - 1);
-
+                        newIndex = Modules.IndexOf(sourceItem);
+                        Modules.Move(Modules.IndexOf(sourceItem.SlotIn), Modules.IndexOf(sourceItem.SlotIn) > newIndex ? newIndex : newIndex - 1);
                     }
                 }
             }
-
-           
         }
-
-        private bool IsNeedToMoveSlotin(Module placeholder)
-        {
-            if (placeholder.SlotIn == null)
-                throw new InvalidOperationException();
-
-            return Modules.IndexOf(placeholder) != Modules.IndexOf(placeholder.SlotIn) + 1;
-        }
-
-        
 
         private void AssertPlaceholderSlotinIndex(Module placeholder)
         {
