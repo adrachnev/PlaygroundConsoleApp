@@ -526,6 +526,7 @@ namespace WpfApp1
 
             if (Modules.IndexOf(sourceItem) + 1 != Modules.IndexOf(targetItem))
             {
+                // move new slot-in module
                 Modules.Move(Modules.IndexOf(sourceItem),
                     AdaptNewIndex(Modules.IndexOf(sourceItem), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
             }
@@ -649,12 +650,6 @@ namespace WpfApp1
 
         private const int MODULE_INSERT_EDGE_DISTANCE_PIXEL = 10;
 
-        /// <summary>
-        /// If PlaceholderModule - return Module/Placeholder/Outside
-        /// If normal Module - return Center/Left/Right/Outside
-        /// </summary>
-        /// <param name="dropInfo"></param>
-        /// <returns></returns>
         private MousePositionWithinModule GetMouseAlignmentRelativeToTarget(IDropInfo dropInfo)
         {
             MousePositionWithinModule result = MousePositionWithinModule.NONE;
