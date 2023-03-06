@@ -522,7 +522,7 @@ namespace WpfApp1
                 targetItem.SlotIn.IsSlotIn = false;
             }
             
-            TestDataContext.FillPlaceholder(targetItem, sourceItem);
+            
 
             if (Modules.IndexOf(sourceItem) + 1 != Modules.IndexOf(targetItem))
             {
@@ -530,6 +530,7 @@ namespace WpfApp1
                 Modules.Move(Modules.IndexOf(sourceItem),
                     AdaptNewIndex(Modules.IndexOf(sourceItem), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
             }
+            TestDataContext.FillPlaceholder(targetItem, sourceItem);
         }
 
         private void MoveTerminalItem(Module targetItem, Module sourceItem)
