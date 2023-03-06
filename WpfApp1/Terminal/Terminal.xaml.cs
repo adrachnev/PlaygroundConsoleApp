@@ -576,28 +576,45 @@ namespace WpfApp1
 
         private void AssertPlaceholderSlotinIndex(Module placeholder)
         {
-            if (placeholder.SlotIn != null)
-                Debug.Assert(Modules.IndexOf(placeholder) == Modules.IndexOf(placeholder.SlotIn) + 1);
+            foreach (var item in Modules)
+            {
+                if (item.SlotIn != null)
+                {
+                    Debug.Assert(item.SlotIn == Modules[Modules.IndexOf(item) - 1]);
+                }
+            }
         }
 
         private int AdaptNewIndex(int oldIndex, int newIndex, MousePositionWithinModule positionOnDrag)
         {
             // consider the move direction
-            newIndex = oldIndex > newIndex ? newIndex : newIndex - 1;
-            if (newIndex < 0)
-                newIndex = 0;
+            var result = oldIndex > newIndex ? newIndex : newIndex - 1;
+            if (result < 0)
+                result = 0;
 
             switch (positionOnDrag)
             {
                 case MousePositionWithinModule.Left:
                 case MousePositionWithinModule.SlotIn:
-                    return newIndex;
+                    break;
                 case MousePositionWithinModule.Right:                
-                    return newIndex + 1 == Modules.Count ? newIndex : newIndex + 1;
-             
+                    result  =  result + 1 == Modules.Count ? result : result + 1;
+                    break;
                 default:
                     throw new InvalidOperationException("internal implementation fault");
             }
+            // consider slot-in if moving to left
+            if (oldIndex > newIndex) 
+            {
+                if (Modules[result].SlotIn != null)
+                    result = result - 1;
+
+                if (result < 0)
+                    result = 0;
+            }
+
+
+            return result;
         }
 
         private void DropCatalogItem(Module targetItem, IModule sourceItem, int targetIndex)
