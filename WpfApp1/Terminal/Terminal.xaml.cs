@@ -281,9 +281,36 @@ namespace WpfApp1
             var index = Modules.IndexOf(SelectedModule);
             var newIndex = index + 1;
             if (newIndex < Modules.Count)
-                Modules.Move(index, newIndex);
+            {
+                shift(index, newIndex);
+            }
 
 
+
+        }
+
+        private void shift(int index, int newIndex)
+        {
+            foreach (var m in Modules)
+            {
+                m.PositionOnDrag = MousePositionWithinModule.NONE;
+                if (m.Placeholder != null)
+                    m.IsMouseOverPlaceholder = false;
+            }
+            if (Modules[index].SlotIn != null) 
+            {
+                if (newIndex > index)
+                    ;// newIndex = newIndex +1;
+                else
+                    newIndex = newIndex - 1;
+            }
+
+            if (newIndex < 0)
+                newIndex = 0;
+            if (newIndex == Modules.Count)
+                newIndex= newIndex-1;
+
+            MoveTerminalItem(Modules[newIndex], Modules[index]);
         }
 
         private void shiftLeft(object sender, RoutedEventArgs e)
@@ -296,7 +323,10 @@ namespace WpfApp1
             var index = Modules.IndexOf(SelectedModule);
             var newIndex = index - 1;
             if (newIndex >= 0)
-                Modules.Move(index, newIndex);
+            {
+                shift(index, newIndex);
+            }
+              
 
 
         }
@@ -469,6 +499,8 @@ namespace WpfApp1
                 sourceItem = dropInfo.Data as Module;
             if (sourceItem == null || targetItem == null)
                 return;
+            if (sourceItem == targetItem)
+                return;
 
 
             //var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
@@ -507,7 +539,7 @@ namespace WpfApp1
             AssertPlaceholderSlotinIndex(sourceItem as Module);
         }
 
-        private void InsertOrReplaceSlotIn(Module targetItem, Module sourceItem)
+        private void InsertOrReplaceSlotIn(Module targetItem, Module newSlotIn)
         {
             /* 
              * if a placeholder is empty - insert
@@ -516,21 +548,19 @@ namespace WpfApp1
 
             if (targetItem.SlotIn != null)
             {
-                
-                // move old slot-in module to position of placeholder
-                Modules.Move(Modules.IndexOf(targetItem.SlotIn), AdaptNewIndex(Modules.IndexOf(targetItem.SlotIn), Modules.IndexOf(sourceItem), targetItem.PositionOnDrag));
+                // move new slot-in to position old
+                Modules.Move(Modules.IndexOf(newSlotIn), AdaptNewIndex(Modules.IndexOf(newSlotIn), Modules.IndexOf(targetItem.SlotIn), targetItem.PositionOnDrag));
                 targetItem.SlotIn.IsSlotIn = false;
-            }
-            
-            
 
-            if (Modules.IndexOf(sourceItem) + 1 != Modules.IndexOf(targetItem))
+            }
+            if (Modules.IndexOf(newSlotIn) + 1 != Modules.IndexOf(targetItem))
             {
                 // move new slot-in module
-                Modules.Move(Modules.IndexOf(sourceItem),
-                    AdaptNewIndex(Modules.IndexOf(sourceItem), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
+                Modules.Move(Modules.IndexOf(newSlotIn),
+                    AdaptNewIndex(Modules.IndexOf(newSlotIn), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
             }
-            TestDataContext.FillPlaceholder(targetItem, sourceItem);
+
+            TestDataContext.FillPlaceholder(targetItem, newSlotIn);
         }
 
         private void MoveTerminalItem(Module targetItem, Module sourceItem)
@@ -560,6 +590,7 @@ namespace WpfApp1
                 }
                 // move operation for placeholder with slot-in
                 else
+                
                 {
                     // first placeholder 
                     Modules.Move(oldIndex, AdaptNewIndex(oldIndex, newIndex, targetItem.PositionOnDrag));
@@ -577,6 +608,9 @@ namespace WpfApp1
 
         private void AssertPlaceholderSlotinIndex(Module placeholder)
         {
+            Modules.SingleOrDefault(x => x.IsSlotIn);
+            
+
             foreach (var item in Modules)
             {
                 if (item.SlotIn != null)
@@ -588,30 +622,41 @@ namespace WpfApp1
 
         private int AdaptNewIndex(int oldIndex, int newIndex, MousePositionWithinModule positionOnDrag)
         {
-            // consider the move direction
-            var result = oldIndex > newIndex ? newIndex : newIndex - 1;
-            if (result < 0)
-                result = 0;
+            int result;
+            if (positionOnDrag != MousePositionWithinModule.NONE)
+                // consider the move direction (if moving to right decrease)
+                result =  oldIndex > newIndex ? newIndex : newIndex - 1;
+            else
+                result = newIndex;
+
 
             switch (positionOnDrag)
             {
                 case MousePositionWithinModule.Left:
                 case MousePositionWithinModule.SlotIn:
+                case MousePositionWithinModule.NONE:
                     break;
-                case MousePositionWithinModule.Right:                
-                    result  =  result + 1 == Modules.Count ? result : result + 1;
+                case MousePositionWithinModule.Right:
+                    result = result + 1 == Modules.Count ? result : result + 1;
                     break;
                 default:
                     throw new InvalidOperationException("internal implementation fault");
             }
-            // consider slot-in if moving to left
-            if (oldIndex > newIndex) 
+            // consider slot-in
+            if (oldIndex > newIndex)
             {
                 if (Modules[result].SlotIn != null)
                     result = result - 1;
 
                 if (result < 0)
                     result = 0;
+            }
+            else
+            {
+                if (Modules[result].IsSlotIn)
+                    result = result + 1;
+                if (result == Modules.Count)
+                    result = Modules.Count - 1;
             }
 
 
