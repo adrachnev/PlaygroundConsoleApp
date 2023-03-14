@@ -620,9 +620,20 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Adopts new index depending on 
+        /// - drop position (left/right of target module)
+        /// - direction of move operation <see cref="ObservableCollection{T}.Move(int, int)"/>
+        /// </summary>
+        /// <param name="oldIndex">for checking the move direction</param>
+        /// <param name="newIndex"></param>
+        /// <param name="positionOnDrag"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         private int AdaptNewIndex(int oldIndex, int newIndex, MousePositionWithinModule positionOnDrag)
         {
             int result;
+            
             if (positionOnDrag != MousePositionWithinModule.NONE)
                 // consider the move direction (if moving to right decrease)
                 result =  oldIndex > newIndex ? newIndex : newIndex - 1;
@@ -637,28 +648,23 @@ namespace WpfApp1
                 case MousePositionWithinModule.NONE:
                     break;
                 case MousePositionWithinModule.Right:
-                    result = result + 1 == Modules.Count ? result : result + 1;
+                    result++;
                     break;
                 default:
                     throw new InvalidOperationException("internal implementation fault");
             }
-            // consider slot-in
+            /*
+             * moving to left -> jump over slot-in if needed
+             * moving to right -> nothing to do, 'cause slot-in module is collapsed within terminal view
+             */
             if (oldIndex > newIndex)
             {
                 if (Modules[result].SlotIn != null)
-                    result = result - 1;
-
-                if (result < 0)
-                    result = 0;
-            }
-            else
-            {
-                if (Modules[result].IsSlotIn)
-                    result = result + 1;
-                if (result == Modules.Count)
-                    result = Modules.Count - 1;
+                    result--;
             }
 
+            result = (result < 0) ? 0 : result;
+            result = (result >= Modules.Count) ? Modules.Count - 1 : result;
 
             return result;
         }
