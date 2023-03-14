@@ -496,7 +496,7 @@ namespace WpfApp1
                 sourceItem = dropInfo.Data as Module;
             if (sourceItem == null || targetItem == null)
                 return;
-            if (sourceItem == targetItem)
+            if (sourceItem == targetItem && !targetItem.IsMouseOverPlaceholder)
                 return;
 
 
@@ -543,6 +543,8 @@ namespace WpfApp1
              * if a placeholder is empty - insert
                if slot-in module exists - change positions of modules
              */
+
+            if (targetItem == newSlotIn) return;
 
             if (targetItem.SlotIn != null)
             {
