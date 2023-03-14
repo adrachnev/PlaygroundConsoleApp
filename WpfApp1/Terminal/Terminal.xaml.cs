@@ -297,20 +297,17 @@ namespace WpfApp1
                 if (m.Placeholder != null)
                     m.IsMouseOverPlaceholder = false;
             }
-            if (Modules[index].SlotIn != null) 
+            if (Modules[index].SlotIn != null)
             {
-                if (newIndex > index)
-                    ;// newIndex = newIndex +1;
-                else
-                    newIndex = newIndex - 1;
+                if (newIndex < index)
+                   newIndex--;
+
+                newIndex = newIndex < 0 ? 0 : newIndex;
             }
 
-            if (newIndex < 0)
-                newIndex = 0;
-            if (newIndex == Modules.Count)
-                newIndex= newIndex-1;
-
+            AssertIndex();
             MoveTerminalItem(Modules[newIndex], Modules[index]);
+            AssertIndex();
         }
 
         private void shiftLeft(object sender, RoutedEventArgs e)
@@ -504,30 +501,31 @@ namespace WpfApp1
 
 
             //var alignement = GetMouseAlignmentRelativeToTarget(dropInfo);
-            int targetIndex = Modules.IndexOf(targetItem);
+            
 
             // drop item from catalog
             if (sourceItem is CatalogModuleProductViewModel)
             {
-                DropCatalogItem(targetItem, sourceItem, targetIndex);
+                DropCatalogItem(targetItem, sourceItem);
             }
             // drop item from terminal itself
             else if (sourceItem is Module)
             {
-                DropTerminalItem(targetItem, sourceItem, targetIndex);
+                DropTerminalItem(targetItem, sourceItem);
             }
 
             //ResetSignalReplace();
 
         }
 
-        private void DropTerminalItem(Module targetItem, IModule sourceItem, int targetIndex)
+        private void DropTerminalItem(Module targetItem, IModule sourceItem)
         {
-            AssertPlaceholderSlotinIndex(sourceItem as Module);
+            AssertIndex();
 
             if (targetItem.PositionOnDrag == MousePositionWithinModule.Left
                 || targetItem.PositionOnDrag == MousePositionWithinModule.Right)
             {
+                
                 MoveTerminalItem(targetItem, sourceItem as Module);
             }
 
@@ -536,7 +534,7 @@ namespace WpfApp1
                 InsertOrReplaceSlotIn(targetItem, sourceItem as Module);
             }
 
-            AssertPlaceholderSlotinIndex(sourceItem as Module);
+            AssertIndex();
         }
 
         private void InsertOrReplaceSlotIn(Module targetItem, Module newSlotIn)
@@ -548,16 +546,22 @@ namespace WpfApp1
 
             if (targetItem.SlotIn != null)
             {
-                // move new slot-in to position old
-                Modules.Move(Modules.IndexOf(newSlotIn), AdaptNewIndex(Modules.IndexOf(newSlotIn), Modules.IndexOf(targetItem.SlotIn), targetItem.PositionOnDrag));
+
+                // move old slot-in
+                var newIndex = Modules.IndexOf(targetItem.SlotIn) > Modules.IndexOf(newSlotIn) ? Modules.IndexOf(newSlotIn) : Modules.IndexOf(newSlotIn) - 1;
+                newIndex = newIndex < 0 ? 0 : newIndex;   
+                
+                Modules.Move(Modules.IndexOf(targetItem.SlotIn), newIndex);
                 targetItem.SlotIn.IsSlotIn = false;
 
             }
             if (Modules.IndexOf(newSlotIn) + 1 != Modules.IndexOf(targetItem))
             {
                 // move new slot-in module
-                Modules.Move(Modules.IndexOf(newSlotIn),
-                    AdaptNewIndex(Modules.IndexOf(newSlotIn), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
+                var newIndex = Modules.IndexOf(newSlotIn) > Modules.IndexOf(targetItem) ? Modules.IndexOf(targetItem): Modules.IndexOf(targetItem) - 1;
+                newIndex = newIndex < 0 ? 0 : newIndex;
+                
+                Modules.Move(Modules.IndexOf(newSlotIn), newIndex);
             }
 
             TestDataContext.FillPlaceholder(targetItem, newSlotIn);
@@ -565,13 +569,14 @@ namespace WpfApp1
 
         private void MoveTerminalItem(Module targetItem, Module sourceItem)
         {
+
             int oldIndex = Modules.IndexOf(sourceItem);
             int newIndex = Modules.IndexOf(targetItem);
 
             // move operation for module or placeholder without slot-in module
             if (sourceItem.SlotIn == null)
             {
-                Modules.Move(oldIndex, AdaptNewIndex(oldIndex, newIndex, targetItem.PositionOnDrag));
+                Modules.Move(oldIndex, GetMoveNewIndex(sourceItem, targetItem));
             }
             // slotin or placeholder with slot-in
             else
@@ -580,8 +585,7 @@ namespace WpfApp1
                 if (sourceItem.IsMouseOverPlaceholder)
                 {
                     
-                    Modules.Move(Modules.IndexOf(sourceItem.SlotIn), 
-                        AdaptNewIndex(Modules.IndexOf(sourceItem.SlotIn), Modules.IndexOf(targetItem), targetItem.PositionOnDrag));
+                    Modules.Move(Modules.IndexOf(sourceItem.SlotIn), GetMoveNewIndex(sourceItem.SlotIn, targetItem));
 
                     sourceItem.SlotIn.DeviceImage = Module.CreateImageObject(sourceItem.SlotIn.XamlMarkup, DeviceImageType.XamlMarkup);
                     sourceItem.SlotIn.IsSlotIn = false;
@@ -593,7 +597,7 @@ namespace WpfApp1
                 
                 {
                     // first placeholder 
-                    Modules.Move(oldIndex, AdaptNewIndex(oldIndex, newIndex, targetItem.PositionOnDrag));
+                    Modules.Move(oldIndex, GetMoveNewIndex(sourceItem,targetItem));
 
 
                     // second slot-in if needed (don't adapt new index for slot-in)
@@ -606,7 +610,7 @@ namespace WpfApp1
             }
         }
 
-        private void AssertPlaceholderSlotinIndex(Module placeholder)
+        private void AssertIndex()
         {
             Modules.SingleOrDefault(x => x.IsSlotIn);
             
@@ -621,31 +625,46 @@ namespace WpfApp1
         }
 
         /// <summary>
-        /// Adopts new index depending on 
+        /// Adopts new index depending on
         /// - drop position (left/right of target module)
         /// - direction of move operation <see cref="ObservableCollection{T}.Move(int, int)"/>
-        /// </summary>
-        /// <param name="oldIndex">for checking the move direction</param>
-        /// <param name="newIndex"></param>
-        /// <param name="positionOnDrag"></param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
-        private int AdaptNewIndex(int oldIndex, int newIndex, MousePositionWithinModule positionOnDrag)
+        /// </summary>        
+        private int GetMoveNewIndex(Module source , Module target )
         {
-            int result;
-            
-            if (positionOnDrag != MousePositionWithinModule.NONE)
-                // consider the move direction (if moving to right decrease)
-                result =  oldIndex > newIndex ? newIndex : newIndex - 1;
+            if (target.IsSlotIn)
+                throw new InvalidOperationException("Index is calculated only for non sloted modules");
+
+
+            // if shift context
+            if (target.PositionOnDrag == MousePositionWithinModule.NONE)
+            {
+                if (target.IsSlotIn == false)
+                    return StepOverSlotIn(Modules.IndexOf(source), Modules.IndexOf(target), Modules.IndexOf(target));
+                else
+                    return StepOverSlotIn(Modules.IndexOf(source), Modules.IndexOf(target) + 1, Modules.IndexOf(target) + 1);
+            }
+
+            int oldIndex = Modules.IndexOf(source);
+            int newIndex = Modules.IndexOf(target);
+
+            MousePositionWithinModule positionOnDrag;
+            if (target.IsSlotIn)
+            {
+                var placeholder = Modules.First(x => x.SlotIn == target);
+                positionOnDrag = placeholder.PositionOnDrag;
+            }
             else
-                result = newIndex;
+                positionOnDrag = target.PositionOnDrag;
+
+
+            // consider the move direction (if moving to right decrease)
+            int result = oldIndex > newIndex ? newIndex : newIndex - 1;
 
 
             switch (positionOnDrag)
             {
                 case MousePositionWithinModule.Left:
                 case MousePositionWithinModule.SlotIn:
-                case MousePositionWithinModule.NONE:
                     break;
                 case MousePositionWithinModule.Right:
                     result++;
@@ -653,10 +672,20 @@ namespace WpfApp1
                 default:
                     throw new InvalidOperationException("internal implementation fault");
             }
+
+            result = StepOverSlotIn(oldIndex, newIndex, result);
+
+            return result;
+        }
+
+        
+
+        private int StepOverSlotIn(int oldIndex, int newIndex, int result)
+        {
             /*
-             * moving to left -> jump over slot-in if needed
-             * moving to right -> nothing to do, 'cause slot-in module is collapsed within terminal view
-             */
+                         * moving to left -> jump over slot-in if needed
+                         * moving to right -> nothing to do, 'cause slot-in module is collapsed within terminal view
+                         */
             if (oldIndex > newIndex)
             {
                 if (Modules[result].SlotIn != null)
@@ -665,12 +694,13 @@ namespace WpfApp1
 
             result = (result < 0) ? 0 : result;
             result = (result >= Modules.Count) ? Modules.Count - 1 : result;
-
             return result;
         }
 
-        private void DropCatalogItem(Module targetItem, IModule sourceItem, int targetIndex)
+        private void DropCatalogItem(Module targetItem, IModule sourceItem)
         {
+            int targetIndex = Modules.IndexOf(targetItem);
+
             var droppedDataConverted = new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode };
 
             if (targetItem.PositionOnDrag == MousePositionWithinModule.Left)
