@@ -173,22 +173,27 @@ namespace WpfApp1
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void listBoxItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {   
+        {
             var m = (sender as ListBoxItem).DataContext as Module;
-            
+
             if (m.SlotIn == null)
                 return;
+            bool selectSlotIn = IsMouseOverPlaceholder(e, m.Placeholder);
 
-           
-            var pos = e.GetPosition(m.Placeholder);
-
-            var selectSlotIn = (pos.X > 0 && pos.Y > 0 &&
-                pos.X < m.Placeholder.ActualWidth && pos.Y < m.Placeholder.ActualHeight);
-            
             DisplaySlotInSelection(m, selectSlotIn);
             if (selectSlotIn)
                 e.Handled = true;
 
+        }
+
+        private static bool IsMouseOverPlaceholder(MouseButtonEventArgs e, FrameworkElement placeholder)
+        {
+            var pos = e.GetPosition(placeholder);
+
+            var selectSlotIn = (pos.X > 0 && pos.Y > 0 &&
+                pos.X < placeholder.ActualWidth && pos.Y < placeholder.ActualHeight);
+
+            return selectSlotIn;
         }
 
         private void DisplaySlotInSelection(Module placeholder, bool isSelected) 
@@ -239,9 +244,15 @@ namespace WpfApp1
         {
             ResetClipboard();
 
-            var module = (sender as ListBoxItem).DataContext as Module;
+            var moduleToSelect = (sender as ListBoxItem).DataContext as Module;
 
-            DoubleClickCommand?.Execute(Modules.IndexOf(module));
+            if (moduleToSelect.SlotIn != null)
+            {
+                if (IsMouseOverPlaceholder(e, moduleToSelect.Placeholder))
+                    moduleToSelect = moduleToSelect.SlotIn;
+            }
+
+            DoubleClickCommand?.Execute(Modules.IndexOf(moduleToSelect));
         }
 
         private void open(object sender, RoutedEventArgs e)

@@ -57,6 +57,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <EventSetter Event="PreviewMouseDoubleClick" Handler="listBoxItem_MouseDoubleClick" />
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="listBoxItem_MouseLeftButtonDown" />
                 
                 <!--<EventSetter Event="PreviewMouseMove" Handler="listboxItem_PreviewMouseMoveEvent"/>
