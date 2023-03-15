@@ -633,10 +633,6 @@ namespace WpfApp1
         /// </summary>        
         private int GetMoveNewIndex(Module source , Module target )
         {
-            if (target.IsSlotIn)
-                throw new InvalidOperationException("Index is calculated only for non sloted modules");
-
-
             // if shift context
             if (target.PositionOnDrag == MousePositionWithinModule.NONE)
             {
@@ -645,6 +641,9 @@ namespace WpfApp1
                 else
                     return StepOverSlotIn(Modules.IndexOf(source), Modules.IndexOf(target) + 1, Modules.IndexOf(target) + 1);
             }
+
+            if (target.IsSlotIn)
+                throw new InvalidOperationException("Index is calculated only for non sloted modules");
 
             int oldIndex = Modules.IndexOf(source);
             int newIndex = Modules.IndexOf(target);
