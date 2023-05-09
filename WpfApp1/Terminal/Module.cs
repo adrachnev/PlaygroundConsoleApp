@@ -27,7 +27,13 @@ namespace WpfApp1
             DeviceImage = CreateImageObject(xamlMarkup, DeviceImageType.XamlMarkup);
 
         }
-        public string OrderCode { get; set; }
+
+        public string OrderCode
+        {
+            get => orderCode;
+            set => orderCode = value;
+        }
+
         public DependencyObject DeviceImage
         {
             get => deviceImage;
@@ -52,6 +58,17 @@ namespace WpfApp1
                 OnPropertyChanged();
             }
         }
+
+        public bool IsCut
+        {
+            get => isCut;
+            set
+            {
+                isCut = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Module SlotIn
         {
             get => slotIn;
@@ -80,7 +97,11 @@ namespace WpfApp1
             }
         }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
 
         public static DependencyObject CreateImageObject(string xamlMarkup, DeviceImageType imageType)
         {
@@ -124,6 +145,12 @@ namespace WpfApp1
         private bool isMouseOverPlaceholder;
         private DependencyObject deviceImage;
         private FrameworkElement placeholder;
+        private string orderCode;
+        private bool isCut;
+        private string name;
+        private MousePositionWithinModule positionOnDrag;
+        private bool displayModuleDescription;
+        private string xamlMarkup;
 
         public bool SignalReplaceDrop
         {
@@ -139,7 +166,12 @@ namespace WpfApp1
             }
         }
 
-        public MousePositionWithinModule PositionOnDrag { get; set; }
+        public MousePositionWithinModule PositionOnDrag
+        {
+            get => positionOnDrag;
+            set => positionOnDrag = value;
+        }
+
         public bool IsMouseOverPlaceholder
         {
             get => isMouseOverPlaceholder;
@@ -150,7 +182,12 @@ namespace WpfApp1
                 isMouseOverPlaceholder = value;
             }
         }
-        public bool DisplayModuleDescription { get; set; }
+
+        public bool DisplayModuleDescription
+        {
+            get => displayModuleDescription;
+            set => displayModuleDescription = value;
+        }
 
         public string Message => "message";
         public bool HasWarning => false;
@@ -162,6 +199,10 @@ namespace WpfApp1
 
         public bool HasInfo => false;
 
-        public string XamlMarkup { get; set; }
+        public string XamlMarkup
+        {
+            get => xamlMarkup;
+            set => xamlMarkup = value;
+        }
     }
 }

@@ -48,21 +48,21 @@ namespace WpfApp1
             InitializeComponent();
             ctxMenu.DataContext = this;
 
-            IsItemCopiedToClipboard = false;
+            IsItemCutOrCopied = false;
 
         }
 
 
         #region Dependency Properties
 
-        internal bool IsItemCopiedToClipboard
+        internal bool IsItemCutOrCopied
         {
-            get { return (bool)GetValue(IsItemCopiedProperty); }
-            set { SetValue(IsItemCopiedProperty, value); }
+            get { return (bool)GetValue(IsItemCutOrCopiedProperty); }
+            set { SetValue(IsItemCutOrCopiedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsItemCopiedProperty =
-            DependencyProperty.Register("IsItemCopied", typeof(bool), typeof(Terminal), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty IsItemCutOrCopiedProperty =
+            DependencyProperty.Register(nameof(IsItemCutOrCopied), typeof(bool), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
 
         public ObservableCollection<Module> Modules
@@ -70,7 +70,7 @@ namespace WpfApp1
             get { return (ObservableCollection<Module>)GetValue(ModulesProperty); }
             set { SetValue(ModulesProperty, value); }
         }
-        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register("Modules", typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(ModulesChangedCallback)));
+        public static readonly DependencyProperty ModulesProperty = DependencyProperty.Register(nameof(Modules), typeof(ObservableCollection<Module>), typeof(Terminal), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(ModulesChangedCallback)));
 
         private static void ModulesChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -82,7 +82,7 @@ namespace WpfApp1
             get { return (Module)GetValue(SelectedModuleProperty); }
             set { SetValue(SelectedModuleProperty, value); }
         }
-        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register("SelectedModule", typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(SelectedModuleChangedCallback)));
+        public static readonly DependencyProperty SelectedModuleProperty = DependencyProperty.Register(nameof(SelectedModule), typeof(Module), typeof(Terminal), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(SelectedModuleChangedCallback)));
 
         private static void SelectedModuleChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -97,7 +97,7 @@ namespace WpfApp1
         }
 
         public static readonly DependencyProperty DoubleClickCommandProperty =
-            DependencyProperty.Register("DoubleClickCommand", typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
+            DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
         public ICommand PasteCommand
         {
@@ -105,7 +105,7 @@ namespace WpfApp1
             set { SetValue(PasteCommandProperty, value); }
         }
         public static readonly DependencyProperty PasteCommandProperty =
-            DependencyProperty.Register("PasteCommand", typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
+            DependencyProperty.Register(nameof(PasteCommand), typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
 
 
@@ -117,7 +117,7 @@ namespace WpfApp1
 
         // Using a DependencyProperty as the backing store for MaximumZoomFactor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaximumZoomFactorProperty =
-            DependencyProperty.Register("MaximumZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(3.0));
+            DependencyProperty.Register(nameof(MaximumZoomFactor), typeof(double), typeof(Terminal), new PropertyMetadata(3.0));
 
 
 
@@ -129,7 +129,7 @@ namespace WpfApp1
 
         // Using a DependencyProperty as the backing store for MinimumZoomFactor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MinimumZoomFactorProperty =
-            DependencyProperty.Register("MinimumZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(0.3));
+            DependencyProperty.Register(nameof(MinimumZoomFactor), typeof(double), typeof(Terminal), new PropertyMetadata(0.3));
 
 
 
@@ -141,7 +141,7 @@ namespace WpfApp1
 
         // Using a DependencyProperty as the backing store for ZoomFactor.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ZoomFactorProperty =
-            DependencyProperty.Register("ZoomFactor", typeof(double), typeof(Terminal), new PropertyMetadata(1.5));
+            DependencyProperty.Register(nameof(ZoomFactor), typeof(double), typeof(Terminal), new PropertyMetadata(1.5));
 
         #endregion
 
@@ -229,16 +229,24 @@ namespace WpfApp1
         private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
-                delete(null, null);
+                Delete(null, null);
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X)
-                cut(null, null);
+                Cut(null, null);
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C)
-                copy(null, null);
+                Copy(null, null);
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V)
-                paste(null, null);
+                Paste(null, null);
+
+            if (Keyboard.IsKeyDown(Key.Escape))
+            {
+                ResetClipboard();
+                ResetSignalReplace();
+                listbox.SelectedItem = null;
+            }
+             
         }
         private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -255,7 +263,7 @@ namespace WpfApp1
             DoubleClickCommand?.Execute(Modules.IndexOf(moduleToSelect));
         }
 
-        private void open(object sender, RoutedEventArgs e)
+        private void Open(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
@@ -263,7 +271,7 @@ namespace WpfApp1
             DoubleClickCommand?.Execute(Modules.IndexOf(SelectedModule));
         }
 
-        private void delete(object sender, RoutedEventArgs e)
+        private void Delete(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
@@ -282,7 +290,7 @@ namespace WpfApp1
             Modules.Remove(SelectedModule);
         }
 
-        private void shiftRight(object sender, RoutedEventArgs e)
+        private void ShiftRight(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
@@ -293,14 +301,14 @@ namespace WpfApp1
             var newIndex = index + 1;
             if (newIndex < Modules.Count)
             {
-                shift(index, newIndex);
+                Shift(index, newIndex);
             }
 
 
 
         }
 
-        private void shift(int index, int newIndex)
+        private void Shift(int index, int newIndex)
         {
             foreach (var m in Modules)
             {
@@ -321,7 +329,7 @@ namespace WpfApp1
             AssertIndex();
         }
 
-        private void shiftLeft(object sender, RoutedEventArgs e)
+        private void ShiftLeft(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
@@ -332,7 +340,7 @@ namespace WpfApp1
             var newIndex = index - 1;
             if (newIndex >= 0)
             {
-                shift(index, newIndex);
+                Shift(index, newIndex);
             }
               
 
@@ -341,30 +349,33 @@ namespace WpfApp1
 
 
 
-        private void cut(object sender, RoutedEventArgs e)
+        private void Cut(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
 
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Cut;
-            IsItemCopiedToClipboard = true;
+            SelectedModule.IsCut = true;
+            IsItemCutOrCopied = true;
         }
 
-        private void copy(object sender, RoutedEventArgs e)
+        private void Copy(object sender, RoutedEventArgs e)
         {
             if (SelectedModule == null)
                 return;
 
+            ResetCutModule();
+
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Copy;
-            IsItemCopiedToClipboard = true;
+            IsItemCutOrCopied = true;
         }
 
-        private void paste(object sender, RoutedEventArgs e)
+        private void Paste(object sender, RoutedEventArgs e)
         {
-            if (!IsItemCopiedToClipboard)
-                return;
+            Debug.Assert(IsItemCutOrCopied);
+            Debug.Assert(_copiedItemIndex != -1);
 
 
 
@@ -401,9 +412,19 @@ namespace WpfApp1
 
         private void ResetClipboard()
         {
+            ResetCutModule();
             _pasteMode = PasteMode.None;
             _copiedItemIndex = -1;
-            IsItemCopiedToClipboard = false;
+            IsItemCutOrCopied = false;
+        }
+
+        private void ResetCutModule()
+        {
+            foreach (var m in Modules)
+            {
+                if (m.IsCut)
+                    m.IsCut = false;
+            }
         }
 
         #endregion

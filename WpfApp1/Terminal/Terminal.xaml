@@ -68,7 +68,11 @@
                     <DataTrigger Binding="{Binding IsSlotIn}" Value="True">
                         <Setter Property="Visibility" Value="Collapsed"/>
                     </DataTrigger>
+                    <DataTrigger Binding="{Binding IsCut}" Value="True">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </DataTrigger>
                 </Style.Triggers>
+                
             </Style>
             <local:NullToBoolValueConverter x:Key="NullToBoolValueConverter"/>
         </ResourceDictionary>
@@ -103,17 +107,31 @@
                       FocusVisualStyle="{x:Null}"
                       x:Name="ScrollViewer">
 
-            <Grid >
+            <Grid Background="Transparent">
+                <Grid.ContextMenu>
+                    <ContextMenu Name="ctxMenu">
+                        <MenuItem Header="Open"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="Open"/>
+                        <MenuItem Header="Cut"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="Cut"/>
+                        <MenuItem Header="Copy"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="Copy"/>
+                        <MenuItem Header="Paste"  IsEnabled="{Binding IsItemCutOrCopied }" Click="Paste"/>
+
+                        <MenuItem Header="Delete" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="Delete"/>
+                        <MenuItem Header="Shift right" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="ShiftRight"/>
+                        <MenuItem Header="Shift left"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="ShiftLeft"/>
+
+                    </ContextMenu>
+                </Grid.ContextMenu>
+
                 <ListBox x:Name="listbox" 
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.DropHandler="{Binding}"
+                         dd:DragDrop.IsDropTarget="True"
+                         dd:DragDrop.IsDragSource="True"
+                         dd:DragDrop.DropHandler="{Binding}"
                        
                          dd:DragDrop.DragHandler="{Binding DragHandler}"
                          
-                 ItemContainerStyle="{StaticResource ListBoxDragDrop}"
+                         ItemContainerStyle="{StaticResource ListBoxDragDrop}"
                  
-                 Margin="15"
+                         Margin="15"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
                          VerticalContentAlignment="Top"
@@ -121,27 +139,14 @@
 
                          
                  
-                  ItemsSource="{Binding Modules}"
-                 SelectionMode="Single"
+                         ItemsSource="{Binding Modules}"
+                         SelectionMode="Single"
                  
                  
-                 PreviewKeyDown="listbox_PreviewKeyDown"              
-                 SelectionChanged="listbox_SelectionChanged">
+                         PreviewKeyDown="listbox_PreviewKeyDown"              
+                         SelectionChanged="listbox_SelectionChanged">
 
-                    <ListBox.ContextMenu>
-                        <ContextMenu Name="ctxMenu">
-                            <MenuItem Header="Open"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="open"/>
-                            <MenuItem Header="Cut"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="cut"/>
-                            <MenuItem Header="Copy"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="copy"/>
-                            <MenuItem Header="Paste"  IsEnabled="{Binding IsItemCopied }" Click="paste"/>
-
-                            <MenuItem Header="Delete" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="delete"/>
-                            <MenuItem Header="Shift right" IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftRight"/>
-                            <MenuItem Header="Shift left"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="shiftLeft"/>
-
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-
+                    
 
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
