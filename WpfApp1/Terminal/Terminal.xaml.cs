@@ -49,7 +49,7 @@ namespace WpfApp1
             ctxMenu.DataContext = this;
 
             IsItemCutOrCopied = false;
-
+            
         }
 
 
@@ -226,7 +226,7 @@ namespace WpfApp1
         
 
         #region Context Menu
-        private void listbox_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void grid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
                 Delete(null, null);
@@ -246,7 +246,6 @@ namespace WpfApp1
                 ResetSignalReplace();
                 listbox.SelectedItem = null;
             }
-             
         }
         private void listBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -353,6 +352,8 @@ namespace WpfApp1
         {
             if (SelectedModule == null)
                 return;
+            
+            ResetCutModule();
 
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Cut;
@@ -374,8 +375,15 @@ namespace WpfApp1
 
         private void Paste(object sender, RoutedEventArgs e)
         {
-            Debug.Assert(IsItemCutOrCopied);
+            if (!IsItemCutOrCopied)
+            {
+                Debug.Assert(_copiedItemIndex == -1);
+                return;
+            }
+
             Debug.Assert(_copiedItemIndex != -1);
+
+
 
 
 
@@ -854,8 +862,7 @@ namespace WpfApp1
 
 
         #endregion
-
-
+        
     }
     public class PasteCommandArgs 
     {

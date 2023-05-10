@@ -23,12 +23,13 @@
 
             <Style x:Key="ListBoxDragDrop" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="AllowDrop" Value="true"/>
-
+    
                 <Setter Property="Focusable" Value="True"/>
+                <Setter Property ="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
-                            <Grid>
+                            <Grid >
                                 <ContentPresenter x:Name="lbItemContent" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
                                                                       VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
                                                                       Content="{TemplateBinding ContentControl.Content}"
@@ -105,9 +106,12 @@
                       VerticalScrollBarVisibility="Auto"
                       IsTabStop="False"
                       FocusVisualStyle="{x:Null}"
-                      x:Name="ScrollViewer">
+                      Focusable="True"
+                      x:Name="ScrollViewer"
+                      PreviewKeyDown="grid_PreviewKeyDown">
 
-            <Grid Background="Transparent">
+            <Grid Background="Transparent"
+                  >
                 <Grid.ContextMenu>
                     <ContextMenu Name="ctxMenu">
                         <MenuItem Header="Open"  IsEnabled="{Binding SelectedModule,  Converter={StaticResource NullToBoolValueConverter}}" Click="Open"/>
@@ -122,7 +126,7 @@
                     </ContextMenu>
                 </Grid.ContextMenu>
 
-                <ListBox x:Name="listbox" 
+                <ListBox x:Name="listbox" Focusable="False"
                          dd:DragDrop.IsDropTarget="True"
                          dd:DragDrop.IsDragSource="True"
                          dd:DragDrop.DropHandler="{Binding}"
@@ -143,7 +147,7 @@
                          SelectionMode="Single"
                  
                  
-                         PreviewKeyDown="listbox_PreviewKeyDown"              
+                         
                          SelectionChanged="listbox_SelectionChanged">
 
                     
