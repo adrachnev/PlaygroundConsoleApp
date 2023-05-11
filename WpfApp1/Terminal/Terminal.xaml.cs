@@ -357,6 +357,7 @@ namespace WpfApp1
 
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Cut;
+            
             if (SelectedModule.IsSlotIn)
             {
                 var placeholder = Modules.First(x => x.SlotIn == SelectedModule);
@@ -396,32 +397,64 @@ namespace WpfApp1
             Debug.Assert(_copiedItemIndex != -1);
 
 
-
-
-
             var args = new PasteCommandArgs
             {
                 Mode = _pasteMode,
-                InsertToIndex = SelectedModule != null ? Modules.IndexOf(SelectedModule) + 1 : Modules.Count,
+                InsertToIndex = -1,
                 OriginItemIndex = _copiedItemIndex
             };
 
-
-            var copy = new Module(Modules[args.OriginItemIndex].XamlMarkup)
+            var cutOrCopiedModule = Modules[args.OriginItemIndex];
+            var copy = new Module(cutOrCopiedModule.XamlMarkup)
             {
-                OrderCode = Modules[args.OriginItemIndex].OrderCode,
+                OrderCode = cutOrCopiedModule.OrderCode,
             };
+            Module copySlotIn = null;
+            if (cutOrCopiedModule.SlotIn != null)
+            {
+                copySlotIn = new Module(cutOrCopiedModule.SlotIn.XamlMarkup)
+                {
+                    OrderCode = cutOrCopiedModule.SlotIn.OrderCode,
+                };
+            }
 
+            if (SelectedModule != null)
+            {
+                args.InsertToIndex = Modules.IndexOf(SelectedModule) + 1;
+
+                if (SelectedModule == cutOrCopiedModule && cutOrCopiedModule.IsSlotIn)
+                    args.InsertToIndex++;
+            }
+            else
+            {
+                args.InsertToIndex = Modules.Count;
+            }
+
+            AssertIndex();
+            
             Modules.Insert(args.InsertToIndex, copy);
+            if (copySlotIn != null)
+            {
+                TestDataContext.FillPlaceholder(copy, copySlotIn);
+                Modules.Insert(args.InsertToIndex == 0 ? 0 : args.InsertToIndex--, copySlotIn);
+            }
 
             if (args.Mode == PasteMode.Cut)
             {
-                Modules.RemoveAt(args.OriginItemIndex);
-                args.InsertToIndex = args.InsertToIndex - 1;
+                if (cutOrCopiedModule.IsSlotIn)
+                {
+                    TestDataContext.FillPlaceholder(Modules.First(x => x.SlotIn == cutOrCopiedModule), null);
+                }
+                
+                Modules.Remove(cutOrCopiedModule);
+                if (copySlotIn != null)
+                {
+                    Modules.Remove(cutOrCopiedModule.SlotIn);
+                }
             }
 
-
-
+            AssertIndex();
+            
             PasteCommand?.Execute(args);
 
             listbox.SelectedItem = null;
@@ -444,6 +477,13 @@ namespace WpfApp1
             {
                 if (m.IsCut)
                     m.IsCut = false;
+
+                if (m.IsSlotIn)
+                {
+                    var placeholder = Modules.First(x => x.SlotIn == m);
+                    var slotIn = TestDataContext.FindChildByTag(placeholder.DeviceImage, "SlotInModule");
+                    ((FrameworkElement)slotIn).Opacity = 1.0;
+                }
             }
         }
 
@@ -667,7 +707,7 @@ namespace WpfApp1
 
         private void AssertIndex()
         {
-            Modules.SingleOrDefault(x => x.IsSlotIn);
+            // Modules.SingleOrDefault(x => x.IsSlotIn);
             
 
             foreach (var item in Modules)
