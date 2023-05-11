@@ -126,6 +126,7 @@ namespace WpfApp1
             {
                 var translateTransform = new TranslateTransform(SuiteProps.GetTranslateTransformX(placeholder.Placeholder), SuiteProps.GetTranslateTransformY(placeholder.Placeholder));
                 newElement.RenderTransform = translateTransform;
+                
             }
             catch (Exception)
             {
@@ -135,18 +136,18 @@ namespace WpfApp1
             placeholder.SlotIn = slotIn;
             slotIn.IsSlotIn = true;
         }
-        private static void AddWithInVisualTree(FrameworkElement referencedElement, FrameworkElement newControl)
+        public static void AddWithInVisualTree(FrameworkElement referencedElement, FrameworkElement newControl)
         {
+
             FrameworkElement frameworkElement = referencedElement.Parent as FrameworkElement;
-            FrameworkElement frameworkElement2 = frameworkElement;
-            FrameworkElement frameworkElement3 = frameworkElement2;
-            Panel panel = frameworkElement3 as Panel;
+
+            System.Windows.Controls.Panel panel = frameworkElement as System.Windows.Controls.Panel;
             if (panel == null)
             {
-                Decorator decorator = frameworkElement3 as Decorator;
+                Decorator decorator = frameworkElement as Decorator;
                 if (decorator == null)
                 {
-                    ContentControl contentControl = frameworkElement3 as ContentControl;
+                    ContentControl contentControl = frameworkElement as ContentControl;
                     if (contentControl == null)
                     {
                         throw new NotImplementedException("Unknown UI-Type");
@@ -162,19 +163,10 @@ namespace WpfApp1
                 return;
             }
 
-            if (newControl == null) 
+            RemoveOldSlotInElement(panel);
+
+            if (newControl == null)
             {
-                var children = new List<FrameworkElement>();
-
-                foreach (var c in panel.Children)
-                    children.Add(c as FrameworkElement);
-                
-                var slots = children.Where(x => x.Tag as string == "SlotInModule");
-
-
-                foreach (var s in slots)
-                    panel.Children.Remove(s);
-                
                 return;
             }
 
@@ -182,13 +174,26 @@ namespace WpfApp1
             {
                 if (panel.Children[i] == referencedElement)
                 {
+
                     //panel.Children.RemoveAt(i);
                     newControl.Tag = "SlotInModule";
                     panel.Children.Insert(i, newControl);
                     break;
                 }
             }
+
         }
+
+        private static void RemoveOldSlotInElement(Panel panel)
+        {
+            var children = new List<FrameworkElement>();
+            foreach (var c in panel.Children)
+                children.Add(c as FrameworkElement);
+            var slots = children.Where(x => x.Tag as string == "SlotInModule");
+            foreach (var s in slots)
+                panel.Children.Remove(s);
+        }
+
         private void ModulePlaceholderReadGuid()
         {
             var placeholder = new Module(xaml5);

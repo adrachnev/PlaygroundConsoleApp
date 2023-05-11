@@ -214,7 +214,7 @@ namespace WpfApp1
                 
 
                 placeholder.SignalReplaceDrop = true;
-
+                listbox.Focus();
             }
             else
             {
@@ -357,7 +357,19 @@ namespace WpfApp1
 
             _copiedItemIndex = Modules.IndexOf(SelectedModule);
             _pasteMode = PasteMode.Cut;
-            SelectedModule.IsCut = true;
+            if (SelectedModule.IsSlotIn)
+            {
+                var placeholder = Modules.First(x => x.SlotIn == SelectedModule);
+                var slotIn = TestDataContext.FindChildByTag(placeholder.DeviceImage, "SlotInModule");
+                ((FrameworkElement)slotIn).Opacity = 0.5;
+
+
+            }
+            else
+            {
+                SelectedModule.IsCut = true;
+            }
+            
             IsItemCutOrCopied = true;
         }
 
@@ -607,6 +619,7 @@ namespace WpfApp1
             }
 
             TestDataContext.FillPlaceholder(targetItem, newSlotIn);
+            
         }
 
         private void MoveTerminalItem(Module targetItem, Module sourceItem)
@@ -772,6 +785,7 @@ namespace WpfApp1
                     Modules.Remove(targetItem.SlotIn);
 
                 TestDataContext.FillPlaceholder(targetItem, droppedDataConverted);
+                
                 Modules.Insert(Modules.IndexOf(targetItem as Module), droppedDataConverted);
 
 
