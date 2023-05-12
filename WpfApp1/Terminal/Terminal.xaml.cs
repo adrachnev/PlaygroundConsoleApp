@@ -99,14 +99,7 @@ namespace WpfApp1
         public static readonly DependencyProperty DoubleClickCommandProperty =
             DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
 
-        public ICommand PasteCommand
-        {
-            get { return (ICommand)GetValue(PasteCommandProperty); }
-            set { SetValue(PasteCommandProperty, value); }
-        }
-        public static readonly DependencyProperty PasteCommandProperty =
-            DependencyProperty.Register(nameof(PasteCommand), typeof(ICommand), typeof(Terminal), new FrameworkPropertyMetadata(null));
-
+        
 
 
         public double MaximumZoomFactor
@@ -397,65 +390,49 @@ namespace WpfApp1
             Debug.Assert(_copiedItemIndex != -1);
 
 
-            var args = new PasteCommandArgs
+            
+            var sourceItem = Modules[_copiedItemIndex];
+            Module targetItem;
+            if (SelectedModule == null)
             {
-                Mode = _pasteMode,
-                InsertToIndex = -1,
-                OriginItemIndex = _copiedItemIndex
-            };
-
-            var cutOrCopiedModule = Modules[args.OriginItemIndex];
-            var copy = new Module(cutOrCopiedModule.XamlMarkup)
-            {
-                OrderCode = cutOrCopiedModule.OrderCode,
-            };
-            Module copySlotIn = null;
-            if (cutOrCopiedModule.SlotIn != null)
-            {
-                copySlotIn = new Module(cutOrCopiedModule.SlotIn.XamlMarkup)
-                {
-                    OrderCode = cutOrCopiedModule.SlotIn.OrderCode,
-                };
-            }
-
-            if (SelectedModule != null)
-            {
-                args.InsertToIndex = Modules.IndexOf(SelectedModule) + 1;
-
-                if (SelectedModule == cutOrCopiedModule && cutOrCopiedModule.IsSlotIn)
-                    args.InsertToIndex++;
+                targetItem = Modules.Last();
             }
             else
             {
-                args.InsertToIndex = Modules.Count;
+                targetItem = SelectedModule.IsSlotIn ? Modules.First(x => x.SlotIn == SelectedModule) : SelectedModule;
             }
+            targetItem.PositionOnDrag = MousePositionWithinModule.Right;
 
-            AssertIndex();
-            
-            Modules.Insert(args.InsertToIndex, copy);
-            if (copySlotIn != null)
-            {
-                TestDataContext.FillPlaceholder(copy, copySlotIn);
-                Modules.Insert(args.InsertToIndex == 0 ? 0 : args.InsertToIndex--, copySlotIn);
-            }
-
-            if (args.Mode == PasteMode.Cut)
-            {
-                if (cutOrCopiedModule.IsSlotIn)
-                {
-                    TestDataContext.FillPlaceholder(Modules.First(x => x.SlotIn == cutOrCopiedModule), null);
-                }
+            if (_pasteMode == PasteMode.Copy)
+            {   
+                var item = DropCatalogItem(targetItem,
+                    new Module(sourceItem.XamlMarkup) { OrderCode = sourceItem.OrderCode });
                 
-                Modules.Remove(cutOrCopiedModule);
-                if (copySlotIn != null)
+                if (sourceItem.SlotIn != null)
                 {
-                    Modules.Remove(cutOrCopiedModule.SlotIn);
+                    item.PositionOnDrag = MousePositionWithinModule.Left;
+                    var slotIn = DropCatalogItem(targetItem,
+                        new Module(sourceItem.SlotIn.XamlMarkup) { OrderCode = sourceItem.SlotIn.OrderCode });
+                    TestDataContext.FillPlaceholder(item, slotIn);
                 }
             }
-
+            else if (_pasteMode == PasteMode.Cut)
+            {
+                if (sourceItem.IsSlotIn)
+                {
+                    sourceItem = Modules.First(x => x.SlotIn == sourceItem);
+                    sourceItem.IsMouseOverPlaceholder = true;
+                }
+                MoveTerminalItem(targetItem, sourceItem);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+            
             AssertIndex();
             
-            PasteCommand?.Execute(args);
+            
 
             listbox.SelectedItem = null;
             SelectedModule = null;
@@ -791,7 +768,7 @@ namespace WpfApp1
             return result;
         }
 
-        private void DropCatalogItem(Module targetItem, IModule sourceItem)
+        private Module DropCatalogItem(Module targetItem, IModule sourceItem)
         {
             int targetIndex = Modules.IndexOf(targetItem);
 
@@ -831,6 +808,8 @@ namespace WpfApp1
 
                 Debug.Assert(Modules.IndexOf(targetItem) == Modules.IndexOf(targetItem.SlotIn) + 1);
             }
+
+            return droppedDataConverted;
         }
 
         void IDropTarget.DragLeave(IDropInfo dropInfo)

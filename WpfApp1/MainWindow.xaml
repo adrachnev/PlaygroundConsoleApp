@@ -30,7 +30,7 @@
         <local:Terminal HorizontalContentAlignment="Stretch" 
                      Modules="{Binding Devices, Mode=TwoWay}" 
                      SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
-                     PasteCommand="{Binding PasteDevice, Mode=TwoWay}"
+                     
                      DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
 
         <local:TerminalGrid x:Name="grid" Modules="{Binding Devices, Mode=TwoWay}" 
