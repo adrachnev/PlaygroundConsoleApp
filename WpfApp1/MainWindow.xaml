@@ -5,10 +5,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
-        
+        xmlns:ribbon="clr-namespace:Festo.Tool.UIEssentials.WPF.Base.Controls.Ribbon;assembly=Festo.Tool.UIEssentials.WPF.Base"
+        xmlns:extensions="clr-namespace:Festo.Tool.UIEssentials.WPF.Base.Controls.Ribbon.Extensions;assembly=Festo.Tool.UIEssentials.WPF.Base"        
         mc:Ignorable="d"
-        
+        xmlns:dictionaries="clr-namespace:Festo.Tool.UI.WPF.Dictionaries;assembly=Festo.Tool.UI.WPF"
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+        xmlns:uikit="http://www.festo.com/schemas/presentation/Festo_uikit/xaml"
         Title="MainWindow" Height="800" Width="800">
 
     
@@ -19,37 +21,39 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Dictionary1.xaml"/>
+                <dictionaries:PluginDesignerResourceDictionary Source="pack://application:,,,/Festo.Tool.UIEssentials.WPF.DataModel;component/CompleteDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         
     </Window.Resources>
-    
-    <StackPanel>
+    <TabControl>
+        <TabItem Header="Tab 1">
+            <StackPanel>
 
 
-        <local:Terminal HorizontalContentAlignment="Stretch" 
+                <local:Terminal HorizontalContentAlignment="Stretch" 
                      Modules="{Binding Devices, Mode=TwoWay}" 
                      SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
                      
                      DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
 
-        <local:TerminalGrid x:Name="grid" Modules="{Binding Devices, Mode=TwoWay}" 
+                <local:TerminalGrid x:Name="grid" Modules="{Binding Devices, Mode=TwoWay}" 
                             ModuleNameEditEndingCommand="{Binding ModuleNameEditEndingCommand}"
                             SelectedModule="{Binding SelectedDevice, Mode=TwoWay}"
                             IsDisplaySlotNumber="True"
                             DoubleClickCommand="{Binding DoubleClickDevice, Mode=TwoWay}"/>
 
-        <CheckBox Content="Display slot number" IsChecked="{Binding ElementName=grid, Path=IsDisplaySlotNumber, Mode=TwoWay}" Command="{Binding GenerateAddressesCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"/>
+                <CheckBox Content="Display slot number" IsChecked="{Binding ElementName=grid, Path=IsDisplaySlotNumber, Mode=TwoWay}" Command="{Binding GenerateAddressesCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"/>
 
-        <Button Content="Add device" Command="{Binding AddDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
-        <Button Content="Set signal" Command="{Binding SignalDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
-        
-
-        
-        <!--styling module catalogue items-->
+                <Button Content="Add device" Command="{Binding AddDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
+                <Button Content="Set signal" Command="{Binding SignalDevice}" Height="25" Width="100" HorizontalAlignment="Right"/>
 
 
-            <ListView x:Name="listViewCatalogItems" Background="Azure"
+
+                <!--styling module catalogue items-->
+
+
+                <ListView x:Name="listViewCatalogItems" Background="Azure"
                 Grid.Row="4"
             ItemsSource="{Binding CatalogItems}"
             
@@ -59,29 +63,29 @@
                 dd:DragDrop.IsDragSource="True"                
                 
                 dd:DragDrop.DragAdornerTemplate="{DynamicResource ItemDragAdorner}">
-                
 
-            <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
 
-                            <TextBlock FontWeight="Bold"
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock FontWeight="Bold"
                    Grid.Row="0"
                    Grid.Column="0"
                    Text="{Binding OrderCode}"
                                        
                    TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" ToolTip="{Binding Tooltip}"/>
 
-                        
-                        <TextBlock TextAlignment="Right"
+
+                                <TextBlock TextAlignment="Right"
                    HorizontalAlignment="Right"
                    Grid.Row="0"
                    Grid.Column="1"
@@ -89,14 +93,79 @@
                    Text="8129111"
                    TextTrimming="None" TextWrapping="NoWrap"
                    Margin="0,0,8,0" />
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
 
-            </ListView>
-        
-        
-        
-    </StackPanel>
+                </ListView>
+
+                
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Tab 2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Background="Aqua" Width="200" Height="60"></Border>
+                <uikit:Toolbar Grid.Column="1">
+                    <Ribbon Visibility="Visible"  Foreground="Gray" x:Name="Ribbon" Template="{DynamicResource RibbonControlTemplate}" ContextMenu="{x:Null}">
+                        <RibbonTab Template="{DynamicResource RibbonTabControlTemplate}"
+                           GroupSizeReductionOrder="DebuggerGroup, DebuggerGroup" ContextMenu="{x:Null}">
+                            <!-- ReSharper disable once UnusedMember.Global -->
+                            <RibbonGroup Header="Debugger" x:Name="DebuggerGroup"
+                                 Template="{DynamicResource RibbonGroupControlTemplate}"
+                                 BorderBrush="{DynamicResource FestoColors.ControlBorderBrush}" ContextMenu="{x:Null}">
+                                <RibbonGroup.GroupSizeDefinitions>
+                                    <RibbonGroupSizeDefinition>
+                                        <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="True" />
+                                    </RibbonGroupSizeDefinition>
+                                    <RibbonGroupSizeDefinition>
+                                        <RibbonControlSizeDefinition ImageSize="Large" IsLabelVisible="False" />
+                                    </RibbonGroupSizeDefinition>
+                                    <RibbonGroupSizeDefinition>
+                                        <RibbonControlSizeDefinition ImageSize="Small" IsLabelVisible="False" />
+                                    </RibbonGroupSizeDefinition>
+                                </RibbonGroup.GroupSizeDefinitions>
+
+                                <ribbon:RibbonToolBarButton Template="{DynamicResource RibbonToolBarButtonControlTemplate}"
+                                                            Label="Label"
+                                                            extensions:RibbonToolBarButtonExtensions.LargeImageSize="32"
+                                                            extensions:RibbonToolBarButtonExtensions.SmallImageSize="32"
+                                                            IsEnabled="True"
+                                                            
+                                                            SmallImageSource="../Resources/write_all_32.png"
+                                                            LargeImageSource="../Resources/write_all_32.png"
+                                                            >
+                                </ribbon:RibbonToolBarButton>
+
+                                <ribbon:RibbonToolBarToggleSwitch x:Name=""
+                            Template="{DynamicResource RibbonToolBarToggleSwitchControlTemplate}"
+                            Label="Trace start"
+                            ToolTip="ToolTip"
+                            IsChecked="False"
+                            IsEnabled="True"
+                            extensions:RibbonToolBarButtonExtensions.LargeImageSize="32"
+                            extensions:RibbonToolBarButtonExtensions.SmallImageSize="32">
+
+
+                                    <Style TargetType="ribbon:RibbonToolBarToggleSwitch">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Label" Value="TraceStop" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ribbon:RibbonToolBarToggleSwitch>
+
+                            </RibbonGroup>
+                        </RibbonTab>
+                    </Ribbon>
+                </uikit:Toolbar>
+            </Grid>
+        </TabItem>
+    </TabControl>
+    
 </Window>
