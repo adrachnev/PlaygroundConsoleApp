@@ -16,17 +16,39 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 [assembly:InternalsVisibleTo("Tests")]
 namespace PlaygroundConsoleApp
 {
     public class Program
     {
+        private static string topology =
+            @"{
+            ""Description"":{ ""GeneratedBy"":""automated"", ""TopologySchemaVersion"":2, ""FileVersion"":1,
+            ""FileVersionDate"":""2020-07-10"" }, ""NumberOfApAsics"":3, ""ApAsicList"":[{""KoKaID"":2, ""ManKaID"":1, ""PU0_ID"":1,
+            ""PU1_ID"":4, ""ModuleCode"":8196, ""PartNo"":8086601, ""ProductKey"":""3S7PNQJ0LZ5"", ""Connectors"":[{""Role"":""In"",
+            ""Type"":""Socket"", ""TargetKoKaID"":1, ""CableLength"":476},
+            { ""Role"":""Out"", ""Type"":""Socket"", ""TargetKoKaID"":3, ""CableLength"":348 }]},
+            {
+                ""KoKaID"":3, ""ManKaID"":2, ""PU0_ID"":2, ""PU1_ID"":3, ""ModuleCode"":8201, ""PartNo"":8086604,
+                ""ProductKey"":""3s7pnyq55f9"", ""Connectors"":[{ ""Role"":""In"", ""Type"":""Socket"", ""TargetKoKaID"":2,
+                ""CableLength"":348}, { ""Role"":""Out"", ""Type"":""Socket"", ""TargetKoKaID"":-1, ""CableLength"":-1 }]
+            },
+            {
+                ""KoKaID"":1, ""ManKaID"":0, ""PU0_ID"":0, ""PU1_ID"":5, ""ModuleCode"":8323, ""PartNo"":8086610,
+                ""ProductKey"":""DX2TJB8Y5LB"", ""Connectors"":[{ ""Role"":""Out"", ""Type"":""Socket"", ""TargetKoKaID"":-1,
+                ""CableLength"":-1}, { ""Role"":""Out"", ""Type"":""Socket"", ""TargetKoKaID"":2, ""CableLength"":476 }]
+            }]
+        }";
+
+        [STAThread]
         static void Main(string[] args)
         {
-            ParseModulePlaceholder();
+            ZipArchive();
         }
 
+       
         private static string SetSlotInIdForPlaceholder(string iconMarkup, string Guid) 
         {
             string placeholderProperty = "ModulePlaceHolder=\"";
@@ -70,32 +92,75 @@ namespace PlaygroundConsoleApp
             event_1.WaitOne();
         }
 
+
+        private class Option
+        {
+            private readonly ushort id;
+            private readonly ushort length;
+
+            public Option(ushort id, ushort length)
+            {
+                this.id = id;
+                this.length = length;
+            }
+
+            public byte[] GetBytes()
+            {
+                var result = new List<byte>();
+                result.AddRange(BitConverter.GetBytes(id));
+                result.AddRange(BitConverter.GetBytes(length));
+                return result.ToArray();
+            }
+        }
+
         private static void ZipArchive()
         {
             using (var memoryStream = new MemoryStream())
             {
                 using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
                 {
-                    var demoFile = archive.CreateEntry("foo.txt");
+                    var demoFile = archive.CreateEntry("topology.json");
 
                     using (var entryStream = demoFile.Open())
                     using (var streamWriter = new StreamWriter(entryStream))
                     {
-                        streamWriter.Write("Bar!");
+                        streamWriter.Write(topology);
                     }
+
+                    var analysEntry = archive.CreateEntry("system_analysis.aptl");
+
+                    var evmOptBytes = new Option(4, 30).GetBytes();
+                    var crcOptBytes = new Option(6, 39).GetBytes();
+
+                    // format
+                    var bytes = Encoding.UTF8.GetBytes("APTL").ToList();
+                    // version
+                    bytes.Add(1);
+                    bytes.AddRange(Encoding.UTF8.GetBytes("OPTS"));
+                    // opts length
+                    bytes.AddRange(BitConverter.GetBytes((ushort) evmOptBytes.Count() + crcOptBytes.Count()));
+                    bytes.AddRange(evmOptBytes);
+                    bytes.AddRange(crcOptBytes);
+                    bytes.AddRange(Encoding.UTF8.GetBytes("MSER"));
+
+                    using (var entryStream = analysEntry.Open())
+                    {
+                        entryStream.Write(bytes.ToArray(), 0, bytes.Count());
+                    }
+
                 }
 
 
-                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                SaveFileDialog dlg = new SaveFileDialog();
                 dlg.FileName = "Archive"; // Default file name
-                dlg.DefaultExt = ".zip"; // Default file extension
-                dlg.Filter = "Archive files (.zip)|*.zip"; // Filter files by extension
+                dlg.DefaultExt = ".aptez"; // Default file extension
+                dlg.Filter = "Archive files (.aptez)|*.aptez"; // Filter files by extension
 
                 // Show save file dialog box
-                Nullable<bool> result = dlg.ShowDialog();
+                var result = dlg.ShowDialog();
 
                 // Process save file dialog box results
-                if (result == true)
+                if (result == DialogResult.OK)
                 {
                     // Save document
                     
