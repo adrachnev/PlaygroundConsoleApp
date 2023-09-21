@@ -45,10 +45,27 @@ namespace PlaygroundConsoleApp
         [STAThread]
         static void Main(string[] args)
         {
-            ZipArchive();
+
+
+            GetBytes();
+
         }
 
-       
+        private static void GetBytes()
+        {
+            // Define Boolean true and false values.
+            byte[] values = BitConverter.GetBytes((ushort)8);
+
+            // Display the value and its corresponding byte array.
+            //Console.WriteLine("{0,10}{1,16}\n", "Boolean", "Bytes");
+
+            foreach (var value in values)
+            {
+                
+                Console.Write("{0,10}{0,16}", value);
+            }
+        }
+
         private static string SetSlotInIdForPlaceholder(string iconMarkup, string Guid) 
         {
             string placeholderProperty = "ModulePlaceHolder=\"";
