@@ -35,6 +35,10 @@ namespace WpfApp1
             }
         }
 
-        
+
+        private void JogLeftButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ((TestDataContext)DataContext).JogLeftCommand.Execute(null);
+        }
     }
 }
