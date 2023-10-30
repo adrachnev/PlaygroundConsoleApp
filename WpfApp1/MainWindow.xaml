@@ -16,23 +16,27 @@
     </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
+
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Dictionary1.xaml" />
-                <dictionaries:PluginDesignerResourceDictionary
-                    Source="pack://application:,,,/Festo.Tool.UIEssentials.WPF.DataModel;component/CompleteDictionary.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/Festo.Theme;component/button.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="DisabledButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type RepeatButton}}">
-                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-                <Setter Property="ToolTip" Value="ToolTip" />
-                <Style.Triggers>
-                    <Trigger Property="ToolTip" Value="">
-                        <Setter Property="ToolTipService.IsEnabled" Value="False" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </ResourceDictionary>
-       
+            
 
+
+
+        <Style x:Key="DisabledButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource Festo.ButtonBaseStyle}">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+            <Setter Property="ToolTip" Value="ToolTip" />
+            <Style.Triggers>
+                <Trigger Property="ToolTip" Value="">
+                    <Setter Property="ToolTipService.IsEnabled" Value="False" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        </ResourceDictionary>
     </Window.Resources>
     <TabControl>
         <TabItem Header="Tab 1">
