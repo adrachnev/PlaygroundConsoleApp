@@ -21,7 +21,17 @@
                 <dictionaries:PluginDesignerResourceDictionary
                     Source="pack://application:,,,/Festo.Tool.UIEssentials.WPF.DataModel;component/CompleteDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="DisabledButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type RepeatButton}}">
+                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                <Setter Property="ToolTip" Value="ToolTip" />
+                <Style.Triggers>
+                    <Trigger Property="ToolTip" Value="">
+                        <Setter Property="ToolTipService.IsEnabled" Value="False" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
+       
 
     </Window.Resources>
     <TabControl>
@@ -117,7 +127,7 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <RepeatButton Content="Push" Name="JogLeftButton" Click="JogLeftButton_OnClick">
+                <RepeatButton Content="Push" Name="JogLeftButton" Click="JogLeftButton_OnClick" Style="{StaticResource DisabledButtonStyle}">
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="PreviewMouseLeftButtonUp">
                             <b:InvokeCommandAction CommandParameter="{Binding ElementName=JogLeftButton}"

@@ -106,7 +106,21 @@ namespace WpfApp1
             ModuleNameEditEndingCommand = new BaseCommand();
             GenerateAddressesCommand = new BaseCommand(this, p => { GenerateRandomAPAddresses(); });
 
-            JogLeftCommand = new BaseCommand(this, x => { Console.WriteLine("JogLeftCommand"); });
+            JogLeftCommand = new BaseCommand(this, x =>
+            {
+                Console.WriteLine("JogLeftCommand");
+
+                foreach (var l in Trace.Listeners)
+                {
+                    if (l is DefaultTraceListener)
+                    {
+                        ((DefaultTraceListener)l).AssertUiEnabled = false;
+                    }
+                }
+
+                Debug.Fail("fail");
+
+            });
             JogStopCommand = new BaseCommand(this, x => Console.WriteLine("JogStopCommand"));
 
             ModulePlaceholderReadGuid();
