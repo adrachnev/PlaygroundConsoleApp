@@ -82,11 +82,11 @@
     <Reference Include="Festo.Tool.DataModel.Localization, Version=2.0.0.231, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Festo.Tool.DataModel.Localization.2.0.0.231\lib\netstandard2.0\Festo.Tool.DataModel.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.Tool.Drives.Engp, Version=1.0.0.90, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Tool.Drives.Engp.1.0.0.90\lib\netstandard2.0\Festo.Tool.Drives.Engp.dll</HintPath>
+    <Reference Include="Festo.Tool.Drives.Engp, Version=1.0.0.91, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Drives.Engp.1.0.0.91\lib\netstandard2.0\Festo.Tool.Drives.Engp.dll</HintPath>
     </Reference>
-    <Reference Include="Festo.Tool.Drives.Engp.LogicModules, Version=1.0.0.90, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Festo.Tool.Drives.Engp.LogicModules.1.0.0.90\lib\netstandard2.0\Festo.Tool.Drives.Engp.LogicModules.dll</HintPath>
+    <Reference Include="Festo.Tool.Drives.Engp.LogicModules, Version=1.0.0.91, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Drives.Engp.LogicModules.1.0.0.91\lib\netstandard2.0\Festo.Tool.Drives.Engp.LogicModules.dll</HintPath>
     </Reference>
     <Reference Include="Festo.Tool.Sdk.AsyncJobServer, Version=1.1.0.97, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Festo.Tool.Sdk.AsyncJobServer.1.1.0.97\lib\netstandard2.0\Festo.Tool.Sdk.AsyncJobServer.dll</HintPath>
