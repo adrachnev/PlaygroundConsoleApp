@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Festo.Tool.DataModel.Interfaces.Parameters.Parameter;
+using Festo.Tool.Drives.Engp.LogicModules.ConnectionOverview;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 [assembly:InternalsVisibleTo("Tests")]
@@ -47,8 +49,16 @@ namespace PlaygroundConsoleApp
         {
 
 
-            GetBytes();
+            var c = new C();
+            c.Initialize();
+        }
 
+        class C : ConnectionOverviewManager
+        {
+            protected override Task ReadAndApplyParametersFromDeviceAsync(IEnumerable<IParameter> parameters, bool silent)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private static void GetBytes()

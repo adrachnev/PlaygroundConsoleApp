@@ -34,8 +34,68 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Festo.Fractions, Version=2.0.0.58, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Fractions.2.0.0.58\lib\netstandard2.0\Festo.Fractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Plugin.Annotations, Version=2.7.0.12, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Plugin.Annotations.2.7.0.12\lib\net48\Festo.Plugin.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.EngpXmlHandling, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.EngpXmlHandling.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.EngpXmlHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.Factory, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.Factory.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.Factory.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.Interfaces, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.Interfaces.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.InternalParametersHandling, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.InternalParametersHandling.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.InternalParametersHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.Merge, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.Merge.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.Merge.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.Merge.EngpXmlHandling, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.Merge.EngpXmlHandling.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.Merge.EngpXmlHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.ProductDefinition.Merge.Interfaces, Version=1.0.0.396, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.ProductDefinition.Merge.Interfaces.1.0.0.396\lib\netstandard2.0\Festo.ProductDefinition.Merge.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.Common, Version=1.0.0.37, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Common.1.0.0.37\lib\netstandard2.0\Festo.Tool.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.Common.Interfaces, Version=1.0.0.37, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Common.Interfaces.1.0.0.37\lib\netstandard2.0\Festo.Tool.Common.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.DataModel, Version=2.0.0.231, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.DataModel.2.0.0.231\lib\netstandard2.0\Festo.Tool.DataModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.DataModel.Drives.EngpXml, Version=2.0.0.231, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.DataModel.Drives.EngpXml.2.0.0.231\lib\netstandard2.0\Festo.Tool.DataModel.Drives.EngpXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.DataModel.Interfaces, Version=2.0.0.231, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.DataModel.Interfaces.2.0.0.231\lib\netstandard2.0\Festo.Tool.DataModel.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.DataModel.Localization, Version=2.0.0.231, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.DataModel.Localization.2.0.0.231\lib\netstandard2.0\Festo.Tool.DataModel.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.Drives.Engp, Version=1.0.0.90, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Drives.Engp.1.0.0.90\lib\netstandard2.0\Festo.Tool.Drives.Engp.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.Drives.Engp.LogicModules, Version=1.0.0.90, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Drives.Engp.LogicModules.1.0.0.90\lib\netstandard2.0\Festo.Tool.Drives.Engp.LogicModules.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.Sdk.AsyncJobServer, Version=1.1.0.97, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Sdk.AsyncJobServer.1.1.0.97\lib\netstandard2.0\Festo.Tool.Sdk.AsyncJobServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Festo.Tool.Sdk.Messenger.Interfaces, Version=1.1.0.113, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Festo.Tool.Sdk.Messenger.Interfaces.1.1.0.113\lib\netstandard2.0\Festo.Tool.Sdk.Messenger.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -83,6 +143,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Resources\NavigationAndHelpKeys.csv" />
+    <None Include="XMLInterpreterCurrent\Device.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -90,6 +153,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="XMLDateien\InternalParametersTestFile.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
