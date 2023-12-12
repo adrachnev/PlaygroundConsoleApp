@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using Festo.Tool.DataModel.Interfaces.Parameters.Parameter;
 using Festo.Tool.Drives.Engp.LogicModules.ConnectionOverview;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
+using NugetPackage;
 
 [assembly:InternalsVisibleTo("Tests")]
 namespace PlaygroundConsoleApp
@@ -47,10 +48,9 @@ namespace PlaygroundConsoleApp
         [STAThread]
         static void Main(string[] args)
         {
+            var c = new Class1("");
 
-
-            var c = new C();
-            c.Initialize();
+            
         }
 
         class C : ConnectionOverviewManager
