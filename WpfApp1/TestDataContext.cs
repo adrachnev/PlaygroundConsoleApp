@@ -305,22 +305,27 @@ namespace WpfApp1
             }
         }
 
-        private async void PerformThrowException(object commandParameter)
+        private void PerformThrowException(object commandParameter)
         {
-            try
-            {
-                await Task.Run(
+            Exception exception = null;
 
-                    () =>
+            Task.Run(() =>
+                {
+                    try 
                     {
                         Task.Delay(5000).Wait();
-                        throw new Exception();
-                    })
-                    ;
-            }
-            catch (Exception ex)
-            {
-            }
+                        throw new InvalidOperationException();
+                    }
+                    catch (Exception ex) 
+                    {
+                        exception = ex;
+                    }
+                    
+                }).GetAwaiter().OnCompleted(() =>
+                {
+                    Debug.Assert(exception != null);
+                });
+
 
         }
         #endregion
