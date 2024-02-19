@@ -48,9 +48,14 @@ namespace PlaygroundConsoleApp
         [STAThread]
         static void Main(string[] args)
         {
-            var c = new Class1("");
-
             
+
+            Task.Run(async ()=> ToDo()).Wait();
+        }
+
+        public static void ToDo ()
+        {
+            throw new Exception();
         }
 
         class C : ConnectionOverviewManager

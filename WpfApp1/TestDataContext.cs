@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Festo.Theme.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Festo.Suite.Design.AttachedProperties;
 using WpfApp1.Models;
+using System.Threading.Tasks;
 
 namespace WpfApp1
 {
@@ -288,6 +290,39 @@ namespace WpfApp1
         public ObservableCollection<Module> Devices { get; set; }
         public Module SelectedDevice { get; set; }
 
+        private RelayCommand throwException;
+
+        public ICommand ThrowException
+        {
+            get
+            {
+                if (throwException == null)
+                {
+                    throwException = new RelayCommand(PerformThrowException);
+                }
+
+                return throwException;
+            }
+        }
+
+        private async void PerformThrowException(object commandParameter)
+        {
+            try
+            {
+                await Task.Run(
+
+                    () =>
+                    {
+                        Task.Delay(5000).Wait();
+                        throw new Exception();
+                    })
+                    ;
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
         #endregion
     }
 

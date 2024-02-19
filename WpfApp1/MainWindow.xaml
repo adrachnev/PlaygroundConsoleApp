@@ -23,19 +23,19 @@
                 <ResourceDictionary
                     Source="pack://application:,,,/Festo.Theme;component/button.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
 
 
 
-        <Style x:Key="DisabledButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource Festo.ButtonBaseStyle}">
-            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
-            <Setter Property="ToolTip" Value="ToolTip" />
-            <Style.Triggers>
-                <Trigger Property="ToolTip" Value="">
-                    <Setter Property="ToolTipService.IsEnabled" Value="False" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+
+            <Style x:Key="DisabledButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource Festo.ButtonBaseStyle}">
+                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                <Setter Property="ToolTip" Value="ToolTip" />
+                <Style.Triggers>
+                    <Trigger Property="ToolTip" Value="">
+                        <Setter Property="ToolTipService.IsEnabled" Value="False" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <TabControl>
@@ -61,6 +61,8 @@
                           CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" />
 
                 <Button Content="Add device" Command="{Binding AddDevice}" Height="25" Width="100"
+                        HorizontalAlignment="Right" />
+                <Button Content="Async exception test" Command="{Binding ThrowException}" Height="32" Width="100"
                         HorizontalAlignment="Right" />
                 <Button Content="Set signal" Command="{Binding SignalDevice}" Height="25" Width="100"
                         HorizontalAlignment="Right" />
