@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -353,11 +354,39 @@ namespace WpfApp1
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
-            execute?.Invoke(parameter);
+//            execute?.Invoke(parameter);
+
+            // Start the delay.
+            var delayTask = DelayAsync();
+            
+            
+            // Wait for the delay to complete.
+            delayTask.Wait();
+
+        }
+        private static async Task DelayAsync()
+        {
+            //TaskCompletionSource<bool> tsc = new TaskCompletionSource<bool>();
+            //await tsc.Task.ConfigureAwait(false);
+
+            //await new Task(() => { }).ConfigureAwait(false);
+            await Task.Run(() => { }).ConfigureAwait(false); ;
+
+
+            await Task.Delay(1000);//.ConfigureAwait(false);
         }
 
+        static Task InnerTask()
+        {
+            var tcs =  new TaskCompletionSource<bool>();
+
+            Task.Run(()=> tcs.SetResult(true))
+            ;
+
+            return tcs.Task;
+        }
 
         public event EventHandler CanExecuteChanged;
     }
