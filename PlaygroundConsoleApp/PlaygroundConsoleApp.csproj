@@ -8,15 +8,17 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="XMLDateien\**" />
+    <Compile Remove="XMLInterpreterCurrent\**" />
+    <EmbeddedResource Remove="XMLDateien\**" />
+    <EmbeddedResource Remove="XMLInterpreterCurrent\**" />
+    <None Remove="XMLDateien\**" />
+    <None Remove="XMLInterpreterCurrent\**" />
+    <Page Remove="XMLDateien\**" />
+    <Page Remove="XMLInterpreterCurrent\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.IO.Compression" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="XMLInterpreterCurrent\Device.xsd">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="XMLDateien\InternalParametersTestFile.xml" />
   </ItemGroup>
   
 </Project>

@@ -372,7 +372,7 @@ namespace WpfApp1
             //await tsc.Task.ConfigureAwait(false);
 
             await Task.Delay(1000).ConfigureAwait(false);
-            await Task.Delay(1000);//.ConfigureAwait(false);
+//            await Task.Delay(1000);//.ConfigureAwait(false);
         }
 
         static Task InnerTask()
