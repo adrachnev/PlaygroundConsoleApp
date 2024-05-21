@@ -371,11 +371,8 @@ namespace WpfApp1
             //TaskCompletionSource<bool> tsc = new TaskCompletionSource<bool>();
             //await tsc.Task.ConfigureAwait(false);
 
-            //await new Task(() => { }).ConfigureAwait(false);
-            await Task.Run(() => { }).ConfigureAwait(false); ;
-
-
-            await Task.Delay(1000);//.ConfigureAwait(false);
+            await Task.Delay(1000).ConfigureAwait(false);
+//            await Task.Delay(1000);//.ConfigureAwait(false);
         }
 
         static Task InnerTask()

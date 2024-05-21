@@ -1,7 +1,4 @@
 ﻿
-using Microsoft.Win32;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PlaygroundConsoleApp.Properties;
 using System;
 using System.Collections.Generic;
@@ -17,8 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Festo.Tool.DataModel.Interfaces.Parameters.Parameter;
-using Festo.Tool.Drives.Engp.LogicModules.ConnectionOverview;
+
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using NugetPackage;
 using System.Xml.Serialization;
@@ -79,13 +75,7 @@ namespace PlaygroundConsoleApp
             throw new Exception();
         }
 
-        class C : ConnectionOverviewManager
-        {
-            protected override Task ReadAndApplyParametersFromDeviceAsync(IEnumerable<IParameter> parameters, bool silent)
-            {
-                throw new NotImplementedException();
-            }
-        }
+
 
         private static void GetBytes()
         {
