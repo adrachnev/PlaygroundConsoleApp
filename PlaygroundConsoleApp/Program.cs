@@ -21,6 +21,7 @@ using Festo.Tool.DataModel.Interfaces.Parameters.Parameter;
 using Festo.Tool.Drives.Engp.LogicModules.ConnectionOverview;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using NugetPackage;
+using System.Xml.Serialization;
 
 [assembly:InternalsVisibleTo("Tests")]
 namespace PlaygroundConsoleApp
@@ -49,9 +50,28 @@ namespace PlaygroundConsoleApp
         [STAThread]
         static void Main(string[] args)
         {
-            var i = new CultureInfo("this is not a valid ");
+            XmlSerializerCtor();
 
-            Task.Run(async ()=> ToDo()).Wait();
+        }
+
+        private static void XmlSerializerCtor()
+        {
+            try
+            {
+                //var xs = new XmlSerializer(typeof(C));
+
+                XmlSerializer deserializer = XmlSerializer.FromTypes(new[] { typeof(C) })[0];
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == typeof(FileNotFoundException) || e.GetType() == typeof(InvalidOperationException))
+                {
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         public static void ToDo ()
