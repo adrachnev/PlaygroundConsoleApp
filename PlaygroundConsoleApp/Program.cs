@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
-using NugetPackage;
+
 using System.Xml.Serialization;
 
 [assembly:InternalsVisibleTo("Tests")]
@@ -56,7 +56,7 @@ namespace PlaygroundConsoleApp
             {
                 //var xs = new XmlSerializer(typeof(C));
 
-                XmlSerializer deserializer = XmlSerializer.FromTypes(new[] { typeof(C) })[0];
+                XmlSerializer deserializer = XmlSerializer.FromTypes(new[] { typeof(Program) })[0];
             }
             catch (Exception e)
             {
