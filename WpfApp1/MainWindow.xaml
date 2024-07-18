@@ -147,94 +147,171 @@
         </TabItem>
         <TabItem Header="Tab 3" IsSelected="True">
 
-            <!--This file is NOT compatible with Silverlight-->
 
-            <Canvas  Width="395" Height="224">
+
+
+
+
+
+
+
+            <!--Unknown tag: sodipodi:namedview-->
+            <Canvas Width="395" Height="224">
+
+                <Canvas.Resources>
+                    <DrawingGroup x:Key="DashedDrawing">
+                        <GeometryDrawing Brush="Black">
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <PathGeometry>
+                                        <PathGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </PathGeometry.Transform>
+                                        <PathGeometry.Figures>
+                                            <PathFigure>
+                                                <PathFigure.Segments>
+                                                    <LineSegment Point="0,0" />
+                                                    <LineSegment Point="25,0" />
+                                                    <LineSegment Point="100,75" />
+                                                    <LineSegment Point="100,100" />
+                                                    <LineSegment Point="75,100" />
+                                                    <LineSegment Point="0,25" />
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                    <PathGeometry>
+                                        <PathGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </PathGeometry.Transform>
+                                        <PathGeometry.Figures>
+                                            <PathFigure StartPoint="75,0">
+                                                <PathFigure.Segments>
+                                                    <LineSegment Point="75,0" />
+                                                    <LineSegment Point="100,0" />
+                                                    <LineSegment Point="100,25" />
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                    <PathGeometry>
+                                        <PathGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </PathGeometry.Transform>
+                                        <PathGeometry.Figures>
+                                            <PathFigure>
+                                                <PathFigure.Segments>
+                                                    <LineSegment Point="0,75" />
+                                                    <LineSegment Point="25,100" />
+                                                    <LineSegment Point="0,100" />
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+
+                    <DrawingBrush x:Key="DashedDrawingBrush" Viewport="0 0 24 24" ViewportUnits="Absolute" TileMode="Tile"
+  Drawing="{StaticResource DashedDrawing}" />
+                </Canvas.Resources>
                 <Canvas.RenderTransform>
-                    <TranslateTransform X="0" Y="0"/>
+                    <TranslateTransform X="-99" Y="-541"/>
                 </Canvas.RenderTransform>
-                <Canvas.Resources/>
-                <!--Unknown tag: sodipodi:namedview-->
-                <Canvas Name="_00_SMS_Diagram_Max_Velocity_export">
-                    <Canvas.RenderTransform>
-                        <TranslateTransform X="-99" Y="-541"/>
-                    </Canvas.RenderTransform>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_X_Axis_Arrow" Fill="#FF333333">
-                        <Path.Data>
-                            <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="99" Y="541"/>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_X_Axis_Arrow2" Fill="#FF333333">
-                        <Path.Data>
-                            <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform Angle="90"/>
-                                <TranslateTransform X="494" Y="760"/>
-                            </TransformGroup>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_Y_Axis_helpline_1" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3">
-                        <Path.Data>
-                            <PathGeometry Figures="M0 0H222" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="102.5" Y="655.5"/>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_SMS_Active_Area" Fill="#FFF8F32B" HorizontalAlignment="Left" Stretch="Fill" VerticalAlignment="Center" Width="358" Height="37">
-                        <Path.Data>
-                            <PathGeometry Figures="M0 0H358V35H0Z" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="102" Y="583"/>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_Y_Axis_line" StrokeThickness="1" Stroke="#FF333333">
-                        <Path.Data>
-                            <PathGeometry Figures="M0 0V219.554" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="101.5" Y="543.5"/>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_X_Axis_line" StrokeThickness="1" Stroke="#FF333333">
-                        <Path.Data>
-                            <PathGeometry Figures="M-.5 0h390" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="102" Y="762.473"/>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Maximum_Speed_line" StrokeThickness="1.5" Stroke="#FFC2C2C2">
-                        <Path.Data>
-                            <PathGeometry Figures="M0 0H358" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="102" Y="618.5"/>
-                        </Path.RenderTransform>
-                    </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_ActualSpeed_line" StrokeThickness="1.5" Stroke="#FF333333">
-                        <Path.Data>
-                            <PathGeometry Figures="M0-19H358.5" FillRule="NonZero"/>
-                        </Path.Data>
-                        <Path.RenderTransform>
-                            <TranslateTransform X="101.5" Y="674.503"/>
-                        </Path.RenderTransform>
-                    </Path>
-                </Canvas>
-                <Rectangle x:Name="SaFu_SS2_0_SOS_Active_Pattern2_Copy"
-                        Width="218" Height="15"
-                        Fill="{StaticResource DashedDrawingBrush}" Canvas.Left="-16" Canvas.Top="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_X_Axis_Arrow" Fill="#FF333333">
+                    <Path.Data>
+                        <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="99" Y="541"/>
+                    </Path.RenderTransform>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_X_Axis_Arrow2" Fill="#FF333333">
+                    <Path.Data>
+                        <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="90"/>
+                            <TranslateTransform X="494" Y="760"/>
+                        </TransformGroup>
+                    </Path.RenderTransform>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_Y_Axis_helpline_1" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3">
+                    <Path.Data>
+                        <PathGeometry Figures="M0 0H222" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="102.5" Y="655.5"/>
+                    </Path.RenderTransform>
+                </Path>
+
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_SMS_Active_Area" Fill="#FFF8F32B" HorizontalAlignment="Left" Stretch="Fill" VerticalAlignment="Center" Width="358" Height="37">
+                    <Path.Data>
+                        <PathGeometry Figures="M0 0H358V35H0Z" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="102" Y="583"/>
+                    </Path.RenderTransform>
+                </Path>
+
+                <Rectangle Name="SaFu_SS2_0_SOS_Active_Pattern"
+Width="358" Height="15"
+Fill="{StaticResource DashedDrawingBrush}" HorizontalAlignment="Center" Canvas.Top="7" VerticalAlignment="Top">
                     <Rectangle.RenderTransform>
-                        <TranslateTransform X="141.5" Y="62.5" />
+                        <TranslateTransform X="102" Y="596" />
                     </Rectangle.RenderTransform>
                 </Rectangle>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_Y_Axis_line" StrokeThickness="1" Stroke="#FF333333">
+                    <Path.Data>
+                        <PathGeometry Figures="M0 0V219.554" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="101.5" Y="543.5"/>
+                    </Path.RenderTransform>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Graphic_X_Axis_line" StrokeThickness="1" Stroke="#FF333333">
+                    <Path.Data>
+                        <PathGeometry Figures="M-.5 0h390" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="102" Y="762.473"/>
+                    </Path.RenderTransform>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_Maximum_Speed_line" StrokeThickness="1.5" Stroke="#FFC2C2C2">
+                    <Path.Data>
+                        <PathGeometry Figures="M0 0H358" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="102" Y="618.5"/>
+                    </Path.RenderTransform>
+                </Path>
+                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SMS_1_ActualSpeed_line" StrokeThickness="1.5" Stroke="#FF333333">
+                    <Path.Data>
+                        <PathGeometry Figures="M0-19H358.5" FillRule="NonZero"/>
+                    </Path.Data>
+                    <Path.RenderTransform>
+                        <TranslateTransform X="101.5" Y="674.503"/>
+                    </Path.RenderTransform>
+                </Path>
             </Canvas>
+
 
         </TabItem>
         <TabItem Header="Tab 4">
