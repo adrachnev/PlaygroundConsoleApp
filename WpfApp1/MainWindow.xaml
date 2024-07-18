@@ -310,6 +310,9 @@ Fill="{StaticResource DashedDrawingBrush}" HorizontalAlignment="Center" Canvas.T
                         <TranslateTransform X="101.5" Y="674.503"/>
                     </Path.RenderTransform>
                 </Path>
+
+                <TextBlock Canvas.Top="583" Canvas.Left="220" Width="104" TextAlignment="Right"
+    Text="Velocity Monitoring" Height="17" HorizontalAlignment="Center" VerticalAlignment="Top" />
                 <TextBlock Canvas.Top="545" Canvas.Left="0" Width="90" TextAlignment="Right"
                     Text="v" Height="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock Canvas.Top="610" Canvas.Left="3" Width="90" TextAlignment="Right"
@@ -319,7 +322,7 @@ Fill="{StaticResource DashedDrawingBrush}" HorizontalAlignment="Center" Canvas.T
                 <TextBlock Canvas.Top="648" Canvas.Left="0" Width="90" TextAlignment="Right"
  Height="17" HorizontalAlignment="Center" VerticalAlignment="Center" >
                     V <Run BaselineAlignment="Subscript" FontSize="8" Text="act"/></TextBlock>
-                
+
 
                 <TextBlock Canvas.Top="765" Canvas.Left="390" Width="90" TextAlignment="Right"
 Text="t" Height="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
