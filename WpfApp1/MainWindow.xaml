@@ -364,171 +364,271 @@
 
         </TabItem>
         <TabItem Header="Tab 4">
-                <Canvas Name="svg1410" Width="395" Height="287.225">
+            <Canvas Name="svg1410" Width="395" Height="287.225">
+                <Canvas.RenderTransform>
+                    <TranslateTransform X="0" Y="0"/>
+                </Canvas.RenderTransform>
+                <Canvas.Resources>
+                    <DrawingGroup x:Key="DashedDrawing">
+                        <GeometryDrawing Brush="Black">
+                            <GeometryDrawing.Geometry>
+                                <GeometryGroup>
+                                    <PathGeometry>
+                                        <PathGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </PathGeometry.Transform>
+                                        <PathGeometry.Figures>
+                                            <PathFigure>
+                                                <PathFigure.Segments>
+                                                    <LineSegment Point="0,0" />
+                                                    <LineSegment Point="25,0" />
+                                                    <LineSegment Point="100,75" />
+                                                    <LineSegment Point="100,100" />
+                                                    <LineSegment Point="75,100" />
+                                                    <LineSegment Point="0,25" />
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                    <PathGeometry>
+                                        <PathGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </PathGeometry.Transform>
+                                        <PathGeometry.Figures>
+                                            <PathFigure StartPoint="75,0">
+                                                <PathFigure.Segments>
+                                                    <LineSegment Point="75,0" />
+                                                    <LineSegment Point="100,0" />
+                                                    <LineSegment Point="100,25" />
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                    <PathGeometry>
+                                        <PathGeometry.Transform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform Angle="90" />
+                                                <TranslateTransform />
+                                            </TransformGroup>
+                                        </PathGeometry.Transform>
+                                        <PathGeometry.Figures>
+                                            <PathFigure>
+                                                <PathFigure.Segments>
+                                                    <LineSegment Point="0,75" />
+                                                    <LineSegment Point="25,100" />
+                                                    <LineSegment Point="0,100" />
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                </GeometryGroup>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+
+                    <DrawingBrush x:Key="DashedDrawingBrush" Viewport="0 0 24 24" ViewportUnits="Absolute" TileMode="Tile"
+      Drawing="{StaticResource DashedDrawing}" />
+                </Canvas.Resources>
+                <!--Unknown tag: sodipodi:namedview-->
+                <Canvas Name="SS2_Diagramm_Time_controlled_export">
                     <Canvas.RenderTransform>
-                        <TranslateTransform X="0" Y="0"/>
+                        <TranslateTransform X="-82" Y="-80.387"/>
                     </Canvas.RenderTransform>
-                    <Canvas.Resources/>
-                    <!--Unknown tag: sodipodi:namedview-->
-                    <Canvas Name="SS2_Diagramm_Time_controlled_export">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Y_Axis_line_" StrokeThickness="1" Stroke="#FF333333">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0V285.725" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="84.5" Y="81.887"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_line_" StrokeThickness="1" Stroke="#FF333333">
+                        <Path.Data>
+                            <PathGeometry Figures="M-.5 0h390" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="84.5" Y="301.887"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_Arrow_" Fill="#FF333333">
+                        <Path.Data>
+                            <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="82" Y="80.387"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_SOS_Active_" Fill="#FFF8F32B">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0H145V35H0Z" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="297.5" Y="245.887"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Rectangle Width="145" Height="15" Fill="{StaticResource DashedDrawingBrush}" HorizontalAlignment="Left" Canvas.Top="19" VerticalAlignment="Center">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform X="297.5" Y="246.5" />
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Y_Axis_help_line_" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0H384.387" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="85.613" Y="280.887"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_Arrow2_" Fill="#FF333333">
+                        <Path.Data>
+                            <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="90"/>
+                                <TranslateTransform X="477" Y="299.387"/>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_1_" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0V240" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="178.5" Y="127.011"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_12_" StrokeThickness="1" Stroke="#FFC2C2C2">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0H111.9" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="179.086" Y="204.887"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_ledger_arrow_right_t1_" Fill="#FFC2C2C2">
+                        <Path.Data>
+                            <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="90"/>
+                                <TranslateTransform X="297" Y="202.387"/>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_2_" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0V240" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="297.5" Y="127.387"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Current_Velocity_line_" StrokeThickness="1.5" Stroke="#FF333333" StrokeLineJoin="Round">
+                        <Path.Data>
+                            <PathGeometry Figures="M-26.835 0h94.6L70.8.829 73.526 2.44l2.122 1.526L77.622 6.51 166.74 158.139l2.51 3.181 1.651 2.236 1.39 1.226h0l1.767 1.15 1.568.839 2.834.7H331.653" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="111.973" Y="134.417"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_13" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0V240" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="117.5" Y="127.417"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Canvas Name="Gruppe_59">
                         <Canvas.RenderTransform>
-                            <TranslateTransform X="-82" Y="-80.387"/>
+                            <TranslateTransform X="12.607" Y="80.387"/>
                         </Canvas.RenderTransform>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Y_Axis_line_" StrokeThickness="1" Stroke="#FF333333">
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_0_Graphic_X_Axis_help_line_1" StrokeThickness="1" Stroke="#FFC2C2C2">
                             <Path.Data>
-                                <PathGeometry Figures="M0 0V285.725" FillRule="NonZero"/>
+                                <PathGeometry Figures="M0 0H50.97" FillRule="NonZero"/>
                             </Path.Data>
                             <Path.RenderTransform>
-                                <TranslateTransform X="84.5" Y="81.887"/>
+                                <TranslateTransform X="109.444" Y="124.5"/>
                             </Path.RenderTransform>
                         </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_line_" StrokeThickness="1" Stroke="#FF333333">
-                            <Path.Data>
-                                <PathGeometry Figures="M-.5 0h390" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="84.5" Y="301.887"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_Arrow_" Fill="#FF333333">
-                            <Path.Data>
-                                <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="82" Y="80.387"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_SOS_Active_" Fill="#FFF8F32B">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0H145V35H0Z" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="297.5" Y="245.887"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Y_Axis_help_line_" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0H384.387" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="85.613" Y="280.887"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_Arrow2_" Fill="#FF333333">
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_0_Graphic_ledger_arrow_right_t1" Fill="#FFC2C2C2">
                             <Path.Data>
                                 <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
                             </Path.Data>
                             <Path.RenderTransform>
                                 <TransformGroup>
                                     <RotateTransform Angle="90"/>
-                                    <TranslateTransform X="477" Y="299.387"/>
+                                    <TranslateTransform X="165.393" Y="122"/>
                                 </TransformGroup>
                             </Path.RenderTransform>
                         </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_1_" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0V240" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="178.5" Y="127.011"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_12_" StrokeThickness="1" Stroke="#FFC2C2C2">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0H111.9" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="179.086" Y="204.887"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_ledger_arrow_right_t1_" Fill="#FFC2C2C2">
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_0_Graphic_ledger_arrow_left_t1" Fill="#FFC2C2C2">
                             <Path.Data>
                                 <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
                             </Path.Data>
                             <Path.RenderTransform>
                                 <TransformGroup>
-                                    <RotateTransform Angle="90"/>
-                                    <TranslateTransform X="297" Y="202.387"/>
+                                    <RotateTransform Angle="-90"/>
+                                    <TranslateTransform X="104.393" Y="127"/>
                                 </TransformGroup>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_2_" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0V240" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="297.5" Y="127.387"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Current_Velocity_line_" StrokeThickness="1.5" Stroke="#FF333333" StrokeLineJoin="Round">
-                            <Path.Data>
-                                <PathGeometry Figures="M-26.835 0h94.6L70.8.829 73.526 2.44l2.122 1.526L77.622 6.51 166.74 158.139l2.51 3.181 1.651 2.236 1.39 1.226h0l1.767 1.15 1.568.839 2.834.7H331.653" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="111.973" Y="134.417"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_X_Axis_help_line_13" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0V240" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="117.5" Y="127.417"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Canvas Name="Gruppe_59">
-                            <Canvas.RenderTransform>
-                                <TranslateTransform X="12.607" Y="80.387"/>
-                            </Canvas.RenderTransform>
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_0_Graphic_X_Axis_help_line_1" StrokeThickness="1" Stroke="#FFC2C2C2">
-                                <Path.Data>
-                                    <PathGeometry Figures="M0 0H50.97" FillRule="NonZero"/>
-                                </Path.Data>
-                                <Path.RenderTransform>
-                                    <TranslateTransform X="109.444" Y="124.5"/>
-                                </Path.RenderTransform>
-                            </Path>
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_0_Graphic_ledger_arrow_right_t1" Fill="#FFC2C2C2">
-                                <Path.Data>
-                                    <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
-                                </Path.Data>
-                                <Path.RenderTransform>
-                                    <TransformGroup>
-                                        <RotateTransform Angle="90"/>
-                                        <TranslateTransform X="165.393" Y="122"/>
-                                    </TransformGroup>
-                                </Path.RenderTransform>
-                            </Path>
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_0_Graphic_ledger_arrow_left_t1" Fill="#FFC2C2C2">
-                                <Path.Data>
-                                    <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
-                                </Path.Data>
-                                <Path.RenderTransform>
-                                    <TransformGroup>
-                                        <RotateTransform Angle="-90"/>
-                                        <TranslateTransform X="104.393" Y="127"/>
-                                    </TransformGroup>
-                                </Path.RenderTransform>
-                            </Path>
-                        </Canvas>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_SOS_Active2" Fill="#FFF8F32B">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0H145V35H0Z" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="298" Y="322.887"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Y_Axis_help_line2" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
-                            <Path.Data>
-                                <PathGeometry Figures="M0 0H384.387" FillRule="NonZero"/>
-                            </Path.Data>
-                            <Path.RenderTransform>
-                                <TranslateTransform X="85.613" Y="322.887"/>
                             </Path.RenderTransform>
                         </Path>
                     </Canvas>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_SOS_Active2" Fill="#FFF8F32B">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0H145V35H0Z" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="298" Y="322.887"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Rectangle Width="145" Height="15" Fill="{StaticResource DashedDrawingBrush}" HorizontalAlignment="Center" Canvas.Top="2" VerticalAlignment="Top">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform X="298" Y="321.113" />
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS2_0_Graphic_Y_Axis_help_line2" StrokeThickness="1" Stroke="#FFC2C2C2" StrokeDashArray="3 3">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0H384.387" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="85.613" Y="322.887"/>
+                        </Path.RenderTransform>
+                    </Path>
                 </Canvas>
+
+                <TextBlock Canvas.Top="105" Canvas.Left="147" HorizontalAlignment="Left" VerticalAlignment="Center">t
+                    <Run BaselineAlignment="Subscript" FontSize="8">_vEnd</Run>
+                </TextBlock>
+                <TextBlock Canvas.Top="105" Canvas.Left="53" HorizontalAlignment="Left" VerticalAlignment="Center">t
+                    <Run BaselineAlignment="Subscript" FontSize="8">delay</Run>
+                </TextBlock>
+                <TextBlock Canvas.Top="5" Canvas.Left="-95" Width="90" TextAlignment="Right" Text="v" />
+                <TextBlock Canvas.Top="223" Canvas.Left="372" Width="50" HorizontalAlignment="Center" Text="t" VerticalAlignment="Top" />
+                <TextBlock Canvas.Top="167" Canvas.Left="276" HorizontalAlignment="Left" Text="SOS" VerticalAlignment="Center" />
+                <TextBlock Canvas.Top="192" Canvas.Left="394" Width="50" TextAlignment="Right" HorizontalAlignment="Center" Text="Standstill" VerticalAlignment="Top" />
+                <TextBlock Canvas.Top="234" Canvas.Left="394" Width="50" TextAlignment="Right" HorizontalAlignment="Left" Text="Standstill" VerticalAlignment="Center" />
+
+                <TextBlock Canvas.Top="44" Canvas.Left="-113" Width="110" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top"> V
+                    <Run BaselineAlignment="Subscript" FontSize="8">act.</Run>
+                </TextBlock>
+            </Canvas>
 
 
         </TabItem>
