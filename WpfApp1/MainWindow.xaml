@@ -643,7 +643,7 @@
                         <Canvas.RenderTransform>
                             <TranslateTransform X="649.5" Y="12.81"/>
                         </Canvas.RenderTransform>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_ledger_line_t3" StrokeThickness="1" Stroke="#FFC2C2C2">
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_ledger_line_t3" StrokeThickness="1" Stroke="#FFC2C2C2" HorizontalAlignment="Center" Canvas.Top="39.996" VerticalAlignment="Top">
                             <Path.Data>
                                 <PathGeometry Figures="M0 0H12" FillRule="NonZero"/>
                             </Path.Data>
@@ -651,7 +651,7 @@
                                 <TranslateTransform X="168.5" Y="187.5"/>
                             </Path.RenderTransform>
                         </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_ledger_arrow_right_t3" Fill="#FFC2C2C2">
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_ledger_arrow_right_t3" Fill="#FFC2C2C2" HorizontalAlignment="Center" Canvas.Top="39.996" VerticalAlignment="Top">
                             <Path.Data>
                                 <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
                             </Path.Data>
@@ -662,7 +662,7 @@
                                 </TransformGroup>
                             </Path.RenderTransform>
                         </Path>
-                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_ledger_arrow_left_t3" Fill="#FFC2C2C2">
+                        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_ledger_arrow_left_t3" Fill="#FFC2C2C2" HorizontalAlignment="Center" Canvas.Top="39.996" VerticalAlignment="Top">
                             <Path.Data>
                                 <PathGeometry Figures="M2.5 0 5 7H0Z" FillRule="NonZero"/>
                             </Path.Data>
@@ -750,9 +750,9 @@
                         <Path.Data>
                             <PathGeometry Figures="M0 1V273.776" FillRule="NonZero"/>
                         </Path.Data>
-                        
-                        
-                        
+
+
+
                     </Path>
                     <Canvas Name="Gruppe_50">
                         <Canvas.RenderTransform>
@@ -1032,7 +1032,14 @@
                                 <TranslateTransform X="1301.153" Y="387"/>
                             </Rectangle.RenderTransform>
                         </Rectangle>
+                        <Rectangle Width="124" Height="14" Fill="{StaticResource DashedDrawingBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="414" Canvas.Top="169">
+                            <Rectangle.RenderTransform>
+                                <TranslateTransform X="896" Y="218.337" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+
                     </Canvas>
+
                     <Canvas Name="Gruppe_53">
                         <Canvas.RenderTransform>
                             <TranslateTransform X="-405" Y="8.337"/>
@@ -1042,6 +1049,12 @@
                                 <TranslateTransform X="1301.153" Y="387"/>
                             </Rectangle.RenderTransform>
                         </Rectangle>
+                        <Rectangle Width="124" Height="14" Fill="{StaticResource DashedDrawingBrush}" Canvas.Left="414" Canvas.Top="169" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <Rectangle.RenderTransform>
+                                <TranslateTransform X="896" Y="218.337" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+
                     </Canvas>
                     <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SOS_Pos_Act_Pos_line" StrokeThickness="2" Stroke="#FF333333">
                         <Path.Data>
@@ -1104,7 +1117,7 @@
                             <TranslateTransform X="671.751" Y="300.739"/>
                         </Path.RenderTransform>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_Y_Axis_helpline4" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_Y_Axis_helpline4" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3" HorizontalAlignment="Left" Stretch="Fill" VerticalAlignment="Center" Width="372">
                         <Path.Data>
                             <PathGeometry Figures="M0 0H381.849" FillRule="NonZero"/>
                         </Path.Data>
@@ -1128,7 +1141,7 @@
                             <TranslateTransform X="649.007" Y="113.934"/>
                         </Path.RenderTransform>
                     </Path>
-                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_Y_Axis_helpline5" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="SaFu_SS1_1_Graphic_Y_Axis_helpline5" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3" HorizontalAlignment="Left" Stretch="Fill" VerticalAlignment="Center" Width="372">
                         <Path.Data>
                             <PathGeometry Figures="M0 0H381.849" FillRule="NonZero"/>
                         </Path.Data>
@@ -1136,7 +1149,77 @@
                             <TranslateTransform X="671.751" Y="248.81"/>
                         </Path.RenderTransform>
                     </Path>
+                    <Path x:Name="SaFu_SS1_1_Graphic_X_Axis_help_line_1_Copy" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3" Height="347" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-37" Canvas.Top="0.291">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 0V274.557" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="722.5" Y="76.28"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path x:Name="SaFu_SS1_1_Graphic_X_Axis_help_line_22_Copy" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3" Height="354" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="149.502" Canvas.Top="2.489">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 1V279.484" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="755.5" Y="69.571"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path x:Name="SaFu_SS1_1_Graphic_X_Axis_help_line_22_Copy1" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3" Height="354" Stretch="Fill" Canvas.Left="130.168" Canvas.Top="3.5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 1V279.484" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="755.5" Y="69.571"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path x:Name="SaFu_SS1_1_Graphic_X_Axis_help_line_22_Copy2" StrokeThickness="1" Stroke="#FFD6D6D6" StrokeDashArray="3 3" Height="354" Stretch="Fill" Canvas.Left="177.168" Canvas.Top="2.489" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Path.Data>
+                            <PathGeometry Figures="M0 1V279.484" FillRule="NonZero"/>
+                        </Path.Data>
+                        <Path.RenderTransform>
+                            <TranslateTransform X="755.5" Y="69.571"/>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Rectangle Width="124" Height="14" Fill="{StaticResource DashedDrawingBrush}" Canvas.Left="10" Canvas.Top="105" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform X="896" Y="218.337" />
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
                 </Canvas>
+
+                <TextBlock Canvas.Top="120" Canvas.Left="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    t<Run BaselineAlignment="Subscript" FontSize="8">delay</Run>
+                </TextBlock>
+                <TextBlock Canvas.Left="166" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="-6">
+                    t<Run BaselineAlignment="Subscript" FontSize="8">ramp</Run>
+                </TextBlock>
+                <TextBlock Canvas.Top="120" Canvas.Left="57" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    t<Run BaselineAlignment="Subscript" FontSize="8">shift</Run>
+                </TextBlock>
+                <TextBlock Canvas.Top="159" Canvas.Left="147" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    t<Run BaselineAlignment="Subscript" FontSize="8" >g</Run></TextBlock>
+                <TextBlock Canvas.Top="5" Canvas.Left="-95" Width="90" TextAlignment="Right" Text="v" />
+                <TextBlock Canvas.Top="221" Canvas.Left="377" Width="50" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Text="t"/>
+                <TextBlock Canvas.Top="154" Canvas.Left="284" HorizontalAlignment="Left" Text="SOS" RenderTransformOrigin="0.388,-1.555" VerticalAlignment="Center" />
+                <TextBlock Canvas.Top="179" Canvas.Left="364" Width="63" TextAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Standstill"/>
+                <TextBlock Canvas.Top="251" Canvas.Left="364" Width="63" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" >Standstill</TextBlock>
+                <TextBlock Canvas.Top="31" Canvas.Left="120" Width="100" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" ><Run Text="Velocity"/><LineBreak/><Run Text="Monitoring"/></TextBlock>
+                <TextBlock Canvas.Top="25" Canvas.Left="-119" Width="110" TextAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                    V<Run BaselineAlignment="Subscript" FontSize="8">delta</Run>
+                </TextBlock>
+                <TextBlock Canvas.Top="45" Canvas.Left="-124" Width="110" TextAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                    V<Run BaselineAlignment="Subscript" FontSize="8">act.</Run>
+                </TextBlock>
+                <TextBlock Canvas.Top="196" Canvas.Left="-115" Width="110" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                    V<Run BaselineAlignment="Subscript" FontSize="8" >delta</Run></TextBlock>
+                <TextBlock Canvas.Top="229" Canvas.Left="-115" Width="110" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                    V<Run BaselineAlignment="Subscript" FontSize="8" >delta</Run></TextBlock>
+                
+                
+                <TextBlock Canvas.Top="317" Canvas.Left="367" Width="63" TextAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Center" >0.640 mm</TextBlock>
+                <TextBlock Canvas.Top="289" Canvas.Left="-115" Width="110" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" >Pos.</TextBlock>
+                <TextBlock Canvas.Top="313" Canvas.Left="-115" Width="110" TextAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Top" >Pos. <Run BaselineAlignment="Subscript" FontSize="8" Text="act."/></TextBlock>
             </Canvas>
 
 
