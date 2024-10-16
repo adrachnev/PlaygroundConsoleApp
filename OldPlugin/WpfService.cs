@@ -10,10 +10,20 @@ namespace OldPlugin
     {
         public FrameworkElement GetElement()
         {
-            Assembly assembly = typeof(JsonConverter).Assembly;
+            Assembly newtonAssembly = typeof(JsonConverter).Assembly;
+
+            Assembly uiAssembly = typeof(Festo.Tool.UI.WPF.ApplicationDispatcher).Assembly;
 
 
-            return new Button { Content = assembly.FullName };
+            return new PluginUserControl()
+            {
+                DataContext = new DataContext
+                {
+                    Text = "Old Plugin uses" +
+                            Environment.NewLine + uiAssembly.FullName +
+                            Environment.NewLine + newtonAssembly.FullName
+                }
+            };
         }
     }
 

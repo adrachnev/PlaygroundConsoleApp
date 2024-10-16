@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Host"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel x:Name="stackPanel"   Orientation="Vertical"/>
-    </Grid>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <StackPanel x:Name="stackPanel"   Orientation="Vertical">
+            <Button Content="Invoke plug-ins" Height="50" Click="Button_Click"/>
+        </StackPanel>
+    </ScrollViewer>
 </Window>
