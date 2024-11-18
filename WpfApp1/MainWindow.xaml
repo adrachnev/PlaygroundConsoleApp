@@ -62,7 +62,7 @@
 
                 <Button Content="Add device" Command="{Binding AddDevice}" Height="25" Width="100"
                         HorizontalAlignment="Right" />
-                <Button Content="Async exception test" Command="{Binding ThrowException}" Height="32" Width="100"
+                <Button Content="Async exception test" Command="{Binding ThrowExceptionCommand}" Height="32" Width="100"
                         HorizontalAlignment="Right" />
                 <Button Content="Set signal" Command="{Binding SignalDevice}" Height="25" Width="100"
                         HorizontalAlignment="Right" />

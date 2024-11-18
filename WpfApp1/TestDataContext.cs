@@ -291,40 +291,71 @@ namespace WpfApp1
         public ObservableCollection<Module> Devices { get; set; }
         public Module SelectedDevice { get; set; }
 
-        private RelayCommand throwException;
+        private RelayCommand exceptionCommand;
 
-        public ICommand ThrowException
+        public ICommand ThrowExceptionCommand
         {
             get
             {
-                if (throwException == null)
+                if (exceptionCommand == null)
                 {
-                    throwException = new RelayCommand(PerformThrowException);
+                    exceptionCommand = new RelayCommand(PerformThrowException);
                 }
 
-                return throwException;
+                return exceptionCommand;
             }
         }
 
         private void PerformThrowException(object commandParameter)
         {
+
             Exception exception = null;
 
+            //Task.Run(() => 
+            //{
+            //    try 
+            //    {
+            //        Task.Delay(5000).Wait();
+
+            //        throw new Exception("hallo exception");
+            //    }catch (Exception ex) { exception = ex; }
+
+
+            //}).ContinueWith((t) => 
+            //{
+            //    if (exception != null) { throw exception; }
+            //}, TaskContinuationOptions.OnlyOnFaulted);
+
+            //await Task.Run(() => {
+
+            //    Task.Delay(5000).Wait();
+            //    MessageBox.Show("exception.ToString()");
+            //    throw new Exception("hallo exception"); 
+            //});
+
+
+            
             Task.Run(() =>
                 {
-                    try 
+                    try
                     {
                         Task.Delay(5000).Wait();
                         throw new InvalidOperationException();
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         exception = ex;
                     }
-                    
+
                 }).GetAwaiter().OnCompleted(() =>
                 {
-                    Debug.Assert(exception != null);
+                    if (exception != null)
+                    {
+                        MessageBox.Show(exception.ToString());
+                        throw exception;
+                    }
+
+
                 });
 
 
