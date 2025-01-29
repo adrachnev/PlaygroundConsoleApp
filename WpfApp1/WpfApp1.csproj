@@ -7,6 +7,9 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="catalog.json" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Festo.Suite.Design">
       <HintPath>..\..\..\festo_tool_suite\Deployment\Festo.Suite.Design.dll</HintPath>
     </Reference>
@@ -33,8 +36,12 @@
     <Content Include="Festo.Suite.Design.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="catalog.json" />
+    <PackageReference Include="Festo.ComponentData.Contract" Version="2.9.0.22" />
+    <PackageReference Include="Festo.ComponentData.Json" Version="2.9.0.27" />
     <PackageReference Include="Festo.Tool.UI.WPF" Version="1.0.0.116" />
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <Resource Include="Resources\force_all_32.png" />
     <Resource Include="Resources\io-link-24x24.png" />
     <Resource Include="Resources\io-link-256x256.png" />
